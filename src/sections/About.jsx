@@ -5,7 +5,8 @@ import {
   Target, Award, Book, GraduationCap, Briefcase,
   Code, Database, Cpu, Globe, Users, Clock, CheckCircle,
   Layers, Brain, Sparkles, Zap, Shield, Trophy, Calendar,
-  Heart, MapPin, School, Users as TeamIcon, Star, BookOpen
+  Heart, MapPin, School, Users as TeamIcon, Star, BookOpen,
+  Building, Rocket, TrendingUp, PieChart, Settings, ExternalLink
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../components/Animations';
 
@@ -24,37 +25,76 @@ export default function About() {
     { value: '9.15', label: 'Current CGPA', icon: <GraduationCap />, color: '#00f6ff', desc: 'B.Tech CSE, 2nd Year' },
     { value: '100%', label: 'Class X Score', icon: <Award />, color: '#7f5cff', desc: 'HPBOSE Board' },
     { value: '93.6%', label: 'Class XII Score', icon: <Book />, color: '#ff2e63', desc: 'HPBOSE Board' },
-    { value: '2023', label: 'Joined B.Tech', icon: <Calendar />, color: '#00f6ff', desc: 'CGC Jhanjeri' }
+    { value: '5+', label: 'Major Projects', icon: <Rocket />, color: '#00f6ff', desc: 'Full-Stack Apps' }
   ];
 
-  // Hackathon achievements from resume
-  const hackathonAchievements = [
+  // Industry Experience
+  const industryExperience = [
     {
-      title: 'Smart India Hackathon 2025',
-      position: '1st Position',
-      level: 'Institute Level',
-      icon: <Trophy />,
+      company: 'Codveda Technologies',
+      role: 'Frontend Developer Intern',
+      period: 'July 2025 – August 2025',
+      achievements: [
+        'Developed responsive web interfaces using HTML, CSS, JavaScript, and React.js',
+        'Improved UI performance and cross-device responsiveness through optimized components',
+        'Followed software engineering best practices for clean, maintainable code'
+      ],
+      tech: ['React.js', 'HTML5', 'CSS3', 'JavaScript'],
+      color: '#00f6ff',
+      icon: <Code />
+    },
+    {
+      company: 'Training Advisory Council (TAC)',
+      role: 'Management Lead',
+      period: 'Ongoing',
+      achievements: [
+        'Led planning and execution of technical workshops',
+        'Managed placement drives and student development initiatives',
+        'Organized skill development programs at CGC University'
+      ],
+      tech: ['Leadership', 'Event Management', 'Team Coordination'],
+      color: '#ff2e63',
+      icon: <TrendingUp />
+    },
+    {
+      company: 'D4 Community',
+      role: 'Technical Team Member',
+      period: 'Ongoing',
+      achievements: [
+        'Contributed to technical planning and development activities',
+        'Participated in collaborative learning initiatives',
+        'Worked on team-based technical projects'
+      ],
+      tech: ['Team Collaboration', 'Technical Planning', 'Development'],
+      color: '#7f5cff',
+      icon: <Users />
+    }
+  ];
+
+  // Development Philosophy
+  const developmentPhilosophy = [
+    {
+      title: 'Real-World Impact',
+      description: 'Building projects that address actual societal and environmental challenges',
+      icon: <Target />,
       color: '#00f6ff'
     },
     {
-      title: 'BharatTech-Xperience Hackathon 2.0',
-      position: '11th Position',
-      level: '250+ Teams | Best Community-Focused Project',
-      icon: <Star />,
+      title: 'Software Engineering Best Practices',
+      description: 'Follow clean code principles and maintainable architecture for scalable applications',
+      icon: <Shield />,
       color: '#7f5cff'
     },
     {
-      title: 'Hackmol 6.0 (NIT Jalandhar)',
-      position: '25th Position',
-      level: '3000+ Teams',
-      icon: <Award />,
+      title: 'Team Collaboration',
+      description: 'Experience in agile development and team-based project environments',
+      icon: <Users />,
       color: '#ff2e63'
     },
     {
-      title: 'Build with India (Google Hackathon)',
-      position: 'Top 5000 Teams',
-      level: 'Selected from 25,000+ teams',
-      icon: <Code />,
+      title: 'Performance Optimization',
+      description: 'Focus on optimized components and responsive design for better user experience',
+      icon: <Zap />,
       color: '#00f6ff'
     }
   ];
@@ -119,7 +159,7 @@ export default function About() {
                   letterSpacing: '2px',
                   color: '#00f6ff'
                 }}>
-                  PERSONAL PROFILE
+                  PROFESSIONAL JOURNEY
                 </span>
               </div>
             </SlideInLeft>
@@ -143,9 +183,9 @@ export default function About() {
                 lineHeight: '1.6',
                 marginBottom: '20px'
               }}>
-                <strong style={{ color: '#00f6ff' }}>Computer Science and Engineering undergraduate</strong> currently in 
-                2nd year at CGC Jhanjeri, Mohali. Passionate about building scalable web applications 
-                that solve real-world problems, with a strong foundation in full-stack development.
+                <strong style={{ color: '#00f6ff' }}>Computer Science and Engineering undergraduate</strong> with hands-on 
+                experience in designing, developing, and testing scalable web applications. Currently pursuing 
+                B.Tech at CGC Jhanjeri with a strong academic record and industry-relevant skills.
               </p>
               <p style={{
                 fontSize: '1.1rem',
@@ -153,14 +193,13 @@ export default function About() {
                 maxWidth: '800px',
                 lineHeight: '1.6'
               }}>
-                Actively participating in hackathons and building projects that focus on social impact, 
-                while strengthening my skills in <strong>Data Structures & Algorithms</strong>, 
-                <strong>object-oriented programming</strong>, and modern web technologies.
+                Actively strengthening <strong>Data Structures & Algorithms</strong>, <strong>object-oriented programming</strong>, 
+                and <strong>full-stack web development</strong> while gaining practical experience through internships and leadership roles.
               </p>
             </SlideInLeft>
           </div>
 
-          {/* Academic Stats Grid */}
+          {/* Academic & Project Stats Grid */}
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
@@ -260,7 +299,7 @@ export default function About() {
                       fontWeight: '600',
                       textAlign: 'center'
                     }}>
-                      Academic Excellence
+                      {stat.label.includes('CGPA') ? 'Academic Excellence' : 'Project Excellence'}
                     </div>
                   </motion.div>
                 </motion.div>
@@ -276,7 +315,7 @@ export default function About() {
             marginBottom: '80px'
           }}>
             
-            {/* Hackathon Achievements */}
+            {/* Industry Experience */}
             <SlideInLeft delay={0.8}>
               <div className="glass" style={{ 
                 padding: '40px',
@@ -290,95 +329,192 @@ export default function About() {
                   alignItems: 'center',
                   gap: '12px'
                 }}>
-                  <Trophy style={{ color: '#ffd700' }} />
-                  Hackathon Achievements
+                  <Building style={{ color: '#00f6ff' }} />
+                  Internship Experience & Leadership
                 </h3>
 
                 <div style={{ 
                   display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: '20px'
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap: '25px'
                 }}>
-                  {hackathonAchievements.map((achievement, index) => (
+                  {industryExperience.map((exp, index) => (
                     <motion.div
-                      key={achievement.title}
+                      key={exp.company}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
-                      whileHover={{ y: -5 }}
+                      whileHover={{ y: -8, transition: { type: "spring", stiffness: 300 } }}
+                      className="glass card-3d"
                       style={{
-                        padding: '25px',
-                        background: `linear-gradient(135deg, ${achievement.color}11, ${achievement.color}05)`,
-                        border: `1px solid ${achievement.color}22`,
+                        padding: '30px',
+                        background: `linear-gradient(135deg, ${exp.color}11, ${exp.color}05)`,
+                        border: `1px solid ${exp.color}22`,
                         borderRadius: '16px',
                         cursor: 'pointer',
-                        transition: 'all 0.3s ease'
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}
                     >
+                      {/* Company Header */}
                       <div style={{ 
                         display: 'flex', 
-                        alignItems: 'center', 
+                        alignItems: 'flex-start',
                         gap: '15px',
-                        marginBottom: '15px'
+                        marginBottom: '20px'
                       }}>
                         <div style={{
                           width: '50px',
                           height: '50px',
                           borderRadius: '12px',
-                          background: `linear-gradient(135deg, ${achievement.color}22, ${achievement.color}44)`,
+                          background: `linear-gradient(135deg, ${exp.color}22, ${exp.color}44)`,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           fontSize: '1.5rem',
-                          color: achievement.color
+                          color: exp.color,
+                          flexShrink: 0
                         }}>
-                          {achievement.icon}
+                          {exp.icon}
                         </div>
                         <div style={{ flex: 1 }}>
                           <h4 style={{ 
-                            fontSize: '1.1rem', 
-                            fontWeight: '600',
+                            fontSize: '1.3rem', 
+                            fontWeight: '700',
                             color: '#fff',
-                            marginBottom: '5px'
+                            marginBottom: '5px',
+                            lineHeight: '1.2'
                           }}>
-                            {achievement.title}
+                            {exp.company}
                           </h4>
                           <div style={{ 
-                            fontSize: '0.85rem', 
-                            color: achievement.color,
-                            fontWeight: '500'
+                            fontSize: '1rem', 
+                            color: exp.color,
+                            fontWeight: '600',
+                            marginBottom: '5px'
                           }}>
-                            {achievement.position}
+                            {exp.role}
+                          </div>
+                          <div style={{ 
+                            fontSize: '0.85rem', 
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px'
+                          }}>
+                            <Calendar size={12} />
+                            {exp.period}
                           </div>
                         </div>
                       </div>
-                      <p style={{ 
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        fontSize: '0.9rem',
-                        lineHeight: '1.5',
-                        marginLeft: '65px'
-                      }}>
-                        {achievement.level}
-                      </p>
+
+                      {/* Achievements */}
+                      <div style={{ marginBottom: '20px' }}>
+                        <h5 style={{ 
+                          fontSize: '1rem', 
+                          color: 'rgba(255, 255, 255, 0.9)',
+                          marginBottom: '12px',
+                          fontWeight: '600'
+                        }}>
+                          Key Contributions:
+                        </h5>
+                        <ul style={{ 
+                          paddingLeft: '20px',
+                          margin: 0
+                        }}>
+                          {exp.achievements.map((achievement, i) => (
+                            <motion.li
+                              key={i}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 1 + index * 0.1 + i * 0.05 }}
+                              style={{
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                fontSize: '0.9rem',
+                                lineHeight: '1.5',
+                                marginBottom: '8px',
+                                listStyleType: 'none',
+                                position: 'relative'
+                              }}
+                            >
+                              <div style={{
+                                position: 'absolute',
+                                left: '-15px',
+                                top: '8px',
+                                width: '6px',
+                                height: '6px',
+                                borderRadius: '50%',
+                                background: exp.color
+                              }} />
+                              {achievement}
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Tech Stack */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          flexWrap: 'wrap',
+                          gap: '8px'
+                        }}>
+                          {exp.tech.map((tech, i) => (
+                            <motion.span
+                              key={tech}
+                              initial={{ opacity: 0, scale: 0 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 1.2 + index * 0.1 + i * 0.05 }}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              style={{
+                                padding: '6px 12px',
+                                background: `rgba(${parseInt(exp.color.slice(1, 3), 16)}, ${parseInt(exp.color.slice(3, 5), 16)}, ${parseInt(exp.color.slice(5, 7), 16)}, 0.15)`,
+                                border: `1px solid ${exp.color}33`,
+                                borderRadius: '20px',
+                                fontSize: '0.8rem',
+                                color: exp.color,
+                                fontWeight: '500'
+                              }}
+                            >
+                              {tech}
+                            </motion.span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Hover Effect Overlay */}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          background: `linear-gradient(45deg, ${exp.color}11, transparent)`,
+                          zIndex: 1,
+                          pointerEvents: 'none'
+                        }}
+                      />
                     </motion.div>
                   ))}
                 </div>
               </div>
             </SlideInLeft>
 
-            {/* Education & Leadership */}
+            {/* Development Philosophy & Certifications */}
             <div style={{ 
               display: 'grid', 
-              gridTemplateColumns: '1fr',
+              gridTemplateColumns: '1fr 1fr',
               gap: '40px'
             }}>
               
-              {/* Education Timeline */}
+              {/* Development Philosophy */}
               <SlideInLeft delay={1}>
                 <div className="glass" style={{ 
                   padding: '40px',
                   borderRadius: '20px',
-                  border: '1px solid rgba(127, 92, 255, 0.1)'
+                  border: '1px solid rgba(127, 92, 255, 0.1)',
+                  height: '100%'
                 }}>
                   <h3 style={{ 
                     fontSize: '1.8rem', 
@@ -387,128 +523,60 @@ export default function About() {
                     alignItems: 'center',
                     gap: '12px'
                   }}>
-                    <School style={{ color: '#7f5cff' }} />
-                    Education Timeline
+                    <Brain style={{ color: '#7f5cff' }} />
+                    Development Philosophy
                   </h3>
                   
-                  <div style={{ position: 'relative' }}>
-                    {/* Timeline line */}
-                    <div style={{
-                      position: 'absolute',
-                      left: '30px',
-                      top: '0',
-                      bottom: '0',
-                      width: '2px',
-                      background: 'linear-gradient(180deg, #7f5cff, rgba(127, 92, 255, 0.3))',
-                      zIndex: 1
-                    }} />
-                    
-                    {[
-                      {
-                        year: '2023 - Present',
-                        title: 'Bachelor of Technology (CSE)',
-                        institution: 'Changigarh Group of Colleges, Jhanjeri, Mohali',
-                        details: '2nd Year | Current CGPA: 9.15',
-                        icon: <GraduationCap />,
-                        color: '#7f5cff'
-                      },
-                      {
-                        year: '2021',
-                        title: 'Senior Secondary (Class XII)',
-                        institution: 'Sunrise Public School, Baruna, HP',
-                        details: 'HPBOSE Board | Percentage: 93.6%',
-                        icon: <Book />,
-                        color: '#ff2e63'
-                      },
-                      {
-                        year: '2019',
-                        title: 'Secondary (Class X)',
-                        institution: 'Sunrise Public School, Baruna, HP',
-                        details: 'HPBOSE Board | Percentage: 100%',
-                        icon: <Award />,
-                        color: '#00f6ff'
-                      }
-                    ].map((edu, i) => (
+                  <div style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    gap: '25px'
+                  }}>
+                    {developmentPhilosophy.map((item, i) => (
                       <motion.div
-                        key={edu.title}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        key={item.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.1 + i * 0.1, duration: 0.6 }}
                         style={{
                           display: 'flex',
-                          gap: '25px',
-                          marginBottom: '35px',
-                          position: 'relative',
-                          zIndex: 2
+                          gap: '15px',
+                          alignItems: 'flex-start'
                         }}
                       >
-                        {/* Timeline dot */}
-                        <div style={{
-                          width: '20px',
-                          height: '20px',
-                          borderRadius: '50%',
-                          background: edu.color,
-                          border: '3px solid #0a0a0f',
-                          flexShrink: 0,
-                          marginTop: '5px',
-                          position: 'relative',
-                          zIndex: 3
-                        }} />
-                        
-                        <div style={{ flex: 1 }}>
-                          <div style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: '10px',
-                            marginBottom: '5px'
-                          }}>
-                            <div style={{ 
-                              color: edu.color,
-                              fontSize: '1.2rem'
-                            }}>
-                              {edu.icon}
-                            </div>
-                            <h4 style={{ 
-                              fontSize: '1.2rem', 
-                              fontWeight: '600',
-                              color: '#fff'
-                            }}>
-                              {edu.title}
-                            </h4>
-                          </div>
-                          <div style={{ 
-                            color: 'rgba(255, 255, 255, 0.9)',
-                            fontSize: '1rem',
-                            fontWeight: '500',
-                            marginBottom: '5px',
-                            marginLeft: '35px'
-                          }}>
-                            {edu.institution}
-                          </div>
-                          <div style={{ 
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            fontSize: '0.9rem',
-                            marginLeft: '35px',
+                        <motion.div
+                          whileHover={{ rotate: 360, scale: 1.1 }}
+                          transition={{ duration: 0.6 }}
+                          style={{
+                            width: '45px',
+                            height: '45px',
+                            borderRadius: '12px',
+                            background: `linear-gradient(135deg, ${item.color}22, ${item.color}44)`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            color: item.color
+                          }}
+                        >
+                          {item.icon}
+                        </motion.div>
+                        <div>
+                          <h4 style={{ 
+                            fontSize: '1.1rem', 
+                            fontWeight: '600',
+                            color: '#fff',
                             marginBottom: '8px'
                           }}>
-                            {edu.details}
-                          </div>
-                          <div style={{ 
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '5px 15px',
-                            background: `rgba(${parseInt(edu.color.slice(1, 3), 16)}, ${parseInt(edu.color.slice(3, 5), 16)}, ${parseInt(edu.color.slice(5, 7), 16)}, 0.1)`,
-                            border: `1px solid ${edu.color}33`,
-                            borderRadius: '20px',
-                            marginLeft: '35px',
-                            fontSize: '0.85rem'
+                            {item.title}
+                          </h4>
+                          <p style={{ 
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            fontSize: '0.95rem',
+                            lineHeight: '1.6'
                           }}>
-                            <Calendar size={12} style={{ color: edu.color }} />
-                            <span style={{ color: edu.color, fontWeight: '500' }}>
-                              {edu.year}
-                            </span>
-                          </div>
+                            {item.description}
+                          </p>
                         </div>
                       </motion.div>
                     ))}
@@ -516,15 +584,15 @@ export default function About() {
                 </div>
               </SlideInLeft>
 
-              {/* Leadership & Certifications */}
-              <SlideInRight delay={1.2}>
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '1fr',
-                  gap: '30px'
-                }}>
-                  
-                  {/* Leadership Experience */}
+              {/* Certifications & Career Objective */}
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                gap: '30px'
+              }}>
+                
+                {/* Certifications */}
+                <SlideInRight delay={1.2}>
                   <div className="glass" style={{ 
                     padding: '30px',
                     borderRadius: '20px',
@@ -537,118 +605,7 @@ export default function About() {
                       alignItems: 'center',
                       gap: '12px'
                     }}>
-                      <TeamIcon style={{ color: '#00f6ff' }} />
-                      Leadership Experience
-                    </h3>
-                    <div style={{ 
-                      display: 'flex', 
-                      flexDirection: 'column',
-                      gap: '20px'
-                    }}>
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.3, duration: 0.6 }}
-                      >
-                        <div style={{ 
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '15px'
-                        }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '10px',
-                            background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(0, 246, 255, 0.2))',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#00f6ff',
-                            flexShrink: 0
-                          }}>
-                            <Users size={20} />
-                          </div>
-                          <div>
-                            <h4 style={{ 
-                              fontSize: '1.1rem', 
-                              fontWeight: '600',
-                              color: '#fff',
-                              marginBottom: '5px'
-                            }}>
-                              Management Lead, Training Advisory Council (TAC)
-                            </h4>
-                            <p style={{ 
-                              color: 'rgba(255, 255, 255, 0.7)',
-                              fontSize: '0.9rem',
-                              lineHeight: '1.5'
-                            }}>
-                              Led planning and execution of technical workshops, placement drives, 
-                              and student development initiatives at CGC University.
-                            </p>
-                          </div>
-                        </div>
-                      </motion.div>
-                      
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.4, duration: 0.6 }}
-                      >
-                        <div style={{ 
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '15px'
-                        }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '10px',
-                            background: 'linear-gradient(135deg, rgba(127, 92, 255, 0.1), rgba(127, 92, 255, 0.2))',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#7f5cff',
-                            flexShrink: 0
-                          }}>
-                            <Code size={20} />
-                          </div>
-                          <div>
-                            <h4 style={{ 
-                              fontSize: '1.1rem', 
-                              fontWeight: '600',
-                              color: '#fff',
-                              marginBottom: '5px'
-                            }}>
-                              Technical Team Member, D4 Community
-                            </h4>
-                            <p style={{ 
-                              color: 'rgba(255, 255, 255, 0.7)',
-                              fontSize: '0.9rem',
-                              lineHeight: '1.5'
-                            }}>
-                              Contributed to technical planning, development activities, 
-                              and collaborative learning initiatives.
-                            </p>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Certifications */}
-                  <div className="glass" style={{ 
-                    padding: '30px',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(255, 46, 99, 0.1)'
-                  }}>
-                    <h3 style={{ 
-                      fontSize: '1.5rem', 
-                      marginBottom: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px'
-                    }}>
-                      <BookOpen style={{ color: '#ff2e63' }} />
+                      <BookOpen style={{ color: '#00f6ff' }} />
                       Certifications
                     </h3>
                     <div style={{ 
@@ -660,31 +617,43 @@ export default function About() {
                         {
                           title: 'Technology Job Simulation',
                           issuer: 'Deloitte (Forage)',
-                          icon: <Briefcase />
+                          icon: <Briefcase />,
+                          color: '#00f6ff'
                         },
                         {
                           title: 'Programming Fundamentals using Python – Part 1',
                           issuer: 'Infosys Springboard',
-                          icon: <Code />
+                          icon: <Code />,
+                          color: '#7f5cff'
                         }
                       ].map((cert, i) => (
                         <motion.div
                           key={cert.title}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 1.5 + i * 0.1, duration: 0.6 }}
+                          transition={{ delay: 1.3 + i * 0.1, duration: 0.6 }}
+                          whileHover={{ x: 5 }}
                           style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '15px',
                             padding: '15px',
-                            background: 'rgba(255, 46, 99, 0.05)',
-                            borderRadius: '12px'
+                            background: `linear-gradient(135deg, ${cert.color}11, ${cert.color}05)`,
+                            borderRadius: '12px',
+                            border: `1px solid ${cert.color}22`,
+                            cursor: 'pointer'
                           }}
                         >
                           <div style={{
-                            color: '#ff2e63',
-                            fontSize: '1.2rem'
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
+                            background: `linear-gradient(135deg, ${cert.color}22, ${cert.color}44)`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: cert.color,
+                            flexShrink: 0
                           }}>
                             {cert.icon}
                           </div>
@@ -708,8 +677,65 @@ export default function About() {
                       ))}
                     </div>
                   </div>
-                </div>
-              </SlideInRight>
+                </SlideInRight>
+
+                {/* Career Objective */}
+                <SlideInRight delay={1.4}>
+                  <div className="glass" style={{ 
+                    padding: '30px',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(255, 46, 99, 0.1)',
+                    background: 'linear-gradient(135deg, rgba(255, 46, 99, 0.05), rgba(255, 46, 99, 0.02))'
+                  }}>
+                    <h3 style={{ 
+                      fontSize: '1.5rem', 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px'
+                    }}>
+                      <Target style={{ color: '#ff2e63' }} />
+                      Career Objective
+                    </h3>
+                    <p style={{ 
+                      lineHeight: '1.7', 
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      marginBottom: '20px',
+                      fontSize: '0.95rem'
+                    }}>
+                      Actively seeking a <strong style={{ color: '#ff2e63' }}>Software Engineering Internship</strong> 
+                      to apply technical skills, learn from industry professionals, and contribute 
+                      to impactful engineering solutions in a dynamic team environment.
+                    </p>
+                    <div style={{
+                      display: 'flex',
+                      gap: '10px',
+                      flexWrap: 'wrap'
+                    }}>
+                      {['Internship Ready', 'Quick Learner', 'Adaptable', 'Problem Solver', 'Team Player', 'Agile Mindset'].map((tag, i) => (
+                        <motion.span
+                          key={tag}
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 1.5 + i * 0.1 }}
+                          whileHover={{ scale: 1.1 }}
+                          style={{
+                            padding: '6px 12px',
+                            background: 'rgba(255, 46, 99, 0.1)',
+                            border: '1px solid rgba(255, 46, 99, 0.3)',
+                            borderRadius: '20px',
+                            fontSize: '0.8rem',
+                            color: '#ff2e63',
+                            fontWeight: '500'
+                          }}
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+                </SlideInRight>
+              </div>
             </div>
           </div>
         </StaggerContainer>

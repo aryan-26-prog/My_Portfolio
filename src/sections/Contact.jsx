@@ -859,7 +859,7 @@ export default function Contact() {
             transition={{ duration: 2, repeat: Infinity }}
             style={{ marginTop: '8px', fontSize: '0.85rem' }}
           >
-            Built with React, Node.js & MongoDB | Actively seeking Summer 2025 internships
+            Built with React, Node.js & MongoDB | Actively seeking Summer 2026 internships
           </motion.p>
           <p style={{ marginTop: '8px', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.4)' }}>
             CGC Jhanjeri, Mohali | CGPA: 9.15

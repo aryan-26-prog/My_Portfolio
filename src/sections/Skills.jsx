@@ -5,7 +5,8 @@ import {
   Code, Palette, Cpu, Zap, 
   Server, Database, Cloud, Smartphone,
   GitBranch, Layers, Globe, Terminal,
-  Sparkles, TrendingUp, Settings, TestTube
+  Sparkles, TrendingUp, Settings, TestTube,
+  Send
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight } from '../components/Animations';
 
@@ -54,7 +55,7 @@ export default function Skills() {
         { name: 'Python', level: 87, icon: <Code /> },
         { name: 'Git & GitHub', level: 90, icon: <GitBranch /> },
         { name: 'DSA', level: 88, icon: <Layers /> },
-        { name: 'Software Testing', level: 75, icon: <TestTube /> }
+        { name: 'Postman', level: 75, icon: <Send /> }
       ]
     }
   };
@@ -148,7 +149,7 @@ export default function Skills() {
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>
-                Full-stack development expertise with focus on scalable web applications
+                Strengthening Full-stack development  with focus on scalable web applications
               </p>
             </SlideInLeft>
           </div>

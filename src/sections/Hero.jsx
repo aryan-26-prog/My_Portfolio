@@ -1,8 +1,8 @@
 // src/sections/Hero.jsx
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, Sparkles, Code, Zap, Mail, Phone, MapPin, Award, ExternalLink, GraduationCap, Briefcase } from 'lucide-react';
-import { StaggerContainer, SlideInLeft, SlideInUp, ScaleIn } from '../components/Animations';
+import { ChevronDown, Mail, Phone, MapPin, Award, ExternalLink, GraduationCap, Github, Linkedin, FileText, Download, Globe } from 'lucide-react';
+import { StaggerContainer, SlideInLeft, SlideInUp } from '../components/Animations';
 
 export default function Hero() {
   const heroRef = useRef(null);
@@ -23,12 +23,40 @@ export default function Hero() {
     { icon: <GraduationCap size={18} />, text: 'CGC Jhanjeri | CGPA: 9.15', href: '#' }
   ];
 
-  // Tech Stack
-  const techStack = [
-    { icon: <Code />, label: 'React.js', color: '#00f6ff' },
-    { icon: <Briefcase />, label: 'Node.js', color: '#7f5cff' },
-    { icon: <Sparkles />, label: 'MongoDB', color: '#ff2e63' },
-    { icon: <Zap />, label: 'Python', color: '#00f6ff' }
+  // Professional Links (Replacing Tech Stack)
+  const professionalLinks = [
+    { 
+      icon: <Github size={24} />, 
+      label: 'GitHub', 
+      href: 'https://github.com/aryan-26-prog', 
+      color: '#00f6ff', 
+      desc: 'View My Code',
+      external: true
+    },
+    { 
+      icon: <Linkedin size={24} />, 
+      label: 'LinkedIn', 
+      href: 'https://www.linkedin.com/in/aryan-dhiman-2605ad', 
+      color: '#7f5cff', 
+      desc: 'Connect Professionally',
+      external: true
+    },
+    { 
+      icon: <FileText size={24} />, 
+      label: 'Resume', 
+      href: '/ARYAN-DHIMAN-RESUME.pdf', 
+      color: '#ff2e63', 
+      desc: 'Download PDF',
+      download: true
+    },
+    { 
+      icon: <Globe size={24} />, 
+      label: 'Portfolio', 
+      href: '#projects', 
+      color: '#00f6ff', 
+      desc: 'Live Projects',
+      external: false
+    }
   ];
 
   // Create floating particles
@@ -142,7 +170,7 @@ export default function Hero() {
                   backgroundClip: 'text',
                   color: 'transparent'
                 }}>
-                  COMPUTER SCIENCE ENGINEERING STUDENT
+                  ASPIRING FULL-STACK DEVELOPER
                 </span>
               </motion.div>
             </SlideInLeft>
@@ -173,7 +201,7 @@ export default function Hero() {
                     fontWeight: '600'
                   }}
                 >
-                  Full-Stack Developer | CSE Undergrad
+                  MERN-Stack Developer | CSE Undergrad
                 </motion.span>
               </h1>
             </SlideInLeft>
@@ -319,7 +347,7 @@ export default function Hero() {
                 </motion.a>
 
                 <motion.a
-                  href="#achievements"
+                  href="#about"
                   className="btn btn-tertiary"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -344,7 +372,7 @@ export default function Hero() {
               </div>
             </SlideInUp>
 
-            {/* Tech Stack */}
+            {/* Professional Links*/}
             <SlideInUp delay={1}>
               <div style={{ marginTop: '30px' }}>
                 <div style={{ 
@@ -365,7 +393,7 @@ export default function Hero() {
                     color: 'rgba(255, 255, 255, 0.6)',
                     whiteSpace: 'nowrap'
                   }}>
-                    TECHNICAL EXPERTISE
+                    PROFESSIONAL LINKS
                   </span>
                   <div style={{
                     height: '2px',
@@ -385,14 +413,18 @@ export default function Hero() {
                     flexWrap: 'wrap'
                   }}
                 >
-                  {techStack.map((tech, i) => (
-                    <motion.div
-                      key={tech.label}
+                  {professionalLinks.map((link, i) => (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      target={link.external ? "_blank" : "_self"}
+                      rel={link.external ? "noopener noreferrer" : ""}
+                      download={link.download}
                       className="glass card-3d"
                       whileHover={{ 
                         y: -10,
                         scale: 1.05,
-                        boxShadow: `0 15px 30px ${tech.color}33`
+                        boxShadow: `0 15px 30px ${link.color}33`
                       }}
                       animate={{ 
                         y: [0, -5, 0],
@@ -409,10 +441,12 @@ export default function Hero() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '15px',
-                        minWidth: '180px',
+                        minWidth: '200px',
+                        flex: '1',
                         cursor: 'pointer',
-                        border: `1px solid ${tech.color}22`,
-                        background: `linear-gradient(135deg, ${tech.color}11, ${tech.color}05)`
+                        textDecoration: 'none',
+                        border: `1px solid ${link.color}22`,
+                        background: `linear-gradient(135deg, ${link.color}11, ${link.color}05)`
                       }}
                     >
                       <motion.div
@@ -426,15 +460,15 @@ export default function Hero() {
                           width: '50px',
                           height: '50px',
                           borderRadius: '12px',
-                          background: `linear-gradient(135deg, ${tech.color}22, ${tech.color}44)`,
+                          background: `linear-gradient(135deg, ${link.color}22, ${link.color}44)`,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           fontSize: '1.5rem',
-                          color: tech.color
+                          color: link.color
                         }}
                       >
-                        {tech.icon}
+                        {link.icon}
                       </motion.div>
                       <div>
                         <div style={{ 
@@ -443,16 +477,23 @@ export default function Hero() {
                           color: '#fff',
                           marginBottom: '4px'
                         }}>
-                          {tech.label}
+                          {link.label}
                         </div>
                         <div style={{ 
-                          fontSize: '0.8rem',
-                          color: 'rgba(255, 255, 255, 0.5)'
+                          fontSize: '0.85rem',
+                          color: 'rgba(255, 255, 255, 0.6)'
                         }}>
-                          Advanced
+                          {link.desc}
                         </div>
                       </div>
-                    </motion.div>
+                      {link.download && (
+                        <Download size={18} style={{ 
+                          marginLeft: 'auto', 
+                          color: link.color,
+                          opacity: 0.8 
+                        }} />
+                      )}
+                    </motion.a>
                   ))}
                 </motion.div>
               </div>
