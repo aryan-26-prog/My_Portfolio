@@ -968,3 +968,25 @@ body {
     background-clip: text;
   }
 }
+
+/* Mobile first (default) */
+.navigation-circles {
+  display: flex;
+  position: fixed;
+  bottom: 2rem;
+  right: 50%;
+  transform: translateX(50%);
+  flex-direction: row;
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .navigation-circles {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    flex-direction: column;
+  }
+}
