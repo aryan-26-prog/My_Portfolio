@@ -1,10 +1,11 @@
-// src/sections/Projects.jsx - WITH ADVANCED ANIMATIONS
+// src/sections/Projects.jsx - UPDATED BASED ON RESUME WITH ADVANCED ANIMATIONS
 import { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ExternalLink, Github, Eye, Star, 
   Zap, Users, ArrowRight, Code,
-  ChevronLeft, ChevronRight, Maximize2
+  ChevronLeft, ChevronRight, Maximize2,
+  Globe, Map, Leaf, ShoppingCart
 } from 'lucide-react';
 import { StaggerContainer, SlideInUp, ScaleIn } from '../components/Animations';
 
@@ -21,44 +22,48 @@ export default function Projects() {
 
   const projects = [
     {
-      title: 'Nexus Dashboard',
-      description: 'Enterprise dashboard with real-time 3D data visualization and interactive charts',
-      tags: ['React', 'Three.js', 'WebGL', 'D3.js', 'Node.js'],
+      title: 'GamEd: Gamified Environmental Education Platform',
+      description: 'Full-stack role-based learning platform for environmental education with interactive modules and real-time user engagement analytics.',
+      tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'JavaScript'],
       live: '#',
       github: '#',
       featured: true,
-      stats: { users: '10K+', performance: '99%', rating: '4.9' },
-      color: '#00f6ff'
+      stats: { users: '500+', performance: '95%', rating: '4.7' },
+      color: '#00f6ff',
+      icon: <Leaf />
     },
     {
-      title: 'Quantum E-commerce',
-      description: 'Immersive 3D shopping experience with AR product visualization',
-      tags: ['Next.js', 'WebXR', 'GSAP', 'Stripe', 'Redis'],
+      title: 'Smart Rasoi: AI-Powered Food Redistribution Platform',
+      description: 'Real-time platform connecting food donors and NGOs using AI-based image analysis for food quantity and freshness estimation.',
+      tags: ['React.js', 'Django REST', 'Google Maps API', 'Python', 'JavaScript'],
       live: '#',
       github: '#',
       featured: true,
-      stats: { users: '50K+', performance: '98%', rating: '4.8' },
-      color: '#7f5cff'
+      stats: { users: '1K+', performance: '92%', rating: '4.8' },
+      color: '#7f5cff',
+      icon: <ShoppingCart />
     },
     {
-      title: 'Neuro Analytics',
-      description: 'AI-powered analytics platform with interactive 3D neural networks',
-      tags: ['TypeScript', 'TensorFlow.js', 'WebGL', 'Python', 'FastAPI'],
+      title: 'CivicTrack: Smart Civic Issue Reporting System',
+      description: 'Geo-mapped civic issue reporting system with real-time status tracking and admin management for issue verification and resolution.',
+      tags: ['React.js', 'Node.js', 'MongoDB', 'Socket.IO', 'JWT'],
       live: '#',
       github: '#',
       featured: false,
-      stats: { users: '5K+', performance: '97%', rating: '4.7' },
-      color: '#ff2e63'
+      stats: { users: '800+', performance: '94%', rating: '4.6' },
+      color: '#ff2e63',
+      icon: <Map />
     },
     {
-      title: 'Orbit Design System',
-      description: 'Complete 3D design system with interactive component playground',
-      tags: ['React', 'Three.js', 'Storybook', 'Framer', 'Webpack'],
+      title: 'KKV: Digital Farmer Marketplace',
+      description: 'Web-based marketplace enabling direct farmer-to-buyer trade with AI-based plant disease detection and live mandi price updates.',
+      tags: ['HTML', 'CSS', 'JavaScript', 'Python', 'PHP'],
       live: '#',
       github: '#',
       featured: false,
-      stats: { users: '2K+', performance: '100%', rating: '5.0' },
-      color: '#00f6ff'
+      stats: { users: '2K+', performance: '90%', rating: '4.5' },
+      color: '#00f6ff',
+      icon: <Globe />
     }
   ];
 
@@ -132,7 +137,7 @@ export default function Projects() {
                   letterSpacing: '2px',
                   color: '#00f6ff'
                 }}>
-                  FEATURED WORK
+                  REAL-WORLD PROJECTS
                 </span>
               </div>
             </SlideInUp>
@@ -144,7 +149,7 @@ export default function Projects() {
                 lineHeight: '1.1',
                 marginBottom: '20px'
               }}>
-                Recent <span className="gradient-text">Projects</span>
+                Portfolio <span className="gradient-text">Projects</span>
               </h2>
             </SlideInUp>
 
@@ -156,7 +161,7 @@ export default function Projects() {
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>
-                Immersive digital experiences that push the boundaries of web technology
+                Full-stack web applications built with modern technologies and real-world impact
               </p>
             </SlideInUp>
           </div>
@@ -271,7 +276,7 @@ export default function Projects() {
                       }}
                     >
                       <Star size={12} />
-                      Featured
+                      Hackathon Winner
                     </motion.div>
                   )}
 
@@ -304,7 +309,7 @@ export default function Projects() {
                         zIndex: 2
                       }}
                     >
-                      <Code size={80} />
+                      {project.icon}
                     </motion.div>
 
                     {/* Animated Grid Overlay */}
@@ -543,7 +548,7 @@ export default function Projects() {
                     lineHeight: '1.2'
                   }}
                 >
-                  Ready to Build{' '}
+                  Looking for a{' '}
                   <motion.span
                     animate={{ 
                       textShadow: [
@@ -555,7 +560,7 @@ export default function Projects() {
                     transition={{ duration: 2, repeat: Infinity }}
                     className="gradient-text"
                   >
-                    Something Amazing?
+                    Software Engineering Intern?
                   </motion.span>
                 </motion.h3>
                 
@@ -571,7 +576,7 @@ export default function Projects() {
                     lineHeight: '1.6'
                   }}
                 >
-                  Let's discuss your next immersive digital experience
+                  Let's discuss how I can contribute to your team with my full-stack development skills
                 </motion.p>
                 
                 <motion.a
@@ -588,7 +593,7 @@ export default function Projects() {
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
-                    Start a Project
+                    Contact Me
                   </motion.span>
                   <ArrowRight />
                 </motion.a>

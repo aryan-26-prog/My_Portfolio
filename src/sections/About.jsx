@@ -2,10 +2,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { 
-  User, Target, Award, Globe, 
-  Code, Palette, Cpu, Zap,
-  Rocket, Layers, Brain, Sparkles,
-  Book, GraduationCap, Briefcase
+  Target, Award, Book, GraduationCap, Briefcase,
+  Code, Database, Cpu, Globe, Users, Clock, CheckCircle,
+  Layers, Brain, Sparkles, Zap, Shield, Trophy, Calendar,
+  Heart, MapPin, School, Users as TeamIcon, Star, BookOpen
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../components/Animations';
 
@@ -19,11 +19,44 @@ export default function About() {
   const rotateX = useTransform(scrollYProgress, [0, 1], [0, 360]);
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  const stats = [
-    { value: '4+', label: 'Major Projects', icon: <Rocket />, color: '#00f6ff' },
-    { value: '9.15', label: 'Current CGPA', icon: <Award />, color: '#7f5cff' },
-    { value: '100%', label: 'Class X Percentage', icon: <Target />, color: '#ff2e63' },
-    { value: '2+', label: 'Leadership Roles', icon: <GraduationCap />, color: '#00f6ff' }
+  // Academic stats from resume
+  const academicStats = [
+    { value: '9.15', label: 'Current CGPA', icon: <GraduationCap />, color: '#00f6ff', desc: 'B.Tech CSE, 2nd Year' },
+    { value: '100%', label: 'Class X Score', icon: <Award />, color: '#7f5cff', desc: 'HPBOSE Board' },
+    { value: '93.6%', label: 'Class XII Score', icon: <Book />, color: '#ff2e63', desc: 'HPBOSE Board' },
+    { value: '2023', label: 'Joined B.Tech', icon: <Calendar />, color: '#00f6ff', desc: 'CGC Jhanjeri' }
+  ];
+
+  // Hackathon achievements from resume
+  const hackathonAchievements = [
+    {
+      title: 'Smart India Hackathon 2025',
+      position: '1st Position',
+      level: 'Institute Level',
+      icon: <Trophy />,
+      color: '#00f6ff'
+    },
+    {
+      title: 'BharatTech-Xperience Hackathon 2.0',
+      position: '11th Position',
+      level: '250+ Teams | Best Community-Focused Project',
+      icon: <Star />,
+      color: '#7f5cff'
+    },
+    {
+      title: 'Hackmol 6.0 (NIT Jalandhar)',
+      position: '25th Position',
+      level: '3000+ Teams',
+      icon: <Award />,
+      color: '#ff2e63'
+    },
+    {
+      title: 'Build with India (Google Hackathon)',
+      position: 'Top 5000 Teams',
+      level: 'Selected from 25,000+ teams',
+      icon: <Code />,
+      color: '#00f6ff'
+    }
   ];
 
   return (
@@ -86,19 +119,19 @@ export default function About() {
                   letterSpacing: '2px',
                   color: '#00f6ff'
                 }}>
-                  ABOUT ME
+                  PERSONAL PROFILE
                 </span>
               </div>
             </SlideInLeft>
 
             <SlideInLeft delay={0.2}>
               <h2 style={{
-                fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+                fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                 fontWeight: '800',
                 lineHeight: '1.1',
                 marginBottom: '20px'
               }}>
-                Building <span className="gradient-text">Scalable</span> Web Solutions
+                About <span className="gradient-text">Aryan Dhiman</span>
               </h2>
             </SlideInLeft>
 
@@ -106,239 +139,575 @@ export default function About() {
               <p style={{
                 fontSize: '1.2rem',
                 color: 'rgba(255, 255, 255, 0.7)',
-                maxWidth: '600px',
+                maxWidth: '800px',
+                lineHeight: '1.6',
+                marginBottom: '20px'
+              }}>
+                <strong style={{ color: '#00f6ff' }}>Computer Science and Engineering undergraduate</strong> currently in 
+                2nd year at CGC Jhanjeri, Mohali. Passionate about building scalable web applications 
+                that solve real-world problems, with a strong foundation in full-stack development.
+              </p>
+              <p style={{
+                fontSize: '1.1rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                maxWidth: '800px',
                 lineHeight: '1.6'
               }}>
-                CSE undergraduate passionate about designing, developing, and testing 
-                scalable web applications. Actively strengthening DSA, OOP, and 
-                full-stack development while building real-world projects.
+                Actively participating in hackathons and building projects that focus on social impact, 
+                while strengthening my skills in <strong>Data Structures & Algorithms</strong>, 
+                <strong>object-oriented programming</strong>, and modern web technologies.
               </p>
             </SlideInLeft>
+          </div>
+
+          {/* Academic Stats Grid */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '25px',
+            marginBottom: '80px'
+          }}>
+            {academicStats.map((stat, i) => (
+              <FlipCard key={stat.label} delay={0.6 + i * 0.1}>
+                <motion.div
+                  className="glass card-3d"
+                  whileHover={{ 
+                    rotateY: 180,
+                    transition: { duration: 0.6 }
+                  }}
+                  style={{
+                    padding: '35px 25px',
+                    textAlign: 'center',
+                    height: '100%',
+                    cursor: 'pointer',
+                    borderRadius: '20px',
+                    border: `1px solid ${stat.color}22`
+                  }}
+                >
+                  {/* Front of Card */}
+                  <motion.div
+                    style={{ position: 'relative', height: '100%' }}
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        margin: '0 auto 20px',
+                        borderRadius: '50%',
+                        background: `linear-gradient(135deg, ${stat.color}22, ${stat.color}44)`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.8rem',
+                        color: stat.color
+                      }}
+                    >
+                      {stat.icon}
+                    </motion.div>
+                    <div style={{
+                      fontSize: '2.5rem',
+                      fontWeight: '700',
+                      marginBottom: '5px',
+                      background: `linear-gradient(90deg, ${stat.color}, ${stat.color}dd)`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      color: 'transparent'
+                    }}>
+                      {stat.value}
+                    </div>
+                    <div style={{ 
+                      color: '#fff',
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      marginBottom: '8px'
+                    }}>
+                      {stat.label}
+                    </div>
+                    <div style={{ 
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      fontSize: '0.9rem'
+                    }}>
+                      {stat.desc}
+                    </div>
+                  </motion.div>
+
+                  {/* Back of Card */}
+                  <motion.div
+                    initial={{ opacity: 0, rotateY: 180 }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      padding: '25px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: `linear-gradient(135deg, ${stat.color}11, ${stat.color}22)`,
+                      borderRadius: '20px',
+                      backfaceVisibility: 'hidden'
+                    }}
+                  >
+                    <Sparkles style={{ 
+                      color: stat.color, 
+                      fontSize: '2.5rem',
+                      marginBottom: '15px'
+                    }} />
+                    <div style={{
+                      color: '#fff',
+                      fontSize: '1rem',
+                      fontWeight: '600',
+                      textAlign: 'center'
+                    }}>
+                      Academic Excellence
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </FlipCard>
+            ))}
           </div>
 
           {/* Main Content Grid */}
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
+            gridTemplateColumns: '1fr', 
             gap: '60px',
             marginBottom: '80px'
           }}>
-            {/* Left Column - Bio */}
-            <div>
-              <SlideInLeft delay={0.6}>
-                <div className="glass" style={{ 
-                  padding: '50px',
-                  marginBottom: '40px'
+            
+            {/* Hackathon Achievements */}
+            <SlideInLeft delay={0.8}>
+              <div className="glass" style={{ 
+                padding: '40px',
+                borderRadius: '20px',
+                border: '1px solid rgba(0, 246, 255, 0.1)'
+              }}>
+                <h3 style={{ 
+                  fontSize: '1.8rem', 
+                  marginBottom: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
                 }}>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '20px',
-                    marginBottom: '30px'
-                  }}>
+                  <Trophy style={{ color: '#ffd700' }} />
+                  Hackathon Achievements
+                </h3>
+
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: '20px'
+                }}>
+                  {hackathonAchievements.map((achievement, index) => (
                     <motion.div
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.8 }}
+                      key={achievement.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                      whileHover={{ y: -5 }}
                       style={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #00f6ff, #7f5cff)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '2.5rem'
+                        padding: '25px',
+                        background: `linear-gradient(135deg, ${achievement.color}11, ${achievement.color}05)`,
+                        border: `1px solid ${achievement.color}22`,
+                        borderRadius: '16px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
                       }}
                     >
-                      <User />
-                    </motion.div>
-                    <div>
-                      <h3 style={{ fontSize: '2rem', marginBottom: '5px' }}>Aryan Dhiman</h3>
-                      <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                        Full-Stack Developer | CSE Undergrad
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '15px',
+                        marginBottom: '15px'
+                      }}>
+                        <div style={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '12px',
+                          background: `linear-gradient(135deg, ${achievement.color}22, ${achievement.color}44)`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1.5rem',
+                          color: achievement.color
+                        }}>
+                          {achievement.icon}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <h4 style={{ 
+                            fontSize: '1.1rem', 
+                            fontWeight: '600',
+                            color: '#fff',
+                            marginBottom: '5px'
+                          }}>
+                            {achievement.title}
+                          </h4>
+                          <div style={{ 
+                            fontSize: '0.85rem', 
+                            color: achievement.color,
+                            fontWeight: '500'
+                          }}>
+                            {achievement.position}
+                          </div>
+                        </div>
+                      </div>
+                      <p style={{ 
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        fontSize: '0.9rem',
+                        lineHeight: '1.5',
+                        marginLeft: '65px'
+                      }}>
+                        {achievement.level}
                       </p>
-                    </div>
-                  </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </SlideInLeft>
 
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 1 }}
-                    style={{ 
-                      fontSize: '1.1rem', 
-                      lineHeight: '1.8', 
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      marginBottom: '30px'
-                    }}
-                  >
-                    Currently pursuing <strong style={{ color: '#00f6ff' }}>B.Tech in CSE</strong> 
-                    with a strong focus on full-stack web development. Experienced in building 
-                    scalable applications using modern technologies and collaborating in 
-                    team-based environments.
-                  </motion.p>
-
-                  <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                    {['React.js', 'Node.js', 'MongoDB', 'Python', 'JavaScript', 'Django'].map((tech, i) => (
-                      <motion.span
-                        key={tech}
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 1 + i * 0.1 }}
-                        whileHover={{ scale: 1.1, y: -3 }}
+            {/* Education & Leadership */}
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: '1fr',
+              gap: '40px'
+            }}>
+              
+              {/* Education Timeline */}
+              <SlideInLeft delay={1}>
+                <div className="glass" style={{ 
+                  padding: '40px',
+                  borderRadius: '20px',
+                  border: '1px solid rgba(127, 92, 255, 0.1)'
+                }}>
+                  <h3 style={{ 
+                    fontSize: '1.8rem', 
+                    marginBottom: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}>
+                    <School style={{ color: '#7f5cff' }} />
+                    Education Timeline
+                  </h3>
+                  
+                  <div style={{ position: 'relative' }}>
+                    {/* Timeline line */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '30px',
+                      top: '0',
+                      bottom: '0',
+                      width: '2px',
+                      background: 'linear-gradient(180deg, #7f5cff, rgba(127, 92, 255, 0.3))',
+                      zIndex: 1
+                    }} />
+                    
+                    {[
+                      {
+                        year: '2023 - Present',
+                        title: 'Bachelor of Technology (CSE)',
+                        institution: 'Changigarh Group of Colleges, Jhanjeri, Mohali',
+                        details: '2nd Year | Current CGPA: 9.15',
+                        icon: <GraduationCap />,
+                        color: '#7f5cff'
+                      },
+                      {
+                        year: '2021',
+                        title: 'Senior Secondary (Class XII)',
+                        institution: 'Sunrise Public School, Baruna, HP',
+                        details: 'HPBOSE Board | Percentage: 93.6%',
+                        icon: <Book />,
+                        color: '#ff2e63'
+                      },
+                      {
+                        year: '2019',
+                        title: 'Secondary (Class X)',
+                        institution: 'Sunrise Public School, Baruna, HP',
+                        details: 'HPBOSE Board | Percentage: 100%',
+                        icon: <Award />,
+                        color: '#00f6ff'
+                      }
+                    ].map((edu, i) => (
+                      <motion.div
+                        key={edu.title}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 1.1 + i * 0.1, duration: 0.6 }}
                         style={{
-                          padding: '10px 20px',
-                          background: 'rgba(0, 246, 255, 0.1)',
-                          border: '1px solid rgba(0, 246, 255, 0.2)',
-                          borderRadius: '50px',
-                          fontSize: '0.9rem',
-                          cursor: 'pointer'
+                          display: 'flex',
+                          gap: '25px',
+                          marginBottom: '35px',
+                          position: 'relative',
+                          zIndex: 2
                         }}
                       >
-                        {tech}
-                      </motion.span>
+                        {/* Timeline dot */}
+                        <div style={{
+                          width: '20px',
+                          height: '20px',
+                          borderRadius: '50%',
+                          background: edu.color,
+                          border: '3px solid #0a0a0f',
+                          flexShrink: 0,
+                          marginTop: '5px',
+                          position: 'relative',
+                          zIndex: 3
+                        }} />
+                        
+                        <div style={{ flex: 1 }}>
+                          <div style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '10px',
+                            marginBottom: '5px'
+                          }}>
+                            <div style={{ 
+                              color: edu.color,
+                              fontSize: '1.2rem'
+                            }}>
+                              {edu.icon}
+                            </div>
+                            <h4 style={{ 
+                              fontSize: '1.2rem', 
+                              fontWeight: '600',
+                              color: '#fff'
+                            }}>
+                              {edu.title}
+                            </h4>
+                          </div>
+                          <div style={{ 
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            fontSize: '1rem',
+                            fontWeight: '500',
+                            marginBottom: '5px',
+                            marginLeft: '35px'
+                          }}>
+                            {edu.institution}
+                          </div>
+                          <div style={{ 
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            fontSize: '0.9rem',
+                            marginLeft: '35px',
+                            marginBottom: '8px'
+                          }}>
+                            {edu.details}
+                          </div>
+                          <div style={{ 
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '5px 15px',
+                            background: `rgba(${parseInt(edu.color.slice(1, 3), 16)}, ${parseInt(edu.color.slice(3, 5), 16)}, ${parseInt(edu.color.slice(5, 7), 16)}, 0.1)`,
+                            border: `1px solid ${edu.color}33`,
+                            borderRadius: '20px',
+                            marginLeft: '35px',
+                            fontSize: '0.85rem'
+                          }}>
+                            <Calendar size={12} style={{ color: edu.color }} />
+                            <span style={{ color: edu.color, fontWeight: '500' }}>
+                              {edu.year}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
               </SlideInLeft>
-            </div>
 
-            {/* Right Column - Stats */}
-            <div>
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: '1fr 1fr', 
-                gap: '30px',
-                marginBottom: '40px'
-              }}>
-                {stats.map((stat, i) => (
-                  <FlipCard key={stat.label} delay={0.6 + i * 0.1}>
-                    <motion.div
-                      className="glass card-3d"
-                      whileHover={{ 
-                        rotateY: 180,
-                        transition: { duration: 0.6 }
-                      }}
-                      style={{
-                        padding: '40px 30px',
-                        textAlign: 'center',
-                        height: '100%',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {/* Front of Card */}
+              {/* Leadership & Certifications */}
+              <SlideInRight delay={1.2}>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1fr',
+                  gap: '30px'
+                }}>
+                  
+                  {/* Leadership Experience */}
+                  <div className="glass" style={{ 
+                    padding: '30px',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(0, 246, 255, 0.1)'
+                  }}>
+                    <h3 style={{ 
+                      fontSize: '1.5rem', 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px'
+                    }}>
+                      <TeamIcon style={{ color: '#00f6ff' }} />
+                      Leadership Experience
+                    </h3>
+                    <div style={{ 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      gap: '20px'
+                    }}>
                       <motion.div
-                        style={{ position: 'relative', height: '100%' }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.3, duration: 0.6 }}
                       >
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                          style={{
-                            width: '60px',
-                            height: '60px',
-                            margin: '0 auto 20px',
-                            borderRadius: '50%',
-                            background: `linear-gradient(135deg, ${stat.color}22, ${stat.color}44)`,
+                        <div style={{ 
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '15px'
+                        }}>
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
+                            background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(0, 246, 255, 0.2))',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '1.8rem',
-                            color: stat.color
-                          }}
-                        >
-                          {stat.icon}
-                        </motion.div>
-                        <div style={{
-                          fontSize: '2.5rem',
-                          fontWeight: '700',
-                          marginBottom: '10px',
-                          background: `linear-gradient(90deg, ${stat.color}, ${stat.color}dd)`,
-                          WebkitBackgroundClip: 'text',
-                          backgroundClip: 'text',
-                          color: 'transparent'
-                        }}>
-                          {stat.value}
-                        </div>
-                        <div style={{ 
-                          color: 'rgba(255, 255, 255, 0.7)',
-                          fontSize: '0.9rem'
-                        }}>
-                          {stat.label}
+                            color: '#00f6ff',
+                            flexShrink: 0
+                          }}>
+                            <Users size={20} />
+                          </div>
+                          <div>
+                            <h4 style={{ 
+                              fontSize: '1.1rem', 
+                              fontWeight: '600',
+                              color: '#fff',
+                              marginBottom: '5px'
+                            }}>
+                              Management Lead, Training Advisory Council (TAC)
+                            </h4>
+                            <p style={{ 
+                              color: 'rgba(255, 255, 255, 0.7)',
+                              fontSize: '0.9rem',
+                              lineHeight: '1.5'
+                            }}>
+                              Led planning and execution of technical workshops, placement drives, 
+                              and student development initiatives at CGC University.
+                            </p>
+                          </div>
                         </div>
                       </motion.div>
-
-                      {/* Back of Card - Revealed on Hover */}
+                      
                       <motion.div
-                        initial={{ opacity: 0, rotateY: 180 }}
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          padding: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          background: `linear-gradient(135deg, ${stat.color}11, ${stat.color}22)`,
-                          borderRadius: '20px',
-                          backfaceVisibility: 'hidden'
-                        }}
-                      >
-                        <Sparkles style={{ color: stat.color, fontSize: '2rem' }} />
-                      </motion.div>
-                    </motion.div>
-                  </FlipCard>
-                ))}
-              </div>
-
-              {/* Philosophy Card */}
-              <SlideInRight delay={1}>
-                <div className="glass" style={{ padding: '40px' }}>
-                  <h3 style={{ 
-                    fontSize: '1.5rem', 
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px'
-                  }}>
-                    <Brain style={{ color: '#00f6ff' }} />
-                    Development Approach
-                  </h3>
-                  <p style={{ 
-                    lineHeight: '1.8', 
-                    color: 'rgba(255, 255, 255, 0.7)',
-                    marginBottom: '25px'
-                  }}>
-                    Focus on building scalable, maintainable applications with clean code 
-                    and user-centric design. Passionate about solving real-world problems 
-                    through technology.
-                  </p>
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1.2, duration: 0.8 }}
-                    style={{
-                      display: 'flex',
-                      gap: '15px',
-                      flexWrap: 'wrap'
-                    }}
-                  >
-                    {['Scalability', 'Clean Code', 'Problem Solving', 'Teamwork'].map((tag, i) => (
-                      <motion.span
-                        key={tag}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.4 + i * 0.1 }}
-                        whileHover={{ scale: 1.1, y: -3 }}
-                        style={{
-                          padding: '10px 20px',
-                          background: 'rgba(0, 246, 255, 0.1)',
-                          border: '1px solid rgba(0, 246, 255, 0.2)',
-                          borderRadius: '50px',
-                          fontSize: '0.9rem'
-                        }}
+                        transition={{ delay: 1.4, duration: 0.6 }}
                       >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </motion.div>
+                        <div style={{ 
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '15px'
+                        }}>
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
+                            background: 'linear-gradient(135deg, rgba(127, 92, 255, 0.1), rgba(127, 92, 255, 0.2))',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#7f5cff',
+                            flexShrink: 0
+                          }}>
+                            <Code size={20} />
+                          </div>
+                          <div>
+                            <h4 style={{ 
+                              fontSize: '1.1rem', 
+                              fontWeight: '600',
+                              color: '#fff',
+                              marginBottom: '5px'
+                            }}>
+                              Technical Team Member, D4 Community
+                            </h4>
+                            <p style={{ 
+                              color: 'rgba(255, 255, 255, 0.7)',
+                              fontSize: '0.9rem',
+                              lineHeight: '1.5'
+                            }}>
+                              Contributed to technical planning, development activities, 
+                              and collaborative learning initiatives.
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Certifications */}
+                  <div className="glass" style={{ 
+                    padding: '30px',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(255, 46, 99, 0.1)'
+                  }}>
+                    <h3 style={{ 
+                      fontSize: '1.5rem', 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px'
+                    }}>
+                      <BookOpen style={{ color: '#ff2e63' }} />
+                      Certifications
+                    </h3>
+                    <div style={{ 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      gap: '15px'
+                    }}>
+                      {[
+                        {
+                          title: 'Technology Job Simulation',
+                          issuer: 'Deloitte (Forage)',
+                          icon: <Briefcase />
+                        },
+                        {
+                          title: 'Programming Fundamentals using Python – Part 1',
+                          issuer: 'Infosys Springboard',
+                          icon: <Code />
+                        }
+                      ].map((cert, i) => (
+                        <motion.div
+                          key={cert.title}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 1.5 + i * 0.1, duration: 0.6 }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                            padding: '15px',
+                            background: 'rgba(255, 46, 99, 0.05)',
+                            borderRadius: '12px'
+                          }}
+                        >
+                          <div style={{
+                            color: '#ff2e63',
+                            fontSize: '1.2rem'
+                          }}>
+                            {cert.icon}
+                          </div>
+                          <div>
+                            <div style={{ 
+                              fontSize: '1rem', 
+                              fontWeight: '600',
+                              color: '#fff',
+                              marginBottom: '3px'
+                            }}>
+                              {cert.title}
+                            </div>
+                            <div style={{ 
+                              fontSize: '0.85rem', 
+                              color: 'rgba(255, 255, 255, 0.6)'
+                            }}>
+                              {cert.issuer}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </SlideInRight>
             </div>

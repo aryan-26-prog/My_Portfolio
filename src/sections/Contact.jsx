@@ -2,10 +2,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { 
   Mail, Phone, MapPin, Send, 
-  Linkedin, Github, Twitter, Instagram,
-  CheckCircle, Loader, Calendar,
+  Linkedin, Github, Calendar,
+  CheckCircle, Loader,
   User, MessageSquare, FileText,
-  Sparkles, Globe
+  Briefcase, GraduationCap, Code,
+  Instagram
 } from 'lucide-react';
 
 export default function Contact() {
@@ -13,7 +14,7 @@ export default function Contact() {
     name: '',
     email: '',
     message: '',
-    projectType: ''
+    inquiryType: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -33,49 +34,68 @@ export default function Contact() {
     // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
-      setFormData({ name: '', email: '', message: '', projectType: '' });
+      setFormData({ name: '', email: '', message: '', inquiryType: '' });
     }, 3000);
   };
 
-  // Contact information
+  // Contact information - Updated with resume data
   const contactInfo = [
     { 
       icon: <Mail />, 
       title: 'Email', 
-      value: 'hello@aryandev.com', 
+      value: 'aryandhiman2605@gmail.com', 
       desc: 'Response within 24 hours',
-      color: '#00f6ff'
+      color: '#00f6ff',
+      link: 'mailto:aryandhiman2605@gmail.com'
     },
     { 
       icon: <Phone />, 
       title: 'Phone', 
-      value: '+91 98765 43210', 
-      desc: 'Available 10AM - 7PM IST',
-      color: '#7f5cff'
+      value: '+91 9805297267', 
+      desc: 'Available for calls',
+      color: '#7f5cff',
+      link: 'tel:+919805297267'
     },
     { 
       icon: <MapPin />, 
       title: 'Location', 
-      value: 'Mumbai, India', 
-      desc: 'Working remotely worldwide',
+      value: 'Mohali, Punjab', 
+      desc: 'Pursuing B.Tech at CGC',
       color: '#ff2e63'
     }
   ];
 
-  // Social links
+  // Social links - Updated with resume data
   const socialLinks = [
-    { icon: <Linkedin />, platform: 'LinkedIn', url: '#', color: '#0077B5' },
-    { icon: <Github />, platform: 'GitHub', url: '#', color: '#FFFFFF' },
-    { icon: <Twitter />, platform: 'Twitter', url: '#', color: '#1DA1F2' },
-    { icon: <Instagram />, platform: 'Instagram', url: '#', color: '#E4405F' }
+    { 
+      icon: <Linkedin />, 
+      platform: 'LinkedIn', 
+      url: 'https://linkedin.com/in/aryan-dhiman-2605ad', 
+      color: '#0077B5',
+      label: 'Connect professionally'
+    },
+    { 
+      icon: <Github />, 
+      platform: 'GitHub', 
+      url: 'https://github.com/aryan-26-prog', 
+      color: '#FFFFFF',
+      label: 'View projects'
+    },
+    { 
+      icon: <Instagram />, 
+      platform: 'Instagram', 
+      url: 'https://www.instagram.com/aryandhiman_01', 
+      color: '#FFFFFF',
+      label: 'View projects'
+    }
   ];
 
-  // Project types
-  const projectTypes = [
-    { icon: <Globe />, label: 'Website', value: 'website' },
-    { icon: <Sparkles />, label: '3D Experience', value: '3d' },
-    { icon: <MessageSquare />, label: 'Web App', value: 'webapp' },
-    { icon: <FileText />, label: 'Consultation', value: 'consultation' }
+  // Inquiry types - Updated for internship seeker
+  const inquiryTypes = [
+    { icon: <Briefcase />, label: 'Internship Opportunity', value: 'internship' },
+    { icon: <GraduationCap />, label: 'Project Collaboration', value: 'collaboration' },
+    { icon: <Code />, label: 'Technical Discussion', value: 'technical' },
+    { icon: <MessageSquare />, label: 'General Inquiry', value: 'general' }
   ];
 
   // Floating particles effect
@@ -189,7 +209,7 @@ export default function Contact() {
               letterSpacing: '2px',
               color: '#00f6ff'
             }}>
-              LET'S CONNECT
+              GET IN TOUCH
             </span>
           </motion.div>
           
@@ -204,14 +224,14 @@ export default function Contact() {
               marginBottom: '20px'
             }}
           >
-            Ready to{' '}
+            Let's{' '}
             <span style={{
               background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent'
             }}>
-              Create Together?
+              Build Together
             </span>
           </motion.h2>
           
@@ -227,7 +247,7 @@ export default function Contact() {
               lineHeight: '1.6'
             }}
           >
-            Have an idea? Let's discuss how we can bring it to life with cutting-edge 3D technology.
+            Seeking software engineering internship opportunities to contribute, learn and grow.
           </motion.p>
         </motion.div>
 
@@ -275,15 +295,18 @@ export default function Contact() {
                 alignItems: 'center',
                 gap: '12px'
               }}>
-                <Mail style={{ color: '#00f6ff' }} />
-                Get in Touch
+                <User style={{ color: '#00f6ff' }} />
+                Contact Information
               </h3>
 
               {/* Contact Details */}
               <div style={{ marginBottom: '40px' }}>
                 {contactInfo.map((info, i) => (
-                  <motion.div
+                  <motion.a
                     key={info.title}
+                    href={info.link}
+                    target={info.link ? '_blank' : '_self'}
+                    rel={info.link ? 'noopener noreferrer' : ''}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + i * 0.1 }}
@@ -298,7 +321,8 @@ export default function Contact() {
                       borderRadius: '16px',
                       marginBottom: '15px',
                       cursor: 'pointer',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
+                      textDecoration: 'none'
                     }}
                   >
                     <div style={{
@@ -339,7 +363,7 @@ export default function Contact() {
                         {info.desc}
                       </div>
                     </div>
-                  </motion.div>
+                  </motion.a>
                 ))}
               </div>
 
@@ -352,8 +376,8 @@ export default function Contact() {
                   alignItems: 'center',
                   gap: '10px'
                 }}>
-                  <MessageSquare size={20} style={{ color: '#00f6ff' }} />
-                  Connect Socially
+                  <Code size={20} style={{ color: '#00f6ff' }} />
+                  Connect with Me
                 </h4>
                 <div style={{ 
                   display: 'flex', 
@@ -372,6 +396,7 @@ export default function Contact() {
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.1, y: -3 }}
                       whileTap={{ scale: 0.95 }}
+                      title={social.label}
                       style={{
                         width: '50px',
                         height: '50px',
@@ -390,6 +415,13 @@ export default function Contact() {
                     </motion.a>
                   ))}
                 </div>
+                <p style={{
+                  fontSize: '0.85rem',
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  marginTop: '15px'
+                }}>
+                  Looking for software engineering internship opportunities in web development
+                </p>
               </div>
             </motion.div>
 
@@ -452,7 +484,7 @@ export default function Contact() {
                       marginBottom: '30px',
                       fontSize: '1.1rem'
                     }}>
-                      I'll review your message and get back to you within 24 hours.
+                      I'll review your message and get back to you soon regarding internship opportunities.
                     </p>
                     
                     <motion.button
@@ -474,7 +506,7 @@ export default function Contact() {
                       }}
                     >
                       <Send size={18} />
-                      Send Another
+                      Send Another Message
                     </motion.button>
                   </motion.div>
                 ) : (
@@ -492,10 +524,10 @@ export default function Contact() {
                       gap: '12px'
                     }}>
                       <Send style={{ color: '#00f6ff' }} />
-                      Send a Message
+                      Contact for Opportunities
                     </h3>
 
-                    {/* Project Type Selection */}
+                    {/* Inquiry Type Selection */}
                     <div style={{ marginBottom: '30px' }}>
                       <div style={{ 
                         display: 'grid', 
@@ -503,17 +535,17 @@ export default function Contact() {
                         gap: '12px',
                         marginBottom: '25px'
                       }}>
-                        {projectTypes.map((type) => (
+                        {inquiryTypes.map((type) => (
                           <button
                             key={type.value}
                             type="button"
-                            onClick={() => setFormData({...formData, projectType: type.value})}
+                            onClick={() => setFormData({...formData, inquiryType: type.value})}
                             style={{
                               padding: '15px',
-                              background: formData.projectType === type.value 
+                              background: formData.inquiryType === type.value 
                                 ? 'rgba(0, 246, 255, 0.1)' 
                                 : 'rgba(255, 255, 255, 0.05)',
-                              border: formData.projectType === type.value 
+                              border: formData.inquiryType === type.value 
                                 ? '1px solid #00f6ff' 
                                 : '1px solid rgba(255, 255, 255, 0.1)',
                               borderRadius: '12px',
@@ -528,13 +560,14 @@ export default function Contact() {
                           >
                             <div style={{ 
                               fontSize: '1.5rem',
-                              color: formData.projectType === type.value ? '#00f6ff' : 'rgba(255, 255, 255, 0.7)'
+                              color: formData.inquiryType === type.value ? '#00f6ff' : 'rgba(255, 255, 255, 0.7)'
                             }}>
                               {type.icon}
                             </div>
                             <div style={{ 
                               fontSize: '0.9rem',
-                              fontWeight: '500'
+                              fontWeight: '500',
+                              textAlign: 'center'
                             }}>
                               {type.label}
                             </div>
@@ -616,7 +649,7 @@ export default function Contact() {
                             outline: 'none',
                             transition: 'all 0.3s ease'
                           }}
-                          placeholder="your.email@example.com"
+                          placeholder="your.company@example.com"
                         />
                       </div>
 
@@ -657,7 +690,7 @@ export default function Contact() {
                             fontFamily: 'inherit',
                             minHeight: '120px'
                           }}
-                          placeholder="Tell me about your project, goals, and timeline..."
+                          placeholder="Tell me about your company and the internship opportunity..."
                         />
                       </div>
 
@@ -695,12 +728,12 @@ export default function Contact() {
                             >
                               <Loader size={20} />
                             </motion.div>
-                            <span>Sending...</span>
+                            <span>Sending Inquiry...</span>
                           </>
                         ) : (
                           <>
                             <Send size={20} />
-                            <span>Send Message</span>
+                            <span>Send Internship Inquiry</span>
                           </>
                         )}
                       </motion.button>
@@ -731,12 +764,13 @@ export default function Contact() {
             fontSize: '1.8rem', 
             marginBottom: '15px'
           }}>
-            Prefer a <span style={{
+            Ready to discuss{' '}
+            <span style={{
               background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent'
-            }}>Direct Call</span>?
+            }}>Internship Opportunities</span>?
           </h3>
           
           <p style={{
@@ -746,29 +780,63 @@ export default function Contact() {
             maxWidth: '500px',
             margin: '0 auto 25px'
           }}>
-            Schedule a free 30-minute consultation to discuss your project in detail
+            2nd year CSE student with hands-on experience in full-stack web development
           </p>
           
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              padding: '16px 32px',
-              background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
-              border: 'none',
-              borderRadius: '50px',
-              color: '#000',
-              fontSize: '1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}
-          >
-            <Calendar size={20} />
-            <span>Schedule Consultation</span>
-          </motion.button>
+          <div style={{ 
+            display: 'flex', 
+            gap: '15px', 
+            justifyContent: 'center',
+            flexWrap: 'wrap' 
+          }}>
+            <motion.a
+              href="mailto:aryandhiman2605@gmail.com"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: '16px 32px',
+                background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
+                border: 'none',
+                borderRadius: '50px',
+                color: '#000',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                textDecoration: 'none'
+              }}
+            >
+              <Mail size={20} />
+              <span>Email Resume</span>
+            </motion.a>
+            
+            <motion.button
+              onClick={() => {
+                // Simulate schedule meeting
+                window.open('https://calendly.com', '_blank');
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: '16px 32px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50px',
+                color: 'white',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}
+            >
+              <Calendar size={20} />
+              <span>Schedule Meeting</span>
+            </motion.button>
+          </div>
         </motion.div>
 
         {/* Footer */}
@@ -785,14 +853,17 @@ export default function Contact() {
             borderTop: '1px solid rgba(255, 255, 255, 0.1)'
           }}
         >
-          <p>© {new Date().getFullYear()} Aryan Sharma. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Aryan Dhiman. All rights reserved.</p>
           <motion.p
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
             style={{ marginTop: '8px', fontSize: '0.85rem' }}
           >
-            Built with React, Three.js & ❤️
+            Built with React, Node.js & MongoDB | Actively seeking Summer 2025 internships
           </motion.p>
+          <p style={{ marginTop: '8px', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.4)' }}>
+            CGC Jhanjeri, Mohali | CGPA: 9.15
+          </p>
         </motion.div>
       </div>
     </section>

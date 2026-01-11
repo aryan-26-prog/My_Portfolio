@@ -1,11 +1,11 @@
-// src/sections/Skills.jsx - WITH 3D EFFECTS
+// src/sections/Skills.jsx - UPDATED BASED ON RESUME WITH 3D EFFECTS
 import { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Code, Palette, Cpu, Zap, 
   Server, Database, Cloud, Smartphone,
   GitBranch, Layers, Globe, Terminal,
-  Sparkles, TrendingUp
+  Sparkles, TrendingUp, Settings, TestTube
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight } from '../components/Animations';
 
@@ -22,39 +22,39 @@ export default function Skills() {
 
   const categories = {
     frontend: {
-      title: 'Frontend & 3D',
+      title: 'Frontend Development',
       color: '#00f6ff',
       icon: <Code />,
       skills: [
-        { name: 'React / Next.js', level: 95, icon: <Code /> },
-        { name: 'Three.js / WebGL', level: 90, icon: <Palette /> },
-        { name: 'TypeScript', level: 88, icon: <Cpu /> },
-        { name: 'GSAP / Framer Motion', level: 85, icon: <Zap /> },
-        { name: 'Tailwind CSS', level: 87, icon: <Smartphone /> }
+        { name: 'React.js', level: 88, icon: <Code /> },
+        { name: 'HTML5 / CSS3', level: 92, icon: <Palette /> },
+        { name: 'JavaScript', level: 90, icon: <Cpu /> },
+        { name: 'Tailwind CSS', level: 85, icon: <Smartphone /> },
+        { name: 'Responsive Design', level: 82, icon: <Sparkles /> }
       ]
     },
     backend: {
-      title: 'Backend & DevOps',
+      title: 'Backend & Database',
       color: '#7f5cff',
       icon: <Server />,
       skills: [
         { name: 'Node.js / Express', level: 85, icon: <Server /> },
-        { name: 'MongoDB / PostgreSQL', level: 80, icon: <Database /> },
-        { name: 'AWS / Vercel', level: 82, icon: <Cloud /> },
-        { name: 'Docker / CI/CD', level: 78, icon: <Terminal /> },
-        { name: 'REST / GraphQL APIs', level: 88, icon: <Globe /> }
+        { name: 'Python / Django', level: 80, icon: <Settings /> }, 
+        { name: 'MongoDB', level: 82, icon: <Database /> },
+        { name: 'RESTful APIs', level: 88, icon: <Globe /> },
+        { name: 'Authentication (JWT)', level: 78, icon: <Terminal /> }
       ]
     },
-    design: {
-      title: 'Design & Tools',
+    programming: {
+      title: 'Programming & Tools',
       color: '#ff2e63',
-      icon: <Palette />,
+      icon: <Cpu />,
       skills: [
-        { name: 'Figma / Adobe Suite', level: 90, icon: <Palette /> },
-        { name: 'Blender / Spline', level: 75, icon: <Layers /> },
-        { name: 'Git & GitHub', level: 92, icon: <GitBranch /> },
-        { name: 'Webpack / Vite', level: 85, icon: <Terminal /> },
-        { name: 'UI/UX Principles', level: 88, icon: <Sparkles /> }
+        { name: 'C++ / Java', level: 85, icon: <Cpu /> },
+        { name: 'Python', level: 87, icon: <Code /> },
+        { name: 'Git & GitHub', level: 90, icon: <GitBranch /> },
+        { name: 'DSA', level: 88, icon: <Layers /> },
+        { name: 'Software Testing', level: 75, icon: <TestTube /> }
       ]
     }
   };
@@ -124,7 +124,7 @@ export default function Skills() {
                   letterSpacing: '2px',
                   color: '#00f6ff'
                 }}>
-                  TECHNICAL MASTERY
+                  TECHNICAL EXPERTISE
                 </span>
               </div>
             </SlideInLeft>
@@ -136,7 +136,7 @@ export default function Skills() {
                 lineHeight: '1.1',
                 marginBottom: '20px'
               }}>
-                Skills & <span className="gradient-text">Expertise</span>
+                Skills & <span className="gradient-text">Proficiency</span>
               </h2>
             </SlideInLeft>
 
@@ -148,7 +148,7 @@ export default function Skills() {
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>
-                Mastery across the full spectrum of modern web development
+                Full-stack development expertise with focus on scalable web applications
               </p>
             </SlideInLeft>
           </div>
@@ -291,7 +291,7 @@ export default function Skills() {
                       {categories[activeCategory].title}
                     </h3>
                     <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                      Expertise in modern web technologies
+                      Hands-on experience with modern web technologies
                     </p>
                   </div>
                 </div>
@@ -419,7 +419,7 @@ export default function Skills() {
                 gap: '15px'
               }}>
                 <TrendingUp style={{ color: '#00f6ff' }} />
-                <span className="gradient-text">Tech Stack</span> I Work With
+                <span className="gradient-text">Technology Stack</span>
               </h3>
               
               <div style={{
@@ -431,9 +431,9 @@ export default function Skills() {
                 margin: '0 auto'
               }}>
                 {[
-                  'React', 'Three.js', 'TypeScript', 'Next.js', 'Node.js',
-                  'WebGL', 'GSAP', 'Framer Motion', 'Tailwind', 'MongoDB',
-                  'AWS', 'Docker', 'GraphQL', 'Redis', 'WebSockets'
+                  'React.js', 'Node.js', 'Express.js', 'JavaScript', 'Python',
+                  'MongoDB', 'Django REST', 'HTML5', 'CSS3', 'Git',
+                  'Postman', 'Google Maps API', 'Socket.IO', 'JWT', 'PHP'
                 ].map((tech, i) => (
                   <motion.span
                     key={tech}

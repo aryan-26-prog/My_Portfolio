@@ -1,7 +1,7 @@
 // src/sections/Hero.jsx
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, Sparkles, Code, Zap, Mouse, Briefcase, Target } from 'lucide-react';
+import { ChevronDown, Sparkles, Code, Zap, Mail, Phone, MapPin, Award, ExternalLink, GraduationCap, Briefcase } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInUp, ScaleIn } from '../components/Animations';
 
 export default function Hero() {
@@ -14,6 +14,22 @@ export default function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+
+  // Contact Info based on resume
+  const contactInfo = [
+    { icon: <Mail size={18} />, text: 'aryandhiman2605@gmail.com', href: 'mailto:aryandhiman2605@gmail.com' },
+    { icon: <Phone size={18} />, text: '+91 9805297267', href: 'tel:+919805297267' },
+    { icon: <MapPin size={18} />, text: 'Mohali, Punjab', href: '#' },
+    { icon: <GraduationCap size={18} />, text: 'CGC Jhanjeri | CGPA: 9.15', href: '#' }
+  ];
+
+  // Tech Stack
+  const techStack = [
+    { icon: <Code />, label: 'React.js', color: '#00f6ff' },
+    { icon: <Briefcase />, label: 'Node.js', color: '#7f5cff' },
+    { icon: <Sparkles />, label: 'MongoDB', color: '#ff2e63' },
+    { icon: <Zap />, label: 'Python', color: '#00f6ff' }
+  ];
 
   // Create floating particles
   useEffect(() => {
@@ -83,13 +99,14 @@ export default function Hero() {
         zIndex: 2,
         height: '100vh',
         display: 'flex',
-        alignItems: 'center',
-        padding: '0 5%',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '0 10%',
         maxWidth: '1400px',
         margin: '0 auto'
       }}>
         <StaggerContainer delay={0.2}>
-          <div style={{ maxWidth: '800px' }}>
+          <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             {/* Badge */}
             <SlideInLeft delay={0.2}>
               <motion.div
@@ -100,8 +117,10 @@ export default function Hero() {
                   alignItems: 'center',
                   gap: '12px',
                   padding: '12px 24px',
-                  marginBottom: '40px',
-                  borderRadius: '50px'
+                  marginBottom: '30px',
+                  borderRadius: '50px',
+                  background: 'rgba(0, 246, 255, 0.1)',
+                  border: '1px solid rgba(0, 246, 255, 0.2)'
                 }}
               >
                 <motion.div
@@ -123,86 +142,149 @@ export default function Hero() {
                   backgroundClip: 'text',
                   color: 'transparent'
                 }}>
-                  CSE UNDERGRAD | FULL-STACK DEVELOPER
+                  COMPUTER SCIENCE ENGINEERING STUDENT
                 </span>
               </motion.div>
             </SlideInLeft>
 
             {/* Main Heading */}
-            <SlideInLeft delay={0.4}>
+            <SlideInLeft delay={0.3}>
               <h1 style={{
-                fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
+                fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
                 fontWeight: '800',
                 lineHeight: '1.1',
-                marginBottom: '30px'
+                marginBottom: '20px'
               }}>
-                <span className="gradient-text" style={{ display: 'block' }}>
-                  Aryan Dhiman
+                <span style={{ 
+                  color: '#fff',
+                  display: 'block',
+                  marginBottom: '10px'
+                }}>
+                  Hi, I'm <span className="gradient-text">Aryan Dhiman</span>
                 </span>
                 <motion.span
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1, duration: 0.8 }}
+                  transition={{ delay: 0.8, duration: 0.8 }}
                   style={{ 
-                    color: '#fff',
+                    color: 'rgba(255, 255, 255, 0.9)',
                     display: 'block',
-                    position: 'relative'
+                    fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                    fontWeight: '600'
                   }}
                 >
-                  Software Engineering
-                  <motion.div
-                    animate={{ width: ['0%', '100%', '0%'] }}
-                    transition={{ 
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: 1.5 
-                    }}
-                    style={{
-                      position: 'absolute',
-                      bottom: '-10px',
-                      left: 0,
-                      height: '4px',
-                      background: 'linear-gradient(90deg, transparent, #00f6ff, transparent)',
-                      borderRadius: '2px'
-                    }}
-                  />
+                  Full-Stack Developer | CSE Undergrad
                 </motion.span>
               </h1>
             </SlideInLeft>
 
             {/* Description */}
-            <SlideInLeft delay={0.6}>
+            <SlideInLeft delay={0.4}>
               <p style={{
-                fontSize: '1.3rem',
+                fontSize: '1.2rem',
                 color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: '600px',
+                maxWidth: '800px',
                 lineHeight: '1.7',
-                marginBottom: '50px'
+                marginBottom: '30px'
               }}>
-                Passionate about <strong style={{ color: '#00f6ff' }}>designing, developing, and testing 
-                scalable web applications</strong>. Actively seeking a Software Engineering 
-                Internship to learn, grow, and contribute to impactful engineering solutions.
+                Passionate Computer Science Engineering student with expertise in 
+                <strong style={{ color: '#00f6ff' }}> designing, developing, and testing scalable web applications</strong>. 
+                Currently pursuing B.Tech at CGC Jhanjeri with <strong style={{ color: '#7f5cff' }}>CGPA 9.15</strong>. 
+                Actively seeking Software Engineering Internship opportunities.
               </p>
             </SlideInLeft>
 
-            {/* Buttons */}
+            {/* Contact Info Grid */}
+            <SlideInUp delay={0.5}>
+              <div style={{ 
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '15px',
+                marginBottom: '40px'
+              }}>
+                {contactInfo.map((info, index) => (
+                  <motion.a
+                    key={index}
+                    href={info.href}
+                    className="glass"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + index * 0.1 }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      borderColor: 'rgba(0, 246, 255, 0.4)'
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '15px',
+                      padding: '15px 20px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      textDecoration: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <motion.div
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.5 }}
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(127, 92, 255, 0.1))',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#00f6ff'
+                      }}
+                    >
+                      {info.icon}
+                    </motion.div>
+                    <div>
+                      <div style={{ 
+                        fontSize: '0.9rem',
+                        color: 'rgba(255, 255, 255, 0.6)',
+                        marginBottom: '2px'
+                      }}>
+                        {info.text}
+                      </div>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </SlideInUp>
+
+            {/* CTA Buttons */}
             <SlideInUp delay={0.8}>
-              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '50px' }}>
                 <motion.a
                   href="#projects"
                   className="btn btn-primary"
                   whileHover={{ 
                     scale: 1.05,
-                    transition: { type: "spring", stiffness: 400 }
+                    boxShadow: '0 10px 30px rgba(0, 246, 255, 0.3)'
                   }}
                   whileTap={{ scale: 0.95 }}
                   style={{
-                    animation: 'pulse 2s infinite'
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '15px 30px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #00f6ff, #7f5cff)',
+                    color: '#000',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    border: 'none',
+                    cursor: 'pointer'
                   }}
                 >
-                  <span>View Projects</span>
+                  <span>View My Projects</span>
                   <motion.div
-                    animate={{ x: [0, 5, 0] }}
+                    animate={{ y: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
                     <ChevronDown size={20} />
@@ -212,92 +294,168 @@ export default function Hero() {
                 <motion.a
                   href="#contact"
                   className="btn btn-secondary"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    borderColor: 'rgba(0, 246, 255, 0.6)'
+                  }}
                   whileTap={{ scale: 0.95 }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '15px 30px',
+                    borderRadius: '12px',
+                    background: 'transparent',
+                    color: '#fff',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    cursor: 'pointer'
+                  }}
                 >
                   <span>Contact Me</span>
+                  <ExternalLink size={18} />
+                </motion.a>
+
+                <motion.a
+                  href="#achievements"
+                  className="btn btn-tertiary"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '15px 30px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 46, 99, 0.1)',
+                    color: '#ff2e63',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    border: '1px solid rgba(255, 46, 99, 0.3)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Award size={18} />
+                  <span>Achievements</span>
                 </motion.a>
               </div>
             </SlideInUp>
 
             {/* Tech Stack */}
             <SlideInUp delay={1}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
-                style={{
-                  display: 'flex',
-                  gap: '30px',
-                  marginTop: '80px',
-                  flexWrap: 'wrap'
-                }}
-              >
-                {[
-                  { icon: <Code />, label: 'React.js', color: '#00f6ff' },
-                  { icon: <Briefcase />, label: 'Node.js', color: '#7f5cff' },
-                  { icon: <Target />, label: 'MongoDB', color: '#ff2e63' }
-                ].map((tech, i) => (
-                  <motion.div
-                    key={tech.label}
-                    className="glass card-3d"
-                    whileHover={{ 
-                      y: -20,
-                      rotateY: 10,
-                      transition: { type: "spring", stiffness: 300 }
-                    }}
-                    animate={{ 
-                      y: [0, -10, 0],
-                      rotateY: [0, 5, 0]
-                    }}
-                    transition={{
-                      duration: 3,
-                      delay: i * 0.3,
-                      repeat: Infinity,
-                      repeatType: "reverse"
-                    }}
-                    style={{
-                      padding: '25px',
-                      borderRadius: '20px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '15px',
-                      minWidth: '140px',
-                      cursor: 'pointer'
-                    }}
-                  >
+              <div style={{ marginTop: '30px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '15px',
+                  marginBottom: '20px'
+                }}>
+                  <div style={{
+                    height: '2px',
+                    flex: 1,
+                    background: 'linear-gradient(90deg, #00f6ff, transparent)',
+                    borderRadius: '1px'
+                  }} />
+                  <span style={{
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    color: 'rgba(255, 255, 255, 0.6)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    TECHNICAL EXPERTISE
+                  </span>
+                  <div style={{
+                    height: '2px',
+                    flex: 1,
+                    background: 'linear-gradient(90deg, transparent, #7f5cff)',
+                    borderRadius: '1px'
+                  }} />
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1, duration: 0.8 }}
+                  style={{
+                    display: 'flex',
+                    gap: '20px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  {techStack.map((tech, i) => (
                     <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ 
-                        duration: 20, 
-                        repeat: Infinity, 
-                        ease: "linear",
-                        delay: i * 2 
+                      key={tech.label}
+                      className="glass card-3d"
+                      whileHover={{ 
+                        y: -10,
+                        scale: 1.05,
+                        boxShadow: `0 15px 30px ${tech.color}33`
+                      }}
+                      animate={{ 
+                        y: [0, -5, 0],
+                      }}
+                      transition={{
+                        duration: 3,
+                        delay: i * 0.2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
                       }}
                       style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        background: `linear-gradient(135deg, ${tech.color}22, ${tech.color}44)`,
+                        padding: '20px',
+                        borderRadius: '15px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '2rem',
-                        color: tech.color
+                        gap: '15px',
+                        minWidth: '180px',
+                        cursor: 'pointer',
+                        border: `1px solid ${tech.color}22`,
+                        background: `linear-gradient(135deg, ${tech.color}11, ${tech.color}05)`
                       }}
                     >
-                      {tech.icon}
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ 
+                          duration: 20, 
+                          repeat: Infinity, 
+                          ease: "linear"
+                        }}
+                        style={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '12px',
+                          background: `linear-gradient(135deg, ${tech.color}22, ${tech.color}44)`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1.5rem',
+                          color: tech.color
+                        }}
+                      >
+                        {tech.icon}
+                      </motion.div>
+                      <div>
+                        <div style={{ 
+                          fontWeight: '600',
+                          fontSize: '1rem',
+                          color: '#fff',
+                          marginBottom: '4px'
+                        }}>
+                          {tech.label}
+                        </div>
+                        <div style={{ 
+                          fontSize: '0.8rem',
+                          color: 'rgba(255, 255, 255, 0.5)'
+                        }}>
+                          Advanced
+                        </div>
+                      </div>
                     </motion.div>
-                    <span style={{ 
-                      fontWeight: '600',
-                      fontSize: '1.1rem'
-                    }}>
-                      {tech.label}
-                    </span>
-                  </motion.div>
-                ))}
-              </motion.div>
+                  ))}
+                </motion.div>
+              </div>
             </SlideInUp>
           </div>
         </StaggerContainer>
