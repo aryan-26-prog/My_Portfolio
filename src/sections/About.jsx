@@ -14,6 +14,7 @@ import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../compon
 export default function About() {
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [expandedCard, setExpandedCard] = useState(null);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -33,6 +34,12 @@ export default function About() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Toggle card expansion on mobile
+  const toggleCard = (id) => {
+    if (!isMobile) return;
+    setExpandedCard(expandedCard === id ? null : id);
+  };
 
   // Academic stats from resume
   const academicStats = [
@@ -381,7 +388,7 @@ export default function About() {
             marginBottom: 'clamp(40px, 8vw, 80px)'
           }}>
             
-            {/* Industry Experience - Always Visible */}
+            {/* Industry Experience - Outer Container Always Visible */}
             <SlideInLeft delay={0.8}>
               <div className="glass" style={{ 
                 padding: isMobile ? 'clamp(20px, 4vw, 25px)' : 'clamp(30px, 5vw, 40px)',
@@ -409,166 +416,235 @@ export default function About() {
                   gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
                   gap: 'clamp(20px, 3vw, 25px)'
                 }}>
-                  {industryExperience.map((exp, index) => (
-                    <motion.div
-                      key={exp.company}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
-                      whileHover={isMobile ? {} : { 
-                        y: -8, 
-                        transition: { type: "spring", stiffness: 300 } 
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      className="glass"
-                      style={{
-                        padding: 'clamp(20px, 3vw, 25px)',
-                        background: `linear-gradient(135deg, ${exp.color}11, ${exp.color}05)`,
-                        border: `1px solid ${exp.color}22`,
-                        borderRadius: 'clamp(12px, 2vw, 16px)',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        backdropFilter: 'blur(10px)'
-                      }}
-                    >
-                      {/* Company Header */}
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'flex-start',
-                        gap: 'clamp(12px, 2vw, 15px)',
-                        marginBottom: 'clamp(15px, 3vw, 20px)'
-                      }}>
-                        <div style={{
-                          width: 'clamp(40px, 8vw, 50px)',
-                          height: 'clamp(40px, 8vw, 50px)',
-                          borderRadius: 'clamp(8px, 2vw, 12px)',
-                          background: `linear-gradient(135deg, ${exp.color}22, ${exp.color}44)`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-                          color: exp.color,
-                          flexShrink: 0
-                        }}>
-                          {exp.icon}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <h4 style={{ 
-                            fontSize: 'clamp(1rem, 3vw, 1.3rem)', 
-                            fontWeight: '700',
-                            color: '#fff',
-                            marginBottom: 'clamp(3px, 1vw, 5px)',
-                            lineHeight: '1.2',
-                            wordBreak: 'break-word'
-                          }}>
-                            {exp.company}
-                          </h4>
-                          <div style={{ 
-                            fontSize: 'clamp(0.85rem, 2.5vw, 1rem)', 
-                            color: exp.color,
-                            fontWeight: '600',
-                            marginBottom: 'clamp(3px, 1vw, 5px)',
-                            wordBreak: 'break-word'
-                          }}>
-                            {exp.role}
-                          </div>
-                          <div style={{ 
-                            fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', 
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            flexWrap: 'wrap'
-                          }}>
-                            <Calendar size={isMobile ? 12 : 14} />
-                            {exp.period}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Achievements */}
-                      <div style={{ 
-                        marginBottom: 'clamp(15px, 3vw, 20px)'
-                      }}>
-                        <h5 style={{ 
-                          fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', 
-                          color: 'rgba(255, 255, 255, 0.9)',
-                          marginBottom: 'clamp(10px, 2vw, 12px)',
-                          fontWeight: '600'
-                        }}>
-                          Key Contributions:
-                        </h5>
-                        <ul style={{ 
-                          paddingLeft: 'clamp(16px, 3vw, 20px)',
-                          margin: 0
-                        }}>
-                          {exp.achievements.map((achievement, i) => (
-                            <motion.li
-                              key={i}
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 1 + index * 0.1 + i * 0.05 }}
-                              style={{
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
-                                lineHeight: '1.5',
-                                marginBottom: 'clamp(8px, 1.5vw, 10px)',
-                                listStyleType: 'none',
-                                position: 'relative',
-                                wordBreak: 'break-word'
-                              }}
-                            >
-                              <div style={{
-                                position: 'absolute',
-                                left: '-12px',
-                                top: '8px',
-                                width: '5px',
-                                height: '5px',
-                                borderRadius: '50%',
-                                background: exp.color
-                              }} />
-                              {achievement}
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Tech Stack */}
-                      <div>
+                  {industryExperience.map((exp, index) => {
+                    const isExpanded = expandedCard === exp.id;
+                    
+                    return (
+                      <motion.div
+                        key={exp.company}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                        whileHover={isMobile ? {} : { 
+                          y: -8, 
+                          transition: { type: "spring", stiffness: 300 } 
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        className="glass"
+                        onClick={() => toggleCard(exp.id)}
+                        style={{
+                          padding: 'clamp(20px, 3vw, 25px)',
+                          background: `linear-gradient(135deg, ${exp.color}11, ${exp.color}05)`,
+                          border: `1px solid ${exp.color}22`,
+                          borderRadius: 'clamp(12px, 2vw, 16px)',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          backdropFilter: 'blur(10px)',
+                          cursor: isMobile ? 'pointer' : 'default'
+                        }}
+                      >
+                        {/* Company Header with Expand/Collapse Indicator */}
                         <div style={{ 
                           display: 'flex', 
-                          flexWrap: 'wrap',
-                          gap: 'clamp(6px, 1.5vw, 8px)'
+                          alignItems: 'flex-start',
+                          gap: 'clamp(12px, 2vw, 15px)',
+                          marginBottom: isMobile && !isExpanded ? 0 : 'clamp(15px, 3vw, 20px)'
                         }}>
-                          {exp.tech.map((tech, i) => (
-                            <motion.span
-                              key={tech}
-                              initial={{ opacity: 0, scale: 0 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 1.2 + index * 0.1 + i * 0.05 }}
-                              whileHover={isMobile ? {} : { scale: 1.1, y: -2 }}
-                              whileTap={{ scale: 0.95 }}
-                              style={{
-                                padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
-                                background: `rgba(${parseInt(exp.color.slice(1, 3), 16)}, ${parseInt(exp.color.slice(3, 5), 16)}, ${parseInt(exp.color.slice(5, 7), 16)}, 0.15)`,
-                                border: `1px solid ${exp.color}33`,
-                                borderRadius: '20px',
-                                fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
-                                color: exp.color,
-                                fontWeight: '500',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
+                          <div style={{
+                            width: 'clamp(40px, 8vw, 50px)',
+                            height: 'clamp(40px, 8vw, 50px)',
+                            borderRadius: 'clamp(8px, 2vw, 12px)',
+                            background: `linear-gradient(135deg, ${exp.color}22, ${exp.color}44)`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 'clamp(1rem, 3vw, 1.5rem)',
+                            color: exp.color,
+                            flexShrink: 0
+                          }}>
+                            {exp.icon}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              gap: '10px'
+                            }}>
+                              <h4 style={{ 
+                                fontSize: 'clamp(1rem, 3vw, 1.3rem)', 
+                                fontWeight: '700',
+                                color: '#fff',
+                                marginBottom: 'clamp(3px, 1vw, 5px)',
+                                lineHeight: '1.2',
+                                wordBreak: 'break-word',
+                                flex: 1
+                              }}>
+                                {exp.company}
+                              </h4>
+                              {isMobile && (
+                                <motion.div
+                                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  style={{
+                                    color: exp.color,
+                                    fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+                                    flexShrink: 0
+                                  }}
+                                >
+                                  <ChevronDown />
+                                </motion.div>
+                              )}
+                            </div>
+                            <div style={{ 
+                              fontSize: 'clamp(0.85rem, 2.5vw, 1rem)', 
+                              color: exp.color,
+                              fontWeight: '600',
+                              marginBottom: 'clamp(3px, 1vw, 5px)',
+                              wordBreak: 'break-word'
+                            }}>
+                              {exp.role}
+                            </div>
+                            <div style={{ 
+                              fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', 
+                              color: 'rgba(255, 255, 255, 0.6)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                              flexWrap: 'wrap'
+                            }}>
+                              <Calendar size={isMobile ? 12 : 14} />
+                              {exp.period}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+
+                        {/* Collapsible Content */}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            height: isMobile && !isExpanded ? 0 : 'auto',
+                            opacity: isMobile && !isExpanded ? 0 : 1
+                          }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          style={{
+                            overflow: 'hidden'
+                          }}
+                        >
+                          {/* Achievements - Visible only when expanded on mobile */}
+                          <div style={{ 
+                            marginBottom: 'clamp(15px, 3vw, 20px)'
+                          }}>
+                            <h5 style={{ 
+                              fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', 
+                              color: 'rgba(255, 255, 255, 0.9)',
+                              marginBottom: 'clamp(10px, 2vw, 12px)',
+                              fontWeight: '600'
+                            }}>
+                              Key Contributions:
+                            </h5>
+                            <ul style={{ 
+                              paddingLeft: 'clamp(16px, 3vw, 20px)',
+                              margin: 0
+                            }}>
+                              {exp.achievements.map((achievement, i) => (
+                                <motion.li
+                                  key={i}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  viewport={{ once: true }}
+                                  transition={{ delay: 1 + index * 0.1 + i * 0.05 }}
+                                  style={{
+                                    color: 'rgba(255, 255, 255, 0.7)',
+                                    fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                                    lineHeight: '1.5',
+                                    marginBottom: 'clamp(8px, 1.5vw, 10px)',
+                                    listStyleType: 'none',
+                                    position: 'relative',
+                                    wordBreak: 'break-word'
+                                  }}
+                                >
+                                  <div style={{
+                                    position: 'absolute',
+                                    left: '-12px',
+                                    top: '8px',
+                                    width: '5px',
+                                    height: '5px',
+                                    borderRadius: '50%',
+                                    background: exp.color
+                                  }} />
+                                  {achievement}
+                                </motion.li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Tech Stack - Visible only when expanded on mobile */}
+                          <div>
+                            <div style={{ 
+                              display: 'flex', 
+                              flexWrap: 'wrap',
+                              gap: 'clamp(6px, 1.5vw, 8px)'
+                            }}>
+                              {exp.tech.map((tech, i) => (
+                                <motion.span
+                                  key={tech}
+                                  initial={{ opacity: 0, scale: 0 }}
+                                  whileInView={{ opacity: 1, scale: 1 }}
+                                  viewport={{ once: true }}
+                                  transition={{ delay: 1.2 + index * 0.1 + i * 0.05 }}
+                                  whileHover={isMobile ? {} : { scale: 1.1, y: -2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  style={{
+                                    padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
+                                    background: `rgba(${parseInt(exp.color.slice(1, 3), 16)}, ${parseInt(exp.color.slice(3, 5), 16)}, ${parseInt(exp.color.slice(5, 7), 16)}, 0.15)`,
+                                    border: `1px solid ${exp.color}33`,
+                                    borderRadius: '20px',
+                                    fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                                    color: exp.color,
+                                    fontWeight: '500',
+                                    whiteSpace: 'nowrap'
+                                  }}
+                                >
+                                  {tech}
+                                </motion.span>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+
+                        {/* Mobile Expand/Collapse Instruction */}
+                        {isMobile && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginTop: '15px',
+                            color: exp.color,
+                            fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                            gap: '5px',
+                            padding: '8px',
+                            background: `${exp.color}10`,
+                            borderRadius: '8px',
+                            border: `1px solid ${exp.color}20`
+                          }}>
+                            {isExpanded ? (
+                              <>
+                                <ChevronUp size={12} />
+                                <span>Tap to collapse</span>
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown size={12} />
+                                <span>Tap to expand</span>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             </SlideInLeft>
@@ -871,9 +947,14 @@ export default function About() {
             -webkit-overflow-scrolling: touch;
           }
           
-          /* Ensure proper spacing on mobile */
-          .experience-card {
-            margin-bottom: 15px;
+          /* Smooth expand/collapse */
+          .experience-card-content {
+            transition: all 0.3s ease;
+          }
+          
+          /* Remove cursor on desktop when not mobile */
+          .experience-card:not(.mobile) {
+            cursor: default;
           }
         }
         
