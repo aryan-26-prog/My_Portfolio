@@ -10,12 +10,10 @@
   <div align="center">
     <h1>🚀 Aryan Dhiman — Interactive 3D Portfolio</h1>
     <p><i>A modern, immersive portfolio built with cutting-edge web technologies</i></p>
-
     <img src="https://img.shields.io/badge/🚀-Interactive%20Portfolio-blueviolet?style=for-the-badge" />
     <img src="https://img.shields.io/badge/React-Three.js-Framer%20Motion-ff69b4?style=for-the-badge" />
     <img src="https://img.shields.io/badge/✅-Live%20%26%20Deployed-success?style=for-the-badge" />
     <br/><br/>
-
     <a href="https://your-live-site-link.com">
       <img src="https://img.shields.io/badge/LIVE_DEMO-🌐_Visit_Site-blue?style=for-the-badge&logo=vercel" />
     </a>
