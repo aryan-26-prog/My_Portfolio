@@ -1,13 +1,10 @@
 // src/sections/About.jsx
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { 
   Target, Award, Book, GraduationCap, Briefcase,
-  Code, Database, Cpu, Globe, Users, Clock, CheckCircle,
-  Layers, Brain, Sparkles, Zap, Shield, Trophy, Calendar,
-  Heart, MapPin, School, Users as TeamIcon, Star, BookOpen,
-  Building, Rocket, TrendingUp, PieChart, Settings, ExternalLink,
-  ChevronDown, ChevronUp, Smartphone, Tablet, Monitor
+  Code, Users, Sparkles, Zap, Shield, Trophy, Calendar,
+  Brain, Building, Rocket, TrendingUp, BookOpen
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../components/Animations';
 
@@ -31,22 +28,29 @@ export default function About() {
     };
     
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const resizeHandler = () => {
+      checkMobile();
+      if (window.innerWidth > 768) {
+        setExpandedCard(null); // Reset expanded state on desktop
+      }
+    };
+    
+    window.addEventListener('resize', resizeHandler);
+    return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  // Toggle card expansion on mobile
-  const toggleCard = (id) => {
+  // Optimized toggle function
+  const toggleCard = useCallback((id) => {
     if (!isMobile) return;
-    setExpandedCard(expandedCard === id ? null : id);
-  };
+    setExpandedCard(prev => prev === id ? null : id);
+  }, [isMobile]);
 
   // Academic stats from resume
   const academicStats = [
-    { value: '9.15', label: 'Current CGPA', icon: <GraduationCap />, color: '#00f6ff', desc: 'B.Tech CSE, 2nd Year' },
-    { value: '100%', label: 'Class X Score', icon: <Award />, color: '#7f5cff', desc: 'HPBOSE Board' },
-    { value: '93.6%', label: 'Class XII Score', icon: <Book />, color: '#ff2e63', desc: 'HPBOSE Board' },
-    { value: '5+', label: 'Major Projects', icon: <Rocket />, color: '#00f6ff', desc: 'Full-Stack Apps' }
+    { value: '9.15', label: 'Current CGPA', icon: GraduationCap, color: '#00f6ff', desc: 'B.Tech CSE, 2nd Year' },
+    { value: '100%', label: 'Class X Score', icon: Award, color: '#7f5cff', desc: 'HPBOSE Board' },
+    { value: '93.6%', label: 'Class XII Score', icon: Book, color: '#ff2e63', desc: 'HPBOSE Board' },
+    { value: '5+', label: 'Major Projects', icon: Rocket, color: '#00f6ff', desc: 'Full-Stack Apps' }
   ];
 
   // Industry Experience
@@ -63,7 +67,7 @@ export default function About() {
       ],
       tech: ['React.js', 'HTML5', 'CSS3', 'JavaScript'],
       color: '#00f6ff',
-      icon: <Code />
+      icon: Code
     },
     {
       id: 2,
@@ -77,7 +81,7 @@ export default function About() {
       ],
       tech: ['Leadership', 'Event Management', 'Team Coordination'],
       color: '#ff2e63',
-      icon: <TrendingUp />
+      icon: TrendingUp
     },
     {
       id: 3,
@@ -91,7 +95,7 @@ export default function About() {
       ],
       tech: ['Team Collaboration', 'Technical Planning', 'Development'],
       color: '#7f5cff',
-      icon: <Users />
+      icon: Users
     }
   ];
 
@@ -100,28 +104,31 @@ export default function About() {
     {
       title: 'Real-World Impact',
       description: 'Building projects that address actual societal and environmental challenges',
-      icon: <Target />,
+      icon: Target,
       color: '#00f6ff'
     },
     {
       title: 'Software Engineering Best Practices',
       description: 'Follow clean code principles and maintainable architecture for scalable applications',
-      icon: <Shield />,
+      icon: Shield,
       color: '#7f5cff'
     },
     {
       title: 'Team Collaboration',
       description: 'Experience in agile development and team-based project environments',
-      icon: <Users />,
+      icon: Users,
       color: '#ff2e63'
     },
     {
       title: 'Performance Optimization',
       description: 'Focus on optimized components and responsive design for better user experience',
-      icon: <Zap />,
+      icon: Zap,
       color: '#00f6ff'
     }
   ];
+
+  // Pre-calculated values for performance
+  const clamp = (min, vw, max) => `clamp(${min}px, ${vw}vw, ${max}px)`;
 
   return (
     <section 
@@ -130,12 +137,12 @@ export default function About() {
       className="about-section"
       style={{ 
         minHeight: '100vh',
-        padding: 'clamp(60px, 8vw, 120px) clamp(20px, 5vw, 10%)',
+        padding: `${clamp(60, 8, 120)} ${clamp(20, 5, 100)}`,
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Parallax Background (Mobile Optimized) */}
+      {/* Parallax Background */}
       <motion.div 
         style={{ y, opacity }}
         className="about-background"
@@ -144,8 +151,8 @@ export default function About() {
           position: 'absolute',
           top: '10%',
           left: '-10%',
-          width: 'clamp(200px, 80vw, 500px)',
-          height: 'clamp(200px, 80vw, 500px)',
+          width: clamp(200, 80, 500),
+          height: clamp(200, 80, 500),
           background: 'radial-gradient(circle, rgba(0, 246, 255, 0.08) 0%, transparent 70%)',
           filter: 'blur(40px)',
           borderRadius: '50%',
@@ -155,8 +162,8 @@ export default function About() {
           position: 'absolute',
           bottom: '10%',
           right: '-10%',
-          width: 'clamp(200px, 80vw, 500px)',
-          height: 'clamp(200px, 80vw, 500px)',
+          width: clamp(200, 80, 500),
+          height: clamp(200, 80, 500),
           background: 'radial-gradient(circle, rgba(127, 92, 255, 0.06) 0%, transparent 70%)',
           filter: 'blur(40px)',
           borderRadius: '50%',
@@ -174,7 +181,7 @@ export default function About() {
         <StaggerContainer delay={0.2}>
           {/* Section Header */}
           <div style={{ 
-            marginBottom: 'clamp(40px, 8vw, 80px)',
+            marginBottom: clamp(40, 8, 80),
             textAlign: isMobile ? 'center' : 'left'
           }}>
             <SlideInLeft>
@@ -185,11 +192,11 @@ export default function About() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '12px',
-                  padding: 'clamp(8px, 2vw, 12px) clamp(16px, 3vw, 24px)',
+                  padding: `${clamp(8, 2, 12)} ${clamp(16, 3, 24)}`,
                   background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '50px',
-                  marginBottom: 'clamp(20px, 4vw, 30px)',
+                  marginBottom: clamp(20, 4, 30),
                   backdropFilter: 'blur(10px)'
                 }}
               >
@@ -204,9 +211,9 @@ export default function About() {
                   }}
                 />
                 <span style={{
-                  fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
+                  fontSize: clamp(11.2, 2, 14.4),
                   fontWeight: '600',
-                  letterSpacing: 'clamp(1px, 0.5vw, 2px)',
+                  letterSpacing: clamp(1, 0.5, 2),
                   color: '#00f6ff',
                   whiteSpace: 'nowrap'
                 }}>
@@ -217,10 +224,10 @@ export default function About() {
 
             <SlideInLeft delay={0.2}>
               <h2 style={{
-                fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                fontSize: clamp(32, 6, 56),
                 fontWeight: '800',
                 lineHeight: '1.1',
-                marginBottom: 'clamp(15px, 3vw, 20px)',
+                marginBottom: clamp(15, 3, 20),
                 textAlign: isMobile ? 'center' : 'left'
               }}>
                 About <span style={{
@@ -234,11 +241,11 @@ export default function About() {
 
             <SlideInLeft delay={0.4}>
               <div style={{
-                fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+                fontSize: clamp(16, 3, 19.2),
                 color: 'rgba(255, 255, 255, 0.7)',
                 maxWidth: '800px',
                 lineHeight: '1.6',
-                marginBottom: 'clamp(15px, 3vw, 20px)',
+                marginBottom: clamp(15, 3, 20),
                 textAlign: isMobile ? 'center' : 'left',
                 margin: isMobile ? '0 auto' : '0'
               }}>
@@ -246,7 +253,7 @@ export default function About() {
                 experience in designing, developing, and testing scalable web applications.
               </div>
               <div style={{
-                fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
+                fontSize: clamp(14.4, 2.5, 17.6),
                 color: 'rgba(255, 255, 255, 0.6)',
                 maxWidth: '800px',
                 lineHeight: '1.6',
@@ -260,149 +267,149 @@ export default function About() {
             </SlideInLeft>
           </div>
 
-          {/* Academic & Project Stats Grid - Mobile Responsive */}
+          {/* Academic & Project Stats Grid */}
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: 'clamp(15px, 3vw, 25px)',
-            marginBottom: 'clamp(40px, 8vw, 80px)'
+            gap: clamp(15, 3, 25),
+            marginBottom: clamp(40, 8, 80)
           }}>
-            {academicStats.map((stat, i) => (
-              <FlipCard key={stat.label} delay={0.6 + i * 0.1}>
-                <motion.div
-                  className="glass"
-                  whileHover={{ 
-                    scale: isMobile ? 1.02 : 1.05,
-                    rotateY: isMobile ? 0 : 180
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{
-                    padding: 'clamp(20px, 4vw, 35px) clamp(15px, 3vw, 25px)',
-                    textAlign: 'center',
-                    height: '100%',
-                    cursor: 'pointer',
-                    borderRadius: 'clamp(15px, 3vw, 20px)',
-                    border: `1px solid ${stat.color}22`,
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    backdropFilter: 'blur(10px)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    minHeight: isMobile ? 'auto' : '200px'
-                  }}
-                >
-                  {/* Front of Card */}
+            {academicStats.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <FlipCard key={stat.label} delay={0.6 + i * 0.1}>
                   <motion.div
-                    style={{ position: 'relative', height: '100%' }}
+                    className="glass"
+                    whileHover={{ 
+                      scale: isMobile ? 1.02 : 1.05,
+                      rotateY: isMobile ? 0 : 180
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{
+                      padding: `${clamp(20, 4, 35)} ${clamp(15, 3, 25)}`,
+                      textAlign: 'center',
+                      height: '100%',
+                      borderRadius: clamp(15, 3, 20),
+                      border: `1px solid ${stat.color}22`,
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      backdropFilter: 'blur(10px)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      minHeight: isMobile ? 'auto' : '200px'
+                    }}
                   >
                     <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      style={{
-                        width: 'clamp(40px, 8vw, 60px)',
-                        height: 'clamp(40px, 8vw, 60px)',
-                        margin: '0 auto clamp(15px, 3vw, 20px)',
-                        borderRadius: '50%',
-                        background: `linear-gradient(135deg, ${stat.color}22, ${stat.color}44)`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 'clamp(1.2rem, 3vw, 1.8rem)',
-                        color: stat.color
-                      }}
+                      style={{ position: 'relative', height: '100%' }}
                     >
-                      {stat.icon}
-                    </motion.div>
-                    <div style={{
-                      fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
-                      fontWeight: '700',
-                      marginBottom: 'clamp(3px, 1vw, 5px)',
-                      background: `linear-gradient(90deg, ${stat.color}, ${stat.color}dd)`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      color: 'transparent',
-                      lineHeight: '1'
-                    }}>
-                      {stat.value}
-                    </div>
-                    <div style={{ 
-                      color: '#fff',
-                      fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
-                      fontWeight: '600',
-                      marginBottom: 'clamp(5px, 1vw, 8px)',
-                      lineHeight: '1.2'
-                    }}>
-                      {stat.label}
-                    </div>
-                    <div style={{ 
-                      color: 'rgba(255, 255, 255, 0.6)',
-                      fontSize: 'clamp(0.75rem, 2vw, 0.9rem)',
-                      lineHeight: '1.4'
-                    }}>
-                      {stat.desc}
-                    </div>
-                  </motion.div>
-
-                  {/* Back of Card (Desktop only) */}
-                  {!isMobile && (
-                    <motion.div
-                      initial={{ opacity: 0, rotateY: 180 }}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        padding: '25px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: `linear-gradient(135deg, ${stat.color}11, ${stat.color}22)`,
-                        borderRadius: '20px',
-                        backfaceVisibility: 'hidden'
-                      }}
-                    >
-                      <Sparkles style={{ 
-                        color: stat.color, 
-                        fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-                        marginBottom: '15px'
-                      }} />
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        style={{
+                          width: clamp(40, 8, 60),
+                          height: clamp(40, 8, 60),
+                          margin: `0 auto ${clamp(15, 3, 20)}`,
+                          borderRadius: '50%',
+                          background: `linear-gradient(135deg, ${stat.color}22, ${stat.color}44)`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: clamp(19.2, 3, 28.8),
+                          color: stat.color
+                        }}
+                      >
+                        <Icon />
+                      </motion.div>
                       <div style={{
+                        fontSize: clamp(28.8, 5, 40),
+                        fontWeight: '700',
+                        marginBottom: clamp(3, 1, 5),
+                        background: `linear-gradient(90deg, ${stat.color}, ${stat.color}dd)`,
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text',
+                        color: 'transparent',
+                        lineHeight: '1'
+                      }}>
+                        {stat.value}
+                      </div>
+                      <div style={{ 
                         color: '#fff',
-                        fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
+                        fontSize: clamp(14.4, 2.5, 17.6),
                         fontWeight: '600',
-                        textAlign: 'center',
+                        marginBottom: clamp(5, 1, 8),
                         lineHeight: '1.2'
                       }}>
-                        {stat.label.includes('CGPA') ? 'Academic Excellence' : 'Project Excellence'}
+                        {stat.label}
+                      </div>
+                      <div style={{ 
+                        color: 'rgba(255, 255, 255, 0.6)',
+                        fontSize: clamp(12, 2, 14.4),
+                        lineHeight: '1.4'
+                      }}>
+                        {stat.desc}
                       </div>
                     </motion.div>
-                  )}
-                </motion.div>
-              </FlipCard>
-            ))}
+
+                    {!isMobile && (
+                      <motion.div
+                        initial={{ opacity: 0, rotateY: 180 }}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          padding: '25px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: `linear-gradient(135deg, ${stat.color}11, ${stat.color}22)`,
+                          borderRadius: '20px',
+                          backfaceVisibility: 'hidden'
+                        }}
+                      >
+                        <Sparkles style={{ 
+                          color: stat.color, 
+                          fontSize: clamp(24, 4, 40),
+                          marginBottom: '15px'
+                        }} />
+                        <div style={{
+                          color: '#fff',
+                          fontSize: clamp(14.4, 2.5, 16),
+                          fontWeight: '600',
+                          textAlign: 'center',
+                          lineHeight: '1.2'
+                        }}>
+                          {stat.label.includes('CGPA') ? 'Academic Excellence' : 'Project Excellence'}
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                </FlipCard>
+              );
+            })}
           </div>
 
-          {/* Main Content Grid - Responsive */}
+          {/* Main Content Grid */}
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: isMobile ? '1fr' : '1fr',
-            gap: 'clamp(30px, 6vw, 60px)',
-            marginBottom: 'clamp(40px, 8vw, 80px)'
+            gap: clamp(30, 6, 60),
+            marginBottom: clamp(40, 8, 80)
           }}>
             
-            {/* Industry Experience - Outer Container Always Visible */}
+            {/* Industry Experience */}
             <SlideInLeft delay={0.8}>
               <div className="glass" style={{ 
-                padding: isMobile ? 'clamp(20px, 4vw, 25px)' : 'clamp(30px, 5vw, 40px)',
-                borderRadius: 'clamp(15px, 3vw, 20px)',
+                padding: isMobile ? clamp(20, 4, 25) : clamp(30, 5, 40),
+                borderRadius: clamp(15, 3, 20),
                 border: '1px solid rgba(0, 246, 255, 0.1)',
                 background: 'rgba(255, 255, 255, 0.02)',
                 backdropFilter: 'blur(10px)'
               }}>
                 <h3 style={{ 
-                  fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
-                  marginBottom: 'clamp(20px, 4vw, 30px)',
+                  fontSize: clamp(22.4, 4, 28.8),
+                  marginBottom: clamp(20, 4, 30),
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 'clamp(8px, 2vw, 12px)',
+                  gap: clamp(8, 2, 12),
                   color: '#fff',
                   justifyContent: isMobile ? 'center' : 'flex-start',
                   textAlign: isMobile ? 'center' : 'left'
@@ -414,69 +421,69 @@ export default function About() {
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: 'clamp(20px, 3vw, 25px)'
+                  gap: clamp(20, 3, 25)
                 }}>
                   {industryExperience.map((exp, index) => {
+                    const Icon = exp.icon;
                     const isExpanded = expandedCard === exp.id;
                     
                     return (
                       <motion.div
-                        key={exp.company}
+                        key={exp.id}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ delay: 0.9 + index * 0.1, duration: 0.4 }}
                         whileHover={isMobile ? {} : { 
                           y: -8, 
                           transition: { type: "spring", stiffness: 300 } 
                         }}
-                        whileTap={{ scale: 0.98 }}
                         className="glass"
                         onClick={() => toggleCard(exp.id)}
                         style={{
-                          padding: 'clamp(20px, 3vw, 25px)',
+                          padding: clamp(20, 3, 25),
                           background: `linear-gradient(135deg, ${exp.color}11, ${exp.color}05)`,
                           border: `1px solid ${exp.color}22`,
-                          borderRadius: 'clamp(12px, 2vw, 16px)',
+                          borderRadius: clamp(12, 2, 16),
                           position: 'relative',
                           overflow: 'hidden',
                           backdropFilter: 'blur(10px)',
                           cursor: isMobile ? 'pointer' : 'default'
                         }}
                       >
-                        {/* Company Header with Expand/Collapse Indicator */}
+                        {/* Company Header */}
                         <div style={{ 
                           display: 'flex', 
                           alignItems: 'flex-start',
-                          gap: 'clamp(12px, 2vw, 15px)',
-                          marginBottom: isMobile && !isExpanded ? 0 : 'clamp(15px, 3vw, 20px)'
+                          gap: clamp(12, 2, 15),
+                          marginBottom: isMobile && !isExpanded ? 0 : clamp(15, 3, 20)
                         }}>
                           <div style={{
-                            width: 'clamp(40px, 8vw, 50px)',
-                            height: 'clamp(40px, 8vw, 50px)',
-                            borderRadius: 'clamp(8px, 2vw, 12px)',
+                            width: clamp(40, 8, 50),
+                            height: clamp(40, 8, 50),
+                            borderRadius: clamp(8, 2, 12),
                             background: `linear-gradient(135deg, ${exp.color}22, ${exp.color}44)`,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: 'clamp(1rem, 3vw, 1.5rem)',
+                            fontSize: clamp(16, 3, 24),
                             color: exp.color,
                             flexShrink: 0
                           }}>
-                            {exp.icon}
+                            <Icon />
                           </div>
                           <div style={{ flex: 1 }}>
                             <div style={{
                               display: 'flex',
-                              alignItems: 'center',
+                              alignItems: 'flex-start',
                               justifyContent: 'space-between',
                               gap: '10px'
                             }}>
                               <h4 style={{ 
-                                fontSize: 'clamp(1rem, 3vw, 1.3rem)', 
+                                fontSize: clamp(16, 3, 20.8),
                                 fontWeight: '700',
                                 color: '#fff',
-                                marginBottom: 'clamp(3px, 1vw, 5px)',
+                                marginBottom: clamp(3, 1, 5),
                                 lineHeight: '1.2',
                                 wordBreak: 'break-word',
                                 flex: 1
@@ -486,28 +493,29 @@ export default function About() {
                               {isMobile && (
                                 <motion.div
                                   animate={{ rotate: isExpanded ? 180 : 0 }}
-                                  transition={{ duration: 0.3 }}
+                                  transition={{ duration: 0.2 }}
                                   style={{
                                     color: exp.color,
-                                    fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-                                    flexShrink: 0
+                                    fontSize: clamp(16, 3, 19.2),
+                                    flexShrink: 0,
+                                    marginTop: '2px'
                                   }}
                                 >
-                                  <ChevronDown />
+                                  ▼
                                 </motion.div>
                               )}
                             </div>
                             <div style={{ 
-                              fontSize: 'clamp(0.85rem, 2.5vw, 1rem)', 
+                              fontSize: clamp(13.6, 2.5, 16),
                               color: exp.color,
                               fontWeight: '600',
-                              marginBottom: 'clamp(3px, 1vw, 5px)',
+                              marginBottom: clamp(3, 1, 5),
                               wordBreak: 'break-word'
                             }}>
                               {exp.role}
                             </div>
                             <div style={{ 
-                              fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', 
+                              fontSize: clamp(12, 2, 13.6),
                               color: 'rgba(255, 255, 255, 0.6)',
                               display: 'flex',
                               alignItems: 'center',
@@ -520,32 +528,33 @@ export default function About() {
                           </div>
                         </div>
 
-                        {/* Collapsible Content */}
+                        {/* Collapsible Content with optimized animation */}
                         <motion.div
                           initial={false}
                           animate={{
                             height: isMobile && !isExpanded ? 0 : 'auto',
                             opacity: isMobile && !isExpanded ? 0 : 1
                           }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
                           style={{
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            willChange: 'height, opacity'
                           }}
                         >
-                          {/* Achievements - Visible only when expanded on mobile */}
+                          {/* Achievements */}
                           <div style={{ 
-                            marginBottom: 'clamp(15px, 3vw, 20px)'
+                            marginBottom: clamp(15, 3, 20)
                           }}>
                             <h5 style={{ 
-                              fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', 
+                              fontSize: clamp(14.4, 2.5, 16),
                               color: 'rgba(255, 255, 255, 0.9)',
-                              marginBottom: 'clamp(10px, 2vw, 12px)',
+                              marginBottom: clamp(10, 2, 12),
                               fontWeight: '600'
                             }}>
                               Key Contributions:
                             </h5>
                             <ul style={{ 
-                              paddingLeft: 'clamp(16px, 3vw, 20px)',
+                              paddingLeft: clamp(16, 3, 20),
                               margin: 0
                             }}>
                               {exp.achievements.map((achievement, i) => (
@@ -554,18 +563,18 @@ export default function About() {
                                   initial={{ opacity: 0, x: -10 }}
                                   whileInView={{ opacity: 1, x: 0 }}
                                   viewport={{ once: true }}
-                                  transition={{ delay: 1 + index * 0.1 + i * 0.05 }}
+                                  transition={{ delay: 1 + index * 0.1 + i * 0.03, duration: 0.3 }}
                                   style={{
                                     color: 'rgba(255, 255, 255, 0.7)',
-                                    fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                                    fontSize: clamp(12.8, 2.5, 14.4),
                                     lineHeight: '1.5',
-                                    marginBottom: 'clamp(8px, 1.5vw, 10px)',
+                                    marginBottom: clamp(8, 1.5, 10),
                                     listStyleType: 'none',
                                     position: 'relative',
                                     wordBreak: 'break-word'
                                   }}
                                 >
-                                  <div style={{
+                                  <span style={{
                                     position: 'absolute',
                                     left: '-12px',
                                     top: '8px',
@@ -580,12 +589,12 @@ export default function About() {
                             </ul>
                           </div>
 
-                          {/* Tech Stack - Visible only when expanded on mobile */}
+                          {/* Tech Stack */}
                           <div>
                             <div style={{ 
                               display: 'flex', 
                               flexWrap: 'wrap',
-                              gap: 'clamp(6px, 1.5vw, 8px)'
+                              gap: clamp(6, 1.5, 8)
                             }}>
                               {exp.tech.map((tech, i) => (
                                 <motion.span
@@ -593,15 +602,15 @@ export default function About() {
                                   initial={{ opacity: 0, scale: 0 }}
                                   whileInView={{ opacity: 1, scale: 1 }}
                                   viewport={{ once: true }}
-                                  transition={{ delay: 1.2 + index * 0.1 + i * 0.05 }}
+                                  transition={{ delay: 1.2 + index * 0.1 + i * 0.05, duration: 0.2 }}
                                   whileHover={isMobile ? {} : { scale: 1.1, y: -2 }}
                                   whileTap={{ scale: 0.95 }}
                                   style={{
-                                    padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
+                                    padding: `${clamp(5, 1, 7)} ${clamp(9, 2, 13)}`,
                                     background: `rgba(${parseInt(exp.color.slice(1, 3), 16)}, ${parseInt(exp.color.slice(3, 5), 16)}, ${parseInt(exp.color.slice(5, 7), 16)}, 0.15)`,
                                     border: `1px solid ${exp.color}33`,
                                     borderRadius: '20px',
-                                    fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                                    fontSize: clamp(11.2, 2, 12.8),
                                     color: exp.color,
                                     fontWeight: '500',
                                     whiteSpace: 'nowrap'
@@ -620,26 +629,16 @@ export default function About() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginTop: '15px',
+                            marginTop: '12px',
                             color: exp.color,
-                            fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                            fontSize: clamp(11.2, 2, 12.8),
                             gap: '5px',
-                            padding: '8px',
-                            background: `${exp.color}10`,
-                            borderRadius: '8px',
+                            padding: '6px',
+                            background: `${exp.color}08`,
+                            borderRadius: '6px',
                             border: `1px solid ${exp.color}20`
                           }}>
-                            {isExpanded ? (
-                              <>
-                                <ChevronUp size={12} />
-                                <span>Tap to collapse</span>
-                              </>
-                            ) : (
-                              <>
-                                <ChevronDown size={12} />
-                                <span>Tap to expand</span>
-                              </>
-                            )}
+                            {isExpanded ? 'Tap to collapse ▲' : 'Tap to expand ▼'}
                           </div>
                         )}
                       </motion.div>
@@ -649,29 +648,29 @@ export default function About() {
               </div>
             </SlideInLeft>
 
-            {/* Development Philosophy & Certifications - Stack on Mobile */}
+            {/* Development Philosophy & Certifications */}
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-              gap: 'clamp(25px, 4vw, 40px)'
+              gap: clamp(25, 4, 40)
             }}>
               
               {/* Development Philosophy */}
               <SlideInLeft delay={1}>
                 <div className="glass" style={{ 
-                  padding: 'clamp(25px, 4vw, 35px)',
-                  borderRadius: 'clamp(15px, 3vw, 20px)',
+                  padding: clamp(25, 4, 35),
+                  borderRadius: clamp(15, 3, 20),
                   border: '1px solid rgba(127, 92, 255, 0.1)',
                   background: 'rgba(255, 255, 255, 0.02)',
                   backdropFilter: 'blur(10px)',
                   height: isMobile ? 'auto' : '100%'
                 }}>
                   <h3 style={{ 
-                    fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
-                    marginBottom: 'clamp(20px, 4vw, 30px)',
+                    fontSize: clamp(22.4, 4, 28.8),
+                    marginBottom: clamp(20, 4, 30),
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'clamp(8px, 2vw, 12px)',
+                    gap: clamp(8, 2, 12),
                     color: '#fff',
                     justifyContent: isMobile ? 'center' : 'flex-start',
                     textAlign: isMobile ? 'center' : 'left'
@@ -683,96 +682,99 @@ export default function About() {
                   <div style={{ 
                     display: 'grid', 
                     gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
-                    gap: 'clamp(15px, 3vw, 25px)'
+                    gap: clamp(15, 3, 25)
                   }}>
-                    {developmentPhilosophy.map((item, i) => (
-                      <motion.div
-                        key={item.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 1.1 + i * 0.1, duration: 0.6 }}
-                        whileHover={isMobile ? {} : { scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        style={{
-                          display: 'flex',
-                          flexDirection: isMobile ? 'row' : 'column',
-                          gap: 'clamp(12px, 2vw, 15px)',
-                          alignItems: isMobile ? 'flex-start' : 'center',
-                          padding: 'clamp(15px, 3vw, 20px)',
-                          background: `linear-gradient(135deg, ${item.color}11, ${item.color}05)`,
-                          border: `1px solid ${item.color}22`,
-                          borderRadius: 'clamp(12px, 2vw, 16px)',
-                          textAlign: isMobile ? 'left' : 'center'
-                        }}
-                      >
+                    {developmentPhilosophy.map((item, i) => {
+                      const Icon = item.icon;
+                      return (
                         <motion.div
-                          whileHover={{ rotate: isMobile ? 0 : 360, scale: isMobile ? 1 : 1.1 }}
-                          transition={{ duration: 0.6 }}
+                          key={item.title}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 1.1 + i * 0.1, duration: 0.4 }}
+                          whileHover={isMobile ? {} : { scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
                           style={{
-                            width: 'clamp(40px, 8vw, 45px)',
-                            height: 'clamp(40px, 8vw, 45px)',
-                            borderRadius: 'clamp(8px, 2vw, 12px)',
-                            background: `linear-gradient(135deg, ${item.color}22, ${item.color}44)`,
                             display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
-                            color: item.color,
-                            fontSize: 'clamp(1rem, 3vw, 1.2rem)'
+                            flexDirection: isMobile ? 'row' : 'column',
+                            gap: clamp(12, 2, 15),
+                            alignItems: isMobile ? 'flex-start' : 'center',
+                            padding: clamp(15, 3, 20),
+                            background: `linear-gradient(135deg, ${item.color}11, ${item.color}05)`,
+                            border: `1px solid ${item.color}22`,
+                            borderRadius: clamp(12, 2, 16),
+                            textAlign: isMobile ? 'left' : 'center'
                           }}
                         >
-                          {item.icon}
+                          <motion.div
+                            whileHover={{ rotate: isMobile ? 0 : 360, scale: isMobile ? 1 : 1.1 }}
+                            transition={{ duration: 0.4 }}
+                            style={{
+                              width: clamp(40, 8, 45),
+                              height: clamp(40, 8, 45),
+                              borderRadius: clamp(8, 2, 12),
+                              background: `linear-gradient(135deg, ${item.color}22, ${item.color}44)`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                              color: item.color,
+                              fontSize: clamp(16, 3, 19.2)
+                            }}
+                          >
+                            <Icon />
+                          </motion.div>
+                          <div style={{ flex: 1 }}>
+                            <h4 style={{ 
+                              fontSize: clamp(15.2, 2.5, 17.6),
+                              fontWeight: '600',
+                              color: '#fff',
+                              marginBottom: clamp(5, 1, 8),
+                              lineHeight: '1.2',
+                              wordBreak: 'break-word'
+                            }}>
+                              {item.title}
+                            </h4>
+                            <p style={{ 
+                              color: 'rgba(255, 255, 255, 0.6)',
+                              fontSize: clamp(12.8, 2.5, 15.2),
+                              lineHeight: '1.5',
+                              margin: 0,
+                              wordBreak: 'break-word'
+                            }}>
+                              {item.description}
+                            </p>
+                          </div>
                         </motion.div>
-                        <div style={{ flex: 1 }}>
-                          <h4 style={{ 
-                            fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)', 
-                            fontWeight: '600',
-                            color: '#fff',
-                            marginBottom: 'clamp(5px, 1vw, 8px)',
-                            lineHeight: '1.2',
-                            wordBreak: 'break-word'
-                          }}>
-                            {item.title}
-                          </h4>
-                          <p style={{ 
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            fontSize: 'clamp(0.8rem, 2.5vw, 0.95rem)',
-                            lineHeight: '1.5',
-                            margin: 0,
-                            wordBreak: 'break-word'
-                          }}>
-                            {item.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </SlideInLeft>
 
-              {/* Certifications & Career Objective - Stack on Mobile */}
+              {/* Certifications & Career Objective */}
               <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column',
-                gap: 'clamp(25px, 4vw, 30px)'
+                gap: clamp(25, 4, 30)
               }}>
                 
                 {/* Certifications */}
                 <SlideInRight delay={1.2}>
                   <div className="glass" style={{ 
-                    padding: 'clamp(20px, 3vw, 25px)',
-                    borderRadius: 'clamp(15px, 3vw, 20px)',
+                    padding: clamp(20, 3, 25),
+                    borderRadius: clamp(15, 3, 20),
                     border: '1px solid rgba(0, 246, 255, 0.1)',
                     background: 'rgba(255, 255, 255, 0.02)',
                     backdropFilter: 'blur(10px)'
                   }}>
                     <h3 style={{ 
-                      fontSize: 'clamp(1.2rem, 3.5vw, 1.5rem)', 
-                      marginBottom: 'clamp(15px, 3vw, 20px)',
+                      fontSize: clamp(19.2, 3.5, 24),
+                      marginBottom: clamp(15, 3, 20),
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 'clamp(8px, 2vw, 12px)',
+                      gap: clamp(8, 2, 12),
                       color: '#fff',
                       justifyContent: isMobile ? 'center' : 'flex-start',
                       textAlign: isMobile ? 'center' : 'left'
@@ -783,74 +785,77 @@ export default function About() {
                     <div style={{ 
                       display: 'flex', 
                       flexDirection: 'column',
-                      gap: 'clamp(12px, 2vw, 15px)'
+                      gap: clamp(12, 2, 15)
                     }}>
                       {[
                         {
                           title: 'Technology Job Simulation',
                           issuer: 'Deloitte (Forage)',
-                          icon: <Briefcase />,
+                          icon: Briefcase,
                           color: '#00f6ff'
                         },
                         {
                           title: 'Python Fundamentals',
                           issuer: 'Infosys Springboard',
-                          icon: <Code />,
+                          icon: Code,
                           color: '#7f5cff'
                         }
-                      ].map((cert, i) => (
-                        <motion.div
-                          key={cert.title}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 1.3 + i * 0.1, duration: 0.6 }}
-                          whileHover={isMobile ? {} : { x: 5 }}
-                          whileTap={{ scale: 0.98 }}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 'clamp(12px, 2vw, 15px)',
-                            padding: 'clamp(12px, 2vw, 15px)',
-                            background: `linear-gradient(135deg, ${cert.color}11, ${cert.color}05)`,
-                            borderRadius: 'clamp(10px, 2vw, 12px)',
-                            border: `1px solid ${cert.color}22`
-                          }}
-                        >
-                          <div style={{
-                            width: 'clamp(35px, 7vw, 40px)',
-                            height: 'clamp(35px, 7vw, 40px)',
-                            borderRadius: 'clamp(8px, 2vw, 10px)',
-                            background: `linear-gradient(135deg, ${cert.color}22, ${cert.color}44)`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: cert.color,
-                            flexShrink: 0,
-                            fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)'
-                          }}>
-                            {cert.icon}
-                          </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ 
-                              fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', 
-                              fontWeight: '600',
-                              color: '#fff',
-                              marginBottom: '3px',
-                              wordBreak: 'break-word'
+                      ].map((cert, i) => {
+                        const Icon = cert.icon;
+                        return (
+                          <motion.div
+                            key={cert.title}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 1.3 + i * 0.1, duration: 0.4 }}
+                            whileHover={isMobile ? {} : { x: 5 }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: clamp(12, 2, 15),
+                              padding: clamp(12, 2, 15),
+                              background: `linear-gradient(135deg, ${cert.color}11, ${cert.color}05)`,
+                              borderRadius: clamp(10, 2, 12),
+                              border: `1px solid ${cert.color}22`
+                            }}
+                          >
+                            <div style={{
+                              width: clamp(35, 7, 40),
+                              height: clamp(35, 7, 40),
+                              borderRadius: clamp(8, 2, 10),
+                              background: `linear-gradient(135deg, ${cert.color}22, ${cert.color}44)`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: cert.color,
+                              flexShrink: 0,
+                              fontSize: clamp(14.4, 2.5, 17.6)
                             }}>
-                              {cert.title}
+                              <Icon />
                             </div>
-                            <div style={{ 
-                              fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', 
-                              color: 'rgba(255, 255, 255, 0.6)',
-                              wordBreak: 'break-word'
-                            }}>
-                              {cert.issuer}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ 
+                                fontSize: clamp(14.4, 2.5, 16),
+                                fontWeight: '600',
+                                color: '#fff',
+                                marginBottom: '3px',
+                                wordBreak: 'break-word'
+                              }}>
+                                {cert.title}
+                              </div>
+                              <div style={{ 
+                                fontSize: clamp(12, 2, 13.6),
+                                color: 'rgba(255, 255, 255, 0.6)',
+                                wordBreak: 'break-word'
+                              }}>
+                                {cert.issuer}
+                              </div>
                             </div>
-                          </div>
-                        </motion.div>
-                      ))}
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </div>
                 </SlideInRight>
@@ -858,18 +863,18 @@ export default function About() {
                 {/* Career Objective */}
                 <SlideInRight delay={1.4}>
                   <div className="glass" style={{ 
-                    padding: 'clamp(20px, 3vw, 25px)',
-                    borderRadius: 'clamp(15px, 3vw, 20px)',
+                    padding: clamp(20, 3, 25),
+                    borderRadius: clamp(15, 3, 20),
                     border: '1px solid rgba(255, 46, 99, 0.1)',
                     background: 'linear-gradient(135deg, rgba(255, 46, 99, 0.05), rgba(255, 46, 99, 0.02))',
                     backdropFilter: 'blur(10px)'
                   }}>
                     <h3 style={{ 
-                      fontSize: 'clamp(1.2rem, 3.5vw, 1.5rem)', 
-                      marginBottom: 'clamp(15px, 3vw, 20px)',
+                      fontSize: clamp(19.2, 3.5, 24),
+                      marginBottom: clamp(15, 3, 20),
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 'clamp(8px, 2vw, 12px)',
+                      gap: clamp(8, 2, 12),
                       color: '#fff',
                       justifyContent: isMobile ? 'center' : 'flex-start',
                       textAlign: isMobile ? 'center' : 'left'
@@ -880,8 +885,8 @@ export default function About() {
                     <p style={{ 
                       lineHeight: '1.6', 
                       color: 'rgba(255, 255, 255, 0.7)',
-                      marginBottom: 'clamp(15px, 3vw, 20px)',
-                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+                      marginBottom: clamp(15, 3, 20),
+                      fontSize: clamp(13.6, 2.5, 15.2),
                       textAlign: isMobile ? 'center' : 'left',
                       wordBreak: 'break-word'
                     }}>
@@ -891,7 +896,7 @@ export default function About() {
                     </p>
                     <div style={{
                       display: 'flex',
-                      gap: 'clamp(6px, 1.5vw, 10px)',
+                      gap: clamp(6, 1.5, 10),
                       flexWrap: 'wrap',
                       justifyContent: isMobile ? 'center' : 'flex-start'
                     }}>
@@ -901,15 +906,15 @@ export default function About() {
                           initial={{ opacity: 0, scale: 0 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
-                          transition={{ delay: 1.5 + i * 0.1 }}
+                          transition={{ delay: 1.5 + i * 0.1, duration: 0.2 }}
                           whileHover={isMobile ? {} : { scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                           style={{
-                            padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
+                            padding: `${clamp(5, 1, 7)} ${clamp(9, 2, 13)}`,
                             background: 'rgba(255, 46, 99, 0.1)',
                             border: '1px solid rgba(255, 46, 99, 0.3)',
                             borderRadius: '20px',
-                            fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                            fontSize: clamp(11.2, 2, 12.8),
                             color: '#ff2e63',
                             fontWeight: '500',
                             whiteSpace: 'nowrap'
@@ -926,64 +931,6 @@ export default function About() {
           </div>
         </StaggerContainer>
       </div>
-
-      {/* Mobile Responsive Styles */}
-      <style>{`
-        @media (max-width: 768px) {
-          .glass {
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-          }
-          
-          /* Improve touch targets */
-          button, 
-          .clickable {
-            min-height: 44px;
-            min-width: 44px;
-          }
-          
-          /* Better scroll on mobile */
-          .about-section {
-            -webkit-overflow-scrolling: touch;
-          }
-          
-          /* Smooth expand/collapse */
-          .experience-card-content {
-            transition: all 0.3s ease;
-          }
-          
-          /* Remove cursor on desktop when not mobile */
-          .experience-card:not(.mobile) {
-            cursor: default;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .section-header h2 {
-            font-size: 1.8rem !important;
-          }
-          
-          .stats-grid {
-            gap: 12px !important;
-          }
-          
-          .experience-card {
-            padding: 15px !important;
-          }
-        }
-        
-        /* Prevent text selection on mobile */
-        @media (max-width: 768px) {
-          * {
-            -webkit-tap-highlight-color: transparent;
-          }
-        }
-        
-        /* Smooth transitions */
-        .glass {
-          transition: all 0.3s ease;
-        }
-      `}</style>
     </section>
   );
 }
