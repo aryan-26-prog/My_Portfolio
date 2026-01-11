@@ -1,6 +1,6 @@
 // src/sections/About.jsx
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { 
   Target, Award, Book, GraduationCap, Briefcase,
   Code, Database, Cpu, Globe, Users, Clock, CheckCircle,
@@ -13,8 +13,7 @@ import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../compon
 
 export default function About() {
   const containerRef = useRef(null);
-  const [activeExperience, setActiveExperience] = useState(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -23,6 +22,17 @@ export default function About() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  // Check mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Academic stats from resume
   const academicStats = [
@@ -105,9 +115,6 @@ export default function About() {
       color: '#00f6ff'
     }
   ];
-
-  // Responsive breakpoint checker
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <section 
@@ -366,46 +373,6 @@ export default function About() {
             ))}
           </div>
 
-          {/* Mobile Experience Toggle */}
-          {isMobile && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass"
-              style={{
-                padding: '20px',
-                borderRadius: '16px',
-                marginBottom: '30px',
-                background: 'rgba(0, 246, 255, 0.05)',
-                border: '1px solid rgba(0, 246, 255, 0.1)',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#fff',
-                  fontSize: '1.1rem',
-                  fontWeight: '600',
-                  padding: '10px 0',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Building style={{ color: '#00f6ff' }} />
-                  Experience & Leadership
-                </span>
-                {isMobileMenuOpen ? <ChevronUp /> : <ChevronDown />}
-              </button>
-            </motion.div>
-          )}
-
           {/* Main Content Grid - Responsive */}
           <div style={{ 
             display: 'grid', 
@@ -414,15 +381,14 @@ export default function About() {
             marginBottom: 'clamp(40px, 8vw, 80px)'
           }}>
             
-            {/* Industry Experience - Mobile Accordion / Desktop Grid */}
+            {/* Industry Experience - Always Visible */}
             <SlideInLeft delay={0.8}>
               <div className="glass" style={{ 
-                padding: isMobile ? '20px' : 'clamp(30px, 5vw, 40px)',
+                padding: isMobile ? 'clamp(20px, 4vw, 25px)' : 'clamp(30px, 5vw, 40px)',
                 borderRadius: 'clamp(15px, 3vw, 20px)',
                 border: '1px solid rgba(0, 246, 255, 0.1)',
                 background: 'rgba(255, 255, 255, 0.02)',
-                backdropFilter: 'blur(10px)',
-                display: (isMobile && !isMobileMenuOpen) ? 'none' : 'block'
+                backdropFilter: 'blur(10px)'
               }}>
                 <h3 style={{ 
                   fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
@@ -430,7 +396,9 @@ export default function About() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 'clamp(8px, 2vw, 12px)',
-                  color: '#fff'
+                  color: '#fff',
+                  justifyContent: isMobile ? 'center' : 'flex-start',
+                  textAlign: isMobile ? 'center' : 'left'
                 }}>
                   <Building style={{ color: '#00f6ff' }} />
                   Internship Experience & Leadership
@@ -439,24 +407,26 @@ export default function About() {
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: 'clamp(15px, 3vw, 25px)'
+                  gap: 'clamp(20px, 3vw, 25px)'
                 }}>
                   {industryExperience.map((exp, index) => (
                     <motion.div
                       key={exp.company}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
                       transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
-                      whileHover={isMobile ? {} : { y: -8, transition: { type: "spring", stiffness: 300 } }}
+                      whileHover={isMobile ? {} : { 
+                        y: -8, 
+                        transition: { type: "spring", stiffness: 300 } 
+                      }}
                       whileTap={{ scale: 0.98 }}
                       className="glass"
-                      onClick={() => isMobile && setActiveExperience(activeExperience === exp.id ? null : exp.id)}
                       style={{
-                        padding: 'clamp(20px, 3vw, 30px)',
+                        padding: 'clamp(20px, 3vw, 25px)',
                         background: `linear-gradient(135deg, ${exp.color}11, ${exp.color}05)`,
                         border: `1px solid ${exp.color}22`,
                         borderRadius: 'clamp(12px, 2vw, 16px)',
-                        cursor: 'pointer',
                         position: 'relative',
                         overflow: 'hidden',
                         backdropFilter: 'blur(10px)'
@@ -489,7 +459,8 @@ export default function About() {
                             fontWeight: '700',
                             color: '#fff',
                             marginBottom: 'clamp(3px, 1vw, 5px)',
-                            lineHeight: '1.2'
+                            lineHeight: '1.2',
+                            wordBreak: 'break-word'
                           }}>
                             {exp.company}
                           </h4>
@@ -497,7 +468,8 @@ export default function About() {
                             fontSize: 'clamp(0.85rem, 2.5vw, 1rem)', 
                             color: exp.color,
                             fontWeight: '600',
-                            marginBottom: 'clamp(3px, 1vw, 5px)'
+                            marginBottom: 'clamp(3px, 1vw, 5px)',
+                            wordBreak: 'break-word'
                           }}>
                             {exp.role}
                           </div>
@@ -506,23 +478,23 @@ export default function About() {
                             color: 'rgba(255, 255, 255, 0.6)',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '5px'
+                            gap: '5px',
+                            flexWrap: 'wrap'
                           }}>
-                            <Calendar size={isMobile ? 10 : 12} />
+                            <Calendar size={isMobile ? 12 : 14} />
                             {exp.period}
                           </div>
                         </div>
                       </div>
 
-                      {/* Achievements (Collapsible on Mobile) */}
+                      {/* Achievements */}
                       <div style={{ 
-                        marginBottom: 'clamp(15px, 3vw, 20px)',
-                        display: isMobile && activeExperience !== exp.id ? 'none' : 'block'
+                        marginBottom: 'clamp(15px, 3vw, 20px)'
                       }}>
                         <h5 style={{ 
                           fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', 
                           color: 'rgba(255, 255, 255, 0.9)',
-                          marginBottom: 'clamp(8px, 2vw, 12px)',
+                          marginBottom: 'clamp(10px, 2vw, 12px)',
                           fontWeight: '600'
                         }}>
                           Key Contributions:
@@ -536,14 +508,16 @@ export default function About() {
                               key={i}
                               initial={{ opacity: 0, x: -10 }}
                               whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
                               transition={{ delay: 1 + index * 0.1 + i * 0.05 }}
                               style={{
                                 color: 'rgba(255, 255, 255, 0.7)',
                                 fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
                                 lineHeight: '1.5',
-                                marginBottom: 'clamp(6px, 1.5vw, 8px)',
+                                marginBottom: 'clamp(8px, 1.5vw, 10px)',
                                 listStyleType: 'none',
-                                position: 'relative'
+                                position: 'relative',
+                                wordBreak: 'break-word'
                               }}
                             >
                               <div style={{
@@ -561,24 +535,24 @@ export default function About() {
                         </ul>
                       </div>
 
-                      {/* Tech Stack (Collapsible on Mobile) */}
-                      <div style={{
-                        display: isMobile && activeExperience !== exp.id ? 'none' : 'block'
-                      }}>
+                      {/* Tech Stack */}
+                      <div>
                         <div style={{ 
                           display: 'flex', 
                           flexWrap: 'wrap',
-                          gap: 'clamp(5px, 1.5vw, 8px)'
+                          gap: 'clamp(6px, 1.5vw, 8px)'
                         }}>
                           {exp.tech.map((tech, i) => (
                             <motion.span
                               key={tech}
                               initial={{ opacity: 0, scale: 0 }}
                               whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true }}
                               transition={{ delay: 1.2 + index * 0.1 + i * 0.05 }}
-                              whileHover={{ scale: isMobile ? 1 : 1.1, y: isMobile ? 0 : -2 }}
+                              whileHover={isMobile ? {} : { scale: 1.1, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
                               style={{
-                                padding: 'clamp(4px, 1vw, 6px) clamp(8px, 2vw, 12px)',
+                                padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
                                 background: `rgba(${parseInt(exp.color.slice(1, 3), 16)}, ${parseInt(exp.color.slice(3, 5), 16)}, ${parseInt(exp.color.slice(5, 7), 16)}, 0.15)`,
                                 border: `1px solid ${exp.color}33`,
                                 borderRadius: '20px',
@@ -603,13 +577,13 @@ export default function About() {
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-              gap: 'clamp(20px, 4vw, 40px)'
+              gap: 'clamp(25px, 4vw, 40px)'
             }}>
               
               {/* Development Philosophy */}
               <SlideInLeft delay={1}>
                 <div className="glass" style={{ 
-                  padding: 'clamp(25px, 4vw, 40px)',
+                  padding: 'clamp(25px, 4vw, 35px)',
                   borderRadius: 'clamp(15px, 3vw, 20px)',
                   border: '1px solid rgba(127, 92, 255, 0.1)',
                   background: 'rgba(255, 255, 255, 0.02)',
@@ -622,7 +596,9 @@ export default function About() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 'clamp(8px, 2vw, 12px)',
-                    color: '#fff'
+                    color: '#fff',
+                    justifyContent: isMobile ? 'center' : 'flex-start',
+                    textAlign: isMobile ? 'center' : 'left'
                   }}>
                     <Brain style={{ color: '#7f5cff' }} />
                     Development Philosophy
@@ -638,6 +614,7 @@ export default function About() {
                         key={item.title}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         transition={{ delay: 1.1 + i * 0.1, duration: 0.6 }}
                         whileHover={isMobile ? {} : { scale: 1.03 }}
                         whileTap={{ scale: 0.98 }}
@@ -677,7 +654,8 @@ export default function About() {
                             fontWeight: '600',
                             color: '#fff',
                             marginBottom: 'clamp(5px, 1vw, 8px)',
-                            lineHeight: '1.2'
+                            lineHeight: '1.2',
+                            wordBreak: 'break-word'
                           }}>
                             {item.title}
                           </h4>
@@ -685,7 +663,8 @@ export default function About() {
                             color: 'rgba(255, 255, 255, 0.6)',
                             fontSize: 'clamp(0.8rem, 2.5vw, 0.95rem)',
                             lineHeight: '1.5',
-                            margin: 0
+                            margin: 0,
+                            wordBreak: 'break-word'
                           }}>
                             {item.description}
                           </p>
@@ -700,13 +679,13 @@ export default function About() {
               <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column',
-                gap: 'clamp(20px, 4vw, 30px)'
+                gap: 'clamp(25px, 4vw, 30px)'
               }}>
                 
                 {/* Certifications */}
                 <SlideInRight delay={1.2}>
                   <div className="glass" style={{ 
-                    padding: 'clamp(20px, 3vw, 30px)',
+                    padding: 'clamp(20px, 3vw, 25px)',
                     borderRadius: 'clamp(15px, 3vw, 20px)',
                     border: '1px solid rgba(0, 246, 255, 0.1)',
                     background: 'rgba(255, 255, 255, 0.02)',
@@ -718,7 +697,9 @@ export default function About() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 'clamp(8px, 2vw, 12px)',
-                      color: '#fff'
+                      color: '#fff',
+                      justifyContent: isMobile ? 'center' : 'flex-start',
+                      textAlign: isMobile ? 'center' : 'left'
                     }}>
                       <BookOpen style={{ color: '#00f6ff' }} />
                       Certifications
@@ -746,6 +727,7 @@ export default function About() {
                           key={cert.title}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
                           transition={{ delay: 1.3 + i * 0.1, duration: 0.6 }}
                           whileHover={isMobile ? {} : { x: 5 }}
                           whileTap={{ scale: 0.98 }}
@@ -756,8 +738,7 @@ export default function About() {
                             padding: 'clamp(12px, 2vw, 15px)',
                             background: `linear-gradient(135deg, ${cert.color}11, ${cert.color}05)`,
                             borderRadius: 'clamp(10px, 2vw, 12px)',
-                            border: `1px solid ${cert.color}22`,
-                            cursor: 'pointer'
+                            border: `1px solid ${cert.color}22`
                           }}
                         >
                           <div style={{
@@ -801,7 +782,7 @@ export default function About() {
                 {/* Career Objective */}
                 <SlideInRight delay={1.4}>
                   <div className="glass" style={{ 
-                    padding: 'clamp(20px, 3vw, 30px)',
+                    padding: 'clamp(20px, 3vw, 25px)',
                     borderRadius: 'clamp(15px, 3vw, 20px)',
                     border: '1px solid rgba(255, 46, 99, 0.1)',
                     background: 'linear-gradient(135deg, rgba(255, 46, 99, 0.05), rgba(255, 46, 99, 0.02))',
@@ -813,7 +794,9 @@ export default function About() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 'clamp(8px, 2vw, 12px)',
-                      color: '#fff'
+                      color: '#fff',
+                      justifyContent: isMobile ? 'center' : 'flex-start',
+                      textAlign: isMobile ? 'center' : 'left'
                     }}>
                       <Target style={{ color: '#ff2e63' }} />
                       Career Objective
@@ -822,7 +805,9 @@ export default function About() {
                       lineHeight: '1.6', 
                       color: 'rgba(255, 255, 255, 0.7)',
                       marginBottom: 'clamp(15px, 3vw, 20px)',
-                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)'
+                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+                      textAlign: isMobile ? 'center' : 'left',
+                      wordBreak: 'break-word'
                     }}>
                       Seeking a <strong style={{ color: '#ff2e63' }}>Software Engineering Internship</strong> 
                       to apply skills, learn from professionals, and contribute 
@@ -831,18 +816,20 @@ export default function About() {
                     <div style={{
                       display: 'flex',
                       gap: 'clamp(6px, 1.5vw, 10px)',
-                      flexWrap: 'wrap'
+                      flexWrap: 'wrap',
+                      justifyContent: isMobile ? 'center' : 'flex-start'
                     }}>
                       {['Internship Ready', 'Quick Learner', 'Adaptable', 'Problem Solver'].map((tag, i) => (
                         <motion.span
                           key={tag}
                           initial={{ opacity: 0, scale: 0 }}
                           whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
                           transition={{ delay: 1.5 + i * 0.1 }}
-                          whileHover={{ scale: isMobile ? 1 : 1.1 }}
+                          whileHover={isMobile ? {} : { scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                           style={{
-                            padding: 'clamp(4px, 1vw, 6px) clamp(8px, 2vw, 12px)',
+                            padding: 'clamp(5px, 1vw, 7px) clamp(9px, 2vw, 13px)',
                             background: 'rgba(255, 46, 99, 0.1)',
                             border: '1px solid rgba(255, 46, 99, 0.3)',
                             borderRadius: '20px',
@@ -883,6 +870,11 @@ export default function About() {
           .about-section {
             -webkit-overflow-scrolling: touch;
           }
+          
+          /* Ensure proper spacing on mobile */
+          .experience-card {
+            margin-bottom: 15px;
+          }
         }
         
         @media (max-width: 480px) {
@@ -893,6 +885,10 @@ export default function About() {
           .stats-grid {
             gap: 12px !important;
           }
+          
+          .experience-card {
+            padding: 15px !important;
+          }
         }
         
         /* Prevent text selection on mobile */
@@ -900,6 +896,11 @@ export default function About() {
           * {
             -webkit-tap-highlight-color: transparent;
           }
+        }
+        
+        /* Smooth transitions */
+        .glass {
+          transition: all 0.3s ease;
         }
       `}</style>
     </section>
