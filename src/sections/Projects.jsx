@@ -263,7 +263,7 @@ export default function Projects() {
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
-          gap: isMobile ? '30px' : '46px',
+          gap: isMobile ? '30px' : '50px',
           marginBottom: isMobile ? '50px' : '80px'
         }}>
           {projects.map((project, i) => (
