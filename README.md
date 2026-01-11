@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Aryan Dhiman | Interactive Portfolio</title>
 </head>
 <body style="font-family: Arial, sans-serif; background:#050507; color:#ffffff; line-height:1.6;">
 
