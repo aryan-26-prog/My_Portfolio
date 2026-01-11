@@ -593,31 +593,6 @@ export default function About() {
                           ))}
                         </div>
                       </div>
-
-                      {/* Mobile Expand/Collapse Indicator */}
-                      {isMobile && (
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginTop: '15px',
-                          color: exp.color,
-                          fontSize: '0.8rem',
-                          gap: '5px'
-                        }}>
-                          {activeExperience === exp.id ? (
-                            <>
-                              <ChevronUp size={14} />
-                              <span>Tap to collapse</span>
-                            </>
-                          ) : (
-                            <>
-                              <ChevronDown size={14} />
-                              <span>Tap to expand</span>
-                            </>
-                          )}
-                        </div>
-                      )}
                     </motion.div>
                   ))}
                 </div>
