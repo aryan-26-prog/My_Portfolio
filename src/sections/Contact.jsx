@@ -6,7 +6,7 @@ import {
   CheckCircle, Loader,
   User, MessageSquare, FileText,
   Briefcase, GraduationCap, Code,
-  Instagram
+  Instagram, Download
 } from 'lucide-react';
 
 export default function Contact() {
@@ -19,29 +19,37 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [activeInput, setActiveInput] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Handle form submission
+  // Check mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     setIsSubmitting(false);
     setIsSubmitted(true);
     
-    // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({ name: '', email: '', message: '', inquiryType: '' });
     }, 3000);
   };
 
-  // Contact information - Updated with resume data
   const contactInfo = [
     { 
-      icon: <Mail />, 
+      icon: <Mail size={isMobile ? 20 : 24} />, 
       title: 'Email', 
       value: 'aryandhiman2605@gmail.com', 
       desc: 'Response within 24 hours',
@@ -49,7 +57,7 @@ export default function Contact() {
       link: 'mailto:aryandhiman2605@gmail.com'
     },
     { 
-      icon: <Phone />, 
+      icon: <Phone size={isMobile ? 20 : 24} />, 
       title: 'Phone', 
       value: '+91 9805297267', 
       desc: 'Available for calls',
@@ -57,7 +65,7 @@ export default function Contact() {
       link: 'tel:+919805297267'
     },
     { 
-      icon: <MapPin />, 
+      icon: <MapPin size={isMobile ? 20 : 24} />, 
       title: 'Location', 
       value: 'Mohali, Punjab', 
       desc: 'Pursuing B.Tech at CGC',
@@ -65,61 +73,59 @@ export default function Contact() {
     }
   ];
 
-  // Social links - Updated with resume data
   const socialLinks = [
     { 
-      icon: <Linkedin />, 
+      icon: <Linkedin size={isMobile ? 18 : 22} />, 
       platform: 'LinkedIn', 
       url: 'https://linkedin.com/in/aryan-dhiman-2605ad', 
       color: '#0077B5',
       label: 'Connect professionally'
     },
     { 
-      icon: <Github />, 
+      icon: <Github size={isMobile ? 18 : 22} />, 
       platform: 'GitHub', 
       url: 'https://github.com/aryan-26-prog', 
       color: '#FFFFFF',
       label: 'View projects'
     },
     { 
-      icon: <Instagram />, 
+      icon: <Instagram size={isMobile ? 18 : 22} />, 
       platform: 'Instagram', 
       url: 'https://www.instagram.com/aryandhiman_01', 
-      color: '#FFFFFF',
-      label: 'View projects'
+      color: '#E1306C',
+      label: 'Follow'
     }
   ];
 
-  // Inquiry types - Updated for internship seeker
   const inquiryTypes = [
-    { icon: <Briefcase />, label: 'Internship Opportunity', value: 'internship' },
-    { icon: <GraduationCap />, label: 'Project Collaboration', value: 'collaboration' },
-    { icon: <Code />, label: 'Technical Discussion', value: 'technical' },
-    { icon: <MessageSquare />, label: 'General Inquiry', value: 'general' }
+    { icon: <Briefcase size={isMobile ? 18 : 22} />, label: 'Internship', value: 'internship' },
+    { icon: <GraduationCap size={isMobile ? 18 : 22} />, label: 'Collaboration', value: 'collaboration' },
+    { icon: <Code size={isMobile ? 18 : 22} />, label: 'Technical', value: 'technical' },
+    { icon: <MessageSquare size={isMobile ? 18 : 22} />, label: 'General', value: 'general' }
   ];
 
-  // Floating particles effect
   useEffect(() => {
     const createParticles = () => {
       const container = document.getElementById('contact-particles');
       if (!container) return;
       
       container.innerHTML = '';
+      const particleCount = isMobile ? 15 : 30;
       
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.style.cssText = `
           position: absolute;
-          width: ${Math.random() * 4 + 2}px;
-          height: ${Math.random() * 4 + 2}px;
+          width: ${Math.random() * 3 + 1}px;
+          height: ${Math.random() * 3 + 1}px;
           background: ${i % 3 === 0 ? '#00f6ff' : i % 3 === 1 ? '#7f5cff' : '#ff2e63'};
           left: ${Math.random() * 100}%;
           top: ${Math.random() * 100}%;
           border-radius: 50%;
-          filter: blur(1px);
-          opacity: ${Math.random() * 0.2 + 0.1};
-          animation: float ${Math.random() * 10 + 5}s ease-in-out infinite;
-          animation-delay: ${Math.random() * 5}s;
+          filter: blur(${isMobile ? '0.5px' : '1px'});
+          opacity: ${Math.random() * 0.15 + 0.05};
+          animation: float ${Math.random() * 8 + 4}s ease-in-out infinite;
+          animation-delay: ${Math.random() * 3}s;
           z-index: 1;
         `;
         container.appendChild(particle);
@@ -131,17 +137,16 @@ export default function Contact() {
       const container = document.getElementById('contact-particles');
       if (container) container.innerHTML = '';
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section id="contact" className="contact-section" style={{
       position: 'relative',
       overflow: 'hidden',
-      padding: '100px 5%',
-      minHeight: '100vh'
+      padding: isMobile ? '60px 20px' : '100px 5%',
+      minHeight: isMobile ? 'auto' : '100vh'
     }}>
       
-      {/* Background Particles */}
       <div id="contact-particles" style={{
         position: 'absolute',
         top: 0,
@@ -152,16 +157,15 @@ export default function Contact() {
         pointerEvents: 'none'
       }} />
 
-      {/* Gradient Orbs */}
       <div style={{
-        position: 'absolute',
+        position: isMobile ? 'absolute' : 'relative',
         top: '20%',
-        right: '10%',
-        width: '300px',
-        height: '300px',
+        right: isMobile ? '-50%' : '10%',
+        width: isMobile ? '150px' : '300px',
+        height: isMobile ? '150px' : '300px',
         background: 'radial-gradient(circle, rgba(0, 246, 255, 0.1), transparent 70%)',
         borderRadius: '50%',
-        filter: 'blur(40px)',
+        filter: isMobile ? 'blur(20px)' : 'blur(40px)',
         zIndex: 1
       }} />
       
@@ -174,11 +178,11 @@ export default function Contact() {
         
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
-          style={{ textAlign: 'center', marginBottom: '60px' }}
+          style={{ textAlign: 'center', marginBottom: isMobile ? '40px' : '60px' }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -187,26 +191,25 @@ export default function Contact() {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '10px',
-              padding: '10px 24px',
+              gap: '8px',
+              padding: isMobile ? '8px 16px' : '10px 24px',
               background: 'rgba(255, 255, 255, 0.05)',
               borderRadius: '50px',
-              marginBottom: '20px',
+              marginBottom: isMobile ? '15px' : '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: isMobile ? 'blur(5px)' : 'blur(10px)'
             }}
           >
             <div style={{
               width: '6px',
               height: '6px',
               background: '#00f6ff',
-              borderRadius: '50%',
-              animation: 'pulse 2s infinite'
+              borderRadius: '50%'
             }} />
             <span style={{
-              fontSize: '0.85rem',
+              fontSize: isMobile ? '0.75rem' : '0.85rem',
               fontWeight: '600',
-              letterSpacing: '2px',
+              letterSpacing: '1px',
               color: '#00f6ff'
             }}>
               GET IN TOUCH
@@ -218,10 +221,10 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: isMobile ? '2rem' : 'clamp(2.5rem, 5vw, 3.5rem)',
               fontWeight: '800',
               lineHeight: '1.1',
-              marginBottom: '20px'
+              marginBottom: isMobile ? '15px' : '20px'
             }}
           >
             Let's{' '}
@@ -240,7 +243,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             style={{
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '1rem' : '1.1rem',
               color: 'rgba(255, 255, 255, 0.7)',
               maxWidth: '600px',
               margin: '0 auto',
@@ -255,52 +258,39 @@ export default function Contact() {
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: '1fr',
-          gap: '40px',
-          marginBottom: '60px'
+          gap: isMobile ? '30px' : '40px',
+          marginBottom: isMobile ? '40px' : '60px'
         }}>
-          
-          {/* On Mobile: Single Column */}
-          {/* On Desktop: Two Columns */}
-          <style>{`
-            @media (min-width: 1024px) {
-              .contact-grid {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 60px !important;
-              }
-            }
-          `}</style>
-
-          <div className="contact-grid" style={{
+          <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr',
-            gap: '40px'
+            gap: isMobile ? '30px' : '40px'
           }}>
             
-            {/* Left Column - Contact Info */}
+            {/* Contact Info Card */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true, amount: 0.3 }}
               className="glass"
               style={{ 
-                padding: '40px',
-                borderRadius: '20px'
+                padding: isMobile ? '25px' : '40px',
+                borderRadius: '16px'
               }}
             >
               <h3 style={{ 
-                fontSize: '1.8rem', 
-                marginBottom: '30px',
+                fontSize: isMobile ? '1.5rem' : '1.8rem', 
+                marginBottom: isMobile ? '20px' : '30px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px'
+                gap: isMobile ? '10px' : '12px'
               }}>
-                <User style={{ color: '#00f6ff' }} />
+                <User size={isMobile ? 20 : 24} style={{ color: '#00f6ff' }} />
                 Contact Information
               </h3>
 
-              {/* Contact Details */}
-              <div style={{ marginBottom: '40px' }}>
+              <div style={{ marginBottom: isMobile ? '30px' : '40px' }}>
                 {contactInfo.map((info, i) => (
                   <motion.a
                     key={info.title}
@@ -311,29 +301,29 @@ export default function Contact() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + i * 0.1 }}
                     viewport={{ once: true }}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ x: isMobile ? 0 : 5 }}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '15px',
-                      padding: '20px',
+                      gap: isMobile ? '12px' : '15px',
+                      padding: isMobile ? '16px' : '20px',
                       background: 'rgba(255, 255, 255, 0.03)',
-                      borderRadius: '16px',
-                      marginBottom: '15px',
+                      borderRadius: '12px',
+                      marginBottom: isMobile ? '10px' : '15px',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
                       textDecoration: 'none'
                     }}
                   >
                     <div style={{
-                      width: '50px',
-                      height: '50px',
-                      borderRadius: '12px',
+                      width: isMobile ? '45px' : '50px',
+                      height: isMobile ? '45px' : '50px',
+                      borderRadius: '10px',
                       background: `rgba(${parseInt(info.color.slice(1, 3), 16)}, ${parseInt(info.color.slice(3, 5), 16)}, ${parseInt(info.color.slice(5, 7), 16)}, 0.1)`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.5rem',
+                      fontSize: isMobile ? '1.2rem' : '1.5rem',
                       color: info.color,
                       flexShrink: 0
                     }}>
@@ -341,23 +331,23 @@ export default function Contact() {
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ 
-                        fontSize: '0.85rem', 
+                        fontSize: isMobile ? '0.75rem' : '0.85rem', 
                         color: 'rgba(255, 255, 255, 0.6)',
-                        marginBottom: '4px',
+                        marginBottom: '2px',
                         fontWeight: '500'
                       }}>
                         {info.title}
                       </div>
                       <div style={{ 
-                        fontSize: '1.1rem', 
+                        fontSize: isMobile ? '0.95rem' : '1.1rem', 
                         fontWeight: '600',
-                        marginBottom: '4px',
+                        marginBottom: '2px',
                         color: '#fff'
                       }}>
                         {info.value}
                       </div>
                       <div style={{ 
-                        fontSize: '0.85rem', 
+                        fontSize: isMobile ? '0.75rem' : '0.85rem', 
                         color: 'rgba(255, 255, 255, 0.5)'
                       }}>
                         {info.desc}
@@ -370,18 +360,18 @@ export default function Contact() {
               {/* Social Links */}
               <div>
                 <h4 style={{ 
-                  marginBottom: '20px', 
-                  fontSize: '1.3rem',
+                  marginBottom: isMobile ? '15px' : '20px', 
+                  fontSize: isMobile ? '1.1rem' : '1.3rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px'
                 }}>
-                  <Code size={20} style={{ color: '#00f6ff' }} />
+                  <Code size={isMobile ? 18 : 20} style={{ color: '#00f6ff' }} />
                   Connect with Me
                 </h4>
                 <div style={{ 
                   display: 'flex', 
-                  gap: '12px',
+                  gap: isMobile ? '10px' : '12px',
                   flexWrap: 'wrap'
                 }}>
                   {socialLinks.map((social, i) => (
@@ -394,13 +384,13 @@ export default function Contact() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.4 + i * 0.1 }}
                       viewport={{ once: true }}
-                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileHover={{ scale: isMobile ? 1.05 : 1.1, y: isMobile ? -2 : -3 }}
                       whileTap={{ scale: 0.95 }}
                       title={social.label}
                       style={{
-                        width: '50px',
-                        height: '50px',
-                        borderRadius: '12px',
+                        width: isMobile ? '45px' : '50px',
+                        height: isMobile ? '45px' : '50px',
+                        borderRadius: '10px',
                         background: 'rgba(255, 255, 255, 0.05)',
                         display: 'flex',
                         alignItems: 'center',
@@ -416,25 +406,25 @@ export default function Contact() {
                   ))}
                 </div>
                 <p style={{
-                  fontSize: '0.85rem',
+                  fontSize: isMobile ? '0.75rem' : '0.85rem',
                   color: 'rgba(255, 255, 255, 0.5)',
-                  marginTop: '15px'
+                  marginTop: isMobile ? '10px' : '15px'
                 }}>
                   Looking for software engineering internship opportunities in web development
                 </p>
               </div>
             </motion.div>
 
-            {/* Right Column - Contact Form */}
+            {/* Contact Form Card */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true, amount: 0.3 }}
               className="glass"
               style={{ 
-                padding: '40px',
-                borderRadius: '20px'
+                padding: isMobile ? '25px' : '40px',
+                borderRadius: '16px'
               }}
             >
               <AnimatePresence mode="wait">
@@ -446,7 +436,7 @@ export default function Contact() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     style={{ 
                       textAlign: 'center', 
-                      padding: '40px 20px'
+                      padding: isMobile ? '30px 15px' : '40px 20px'
                     }}
                   >
                     <motion.div
@@ -454,23 +444,23 @@ export default function Contact() {
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", damping: 15 }}
                       style={{
-                        width: '80px',
-                        height: '80px',
+                        width: isMobile ? '60px' : '80px',
+                        height: isMobile ? '60px' : '80px',
                         borderRadius: '50%',
                         background: 'linear-gradient(135deg, #00f6ff, #7f5cff)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        margin: '0 auto 25px',
-                        fontSize: '2.5rem'
+                        margin: '0 auto 20px',
+                        fontSize: isMobile ? '2rem' : '2.5rem'
                       }}
                     >
                       <CheckCircle />
                     </motion.div>
                     
                     <h3 style={{ 
-                      fontSize: '1.8rem', 
-                      marginBottom: '15px',
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
+                      marginBottom: isMobile ? '10px' : '15px',
                       background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
                       WebkitBackgroundClip: 'text',
                       backgroundClip: 'text',
@@ -481,31 +471,31 @@ export default function Contact() {
                     
                     <p style={{ 
                       color: 'rgba(255, 255, 255, 0.7)',
-                      marginBottom: '30px',
-                      fontSize: '1.1rem'
+                      marginBottom: isMobile ? '20px' : '30px',
+                      fontSize: isMobile ? '0.95rem' : '1.1rem'
                     }}>
                       I'll review your message and get back to you soon regarding internship opportunities.
                     </p>
                     
                     <motion.button
                       onClick={() => setIsSubmitted(false)}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       style={{
-                        padding: '15px 30px',
+                        padding: isMobile ? '12px 24px' : '15px 30px',
                         background: 'rgba(255, 255, 255, 0.1)',
                         border: '1px solid rgba(255, 255, 255, 0.2)',
                         borderRadius: '50px',
                         color: 'white',
-                        fontSize: '1rem',
+                        fontSize: isMobile ? '0.9rem' : '1rem',
                         fontWeight: '600',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '10px'
+                        gap: isMobile ? '8px' : '10px'
                       }}
                     >
-                      <Send size={18} />
+                      <Send size={isMobile ? 16 : 18} />
                       Send Another Message
                     </motion.button>
                   </motion.div>
@@ -517,23 +507,23 @@ export default function Contact() {
                     exit={{ opacity: 0 }}
                   >
                     <h3 style={{ 
-                      fontSize: '1.8rem', 
-                      marginBottom: '30px',
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
+                      marginBottom: isMobile ? '20px' : '30px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '12px'
+                      gap: isMobile ? '10px' : '12px'
                     }}>
-                      <Send style={{ color: '#00f6ff' }} />
+                      <Send size={isMobile ? 20 : 24} style={{ color: '#00f6ff' }} />
                       Contact for Opportunities
                     </h3>
 
                     {/* Inquiry Type Selection */}
-                    <div style={{ marginBottom: '30px' }}>
+                    <div style={{ marginBottom: isMobile ? '20px' : '30px' }}>
                       <div style={{ 
                         display: 'grid', 
                         gridTemplateColumns: 'repeat(2, 1fr)',
-                        gap: '12px',
-                        marginBottom: '25px'
+                        gap: isMobile ? '8px' : '12px',
+                        marginBottom: isMobile ? '20px' : '25px'
                       }}>
                         {inquiryTypes.map((type) => (
                           <button
@@ -541,31 +531,31 @@ export default function Contact() {
                             type="button"
                             onClick={() => setFormData({...formData, inquiryType: type.value})}
                             style={{
-                              padding: '15px',
+                              padding: isMobile ? '12px 8px' : '15px',
                               background: formData.inquiryType === type.value 
                                 ? 'rgba(0, 246, 255, 0.1)' 
                                 : 'rgba(255, 255, 255, 0.05)',
                               border: formData.inquiryType === type.value 
                                 ? '1px solid #00f6ff' 
                                 : '1px solid rgba(255, 255, 255, 0.1)',
-                              borderRadius: '12px',
+                              borderRadius: '10px',
                               color: 'white',
                               cursor: 'pointer',
                               display: 'flex',
                               flexDirection: 'column',
                               alignItems: 'center',
-                              gap: '8px',
+                              gap: isMobile ? '6px' : '8px',
                               transition: 'all 0.3s ease'
                             }}
                           >
                             <div style={{ 
-                              fontSize: '1.5rem',
+                              fontSize: isMobile ? '1.2rem' : '1.5rem',
                               color: formData.inquiryType === type.value ? '#00f6ff' : 'rgba(255, 255, 255, 0.7)'
                             }}>
                               {type.icon}
                             </div>
                             <div style={{ 
-                              fontSize: '0.9rem',
+                              fontSize: isMobile ? '0.8rem' : '0.9rem',
                               fontWeight: '500',
                               textAlign: 'center'
                             }}>
@@ -578,17 +568,17 @@ export default function Contact() {
 
                     <form onSubmit={handleSubmit}>
                       {/* Name Input */}
-                      <div style={{ marginBottom: '20px' }}>
+                      <div style={{ marginBottom: isMobile ? '16px' : '20px' }}>
                         <label style={{ 
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px',
-                          marginBottom: '8px',
+                          marginBottom: '6px',
                           fontWeight: '500',
-                          fontSize: '0.95rem',
+                          fontSize: isMobile ? '0.9rem' : '0.95rem',
                           color: 'rgba(255, 255, 255, 0.9)'
                         }}>
-                          <User size={16} />
+                          <User size={isMobile ? 14 : 16} />
                           Your Name
                         </label>
                         <input
@@ -600,33 +590,34 @@ export default function Contact() {
                           required
                           style={{
                             width: '100%',
-                            padding: '16px 20px',
+                            padding: isMobile ? '14px 16px' : '16px 20px',
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: activeInput === 'name' 
                               ? '1px solid #00f6ff' 
                               : '1px solid rgba(255, 255, 255, 0.15)',
-                            borderRadius: '12px',
+                            borderRadius: '10px',
                             color: 'white',
-                            fontSize: '1rem',
+                            fontSize: isMobile ? '0.95rem' : '1rem',
                             outline: 'none',
-                            transition: 'all 0.3s ease'
+                            transition: 'all 0.3s ease',
+                            WebkitAppearance: 'none'
                           }}
                           placeholder="Enter your name"
                         />
                       </div>
 
                       {/* Email Input */}
-                      <div style={{ marginBottom: '20px' }}>
+                      <div style={{ marginBottom: isMobile ? '16px' : '20px' }}>
                         <label style={{ 
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px',
-                          marginBottom: '8px',
+                          marginBottom: '6px',
                           fontWeight: '500',
-                          fontSize: '0.95rem',
+                          fontSize: isMobile ? '0.9rem' : '0.95rem',
                           color: 'rgba(255, 255, 255, 0.9)'
                         }}>
-                          <Mail size={16} />
+                          <Mail size={isMobile ? 14 : 16} />
                           Email Address
                         </label>
                         <input
@@ -638,33 +629,34 @@ export default function Contact() {
                           required
                           style={{
                             width: '100%',
-                            padding: '16px 20px',
+                            padding: isMobile ? '14px 16px' : '16px 20px',
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: activeInput === 'email' 
                               ? '1px solid #00f6ff' 
                               : '1px solid rgba(255, 255, 255, 0.15)',
-                            borderRadius: '12px',
+                            borderRadius: '10px',
                             color: 'white',
-                            fontSize: '1rem',
+                            fontSize: isMobile ? '0.95rem' : '1rem',
                             outline: 'none',
-                            transition: 'all 0.3s ease'
+                            transition: 'all 0.3s ease',
+                            WebkitAppearance: 'none'
                           }}
                           placeholder="your.company@example.com"
                         />
                       </div>
 
                       {/* Message Input */}
-                      <div style={{ marginBottom: '30px' }}>
+                      <div style={{ marginBottom: isMobile ? '24px' : '30px' }}>
                         <label style={{ 
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px',
-                          marginBottom: '8px',
+                          marginBottom: '6px',
                           fontWeight: '500',
-                          fontSize: '0.95rem',
+                          fontSize: isMobile ? '0.9rem' : '0.95rem',
                           color: 'rgba(255, 255, 255, 0.9)'
                         }}>
-                          <FileText size={16} />
+                          <FileText size={isMobile ? 14 : 16} />
                           Your Message
                         </label>
                         <textarea
@@ -673,22 +665,23 @@ export default function Contact() {
                           onFocus={() => setActiveInput('message')}
                           onBlur={() => setActiveInput(null)}
                           required
-                          rows="5"
+                          rows="4"
                           style={{
                             width: '100%',
-                            padding: '16px 20px',
+                            padding: isMobile ? '14px 16px' : '16px 20px',
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: activeInput === 'message' 
                               ? '1px solid #00f6ff' 
                               : '1px solid rgba(255, 255, 255, 0.15)',
-                            borderRadius: '12px',
+                            borderRadius: '10px',
                             color: 'white',
-                            fontSize: '1rem',
+                            fontSize: isMobile ? '0.95rem' : '1rem',
                             outline: 'none',
                             resize: 'vertical',
                             transition: 'all 0.3s ease',
                             fontFamily: 'inherit',
-                            minHeight: '120px'
+                            minHeight: '100px',
+                            WebkitAppearance: 'none'
                           }}
                           placeholder="Tell me about your company and the internship opportunity..."
                         />
@@ -698,24 +691,24 @@ export default function Contact() {
                       <motion.button
                         type="submit"
                         disabled={isSubmitting}
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                         whileTap={{ scale: 0.98 }}
                         style={{
                           width: '100%',
-                          padding: '18px',
+                          padding: isMobile ? '16px' : '18px',
                           background: isSubmitting 
                             ? 'rgba(255, 255, 255, 0.1)' 
                             : 'linear-gradient(90deg, #00f6ff, #7f5cff)',
                           border: 'none',
-                          borderRadius: '12px',
+                          borderRadius: '10px',
                           color: isSubmitting ? 'rgba(255, 255, 255, 0.7)' : '#000',
-                          fontSize: '1.1rem',
+                          fontSize: isMobile ? '1rem' : '1.1rem',
                           fontWeight: '600',
                           cursor: isSubmitting ? 'not-allowed' : 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '12px',
+                          gap: isMobile ? '10px' : '12px',
                           position: 'relative',
                           overflow: 'hidden'
                         }}
@@ -726,13 +719,13 @@ export default function Contact() {
                               animate={{ rotate: 360 }}
                               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                             >
-                              <Loader size={20} />
+                              <Loader size={isMobile ? 18 : 20} />
                             </motion.div>
                             <span>Sending Inquiry...</span>
                           </>
                         ) : (
                           <>
-                            <Send size={20} />
+                            <Send size={isMobile ? 18 : 20} />
                             <span>Send Internship Inquiry</span>
                           </>
                         )}
@@ -753,16 +746,17 @@ export default function Contact() {
           viewport={{ once: true, amount: 0.3 }}
           className="glass"
           style={{ 
-            padding: '40px',
+            padding: isMobile ? '25px' : '40px',
             textAlign: 'center',
             background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.05), rgba(127, 92, 255, 0.05))',
-            borderRadius: '20px',
-            marginBottom: '40px'
+            borderRadius: '16px',
+            marginBottom: isMobile ? '30px' : '40px'
           }}
         >
           <h3 style={{ 
-            fontSize: '1.8rem', 
-            marginBottom: '15px'
+            fontSize: isMobile ? '1.5rem' : '1.8rem', 
+            marginBottom: isMobile ? '12px' : '15px',
+            lineHeight: '1.3'
           }}>
             Ready to discuss{' '}
             <span style={{
@@ -774,66 +768,67 @@ export default function Contact() {
           </h3>
           
           <p style={{
-            fontSize: '1.1rem',
+            fontSize: isMobile ? '0.95rem' : '1.1rem',
             color: 'rgba(255, 255, 255, 0.7)',
-            marginBottom: '25px',
+            marginBottom: isMobile ? '20px' : '25px',
             maxWidth: '500px',
-            margin: '0 auto 25px'
+            margin: '0 auto'
           }}>
             2nd year CSE student with hands-on experience in full-stack web development
           </p>
           
           <div style={{ 
             display: 'flex', 
-            gap: '15px', 
+            gap: isMobile ? '12px' : '15px', 
             justifyContent: 'center',
             flexWrap: 'wrap' 
           }}>
             <motion.a
               href="mailto:aryandhiman2605@gmail.com"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: '16px 32px',
+                padding: isMobile ? '14px 24px' : '16px 32px',
                 background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
                 border: 'none',
                 borderRadius: '50px',
                 color: '#000',
-                fontSize: '1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 fontWeight: '600',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '12px',
-                textDecoration: 'none'
+                gap: isMobile ? '8px' : '12px',
+                textDecoration: 'none',
+                width: isMobile ? '100%' : 'auto'
               }}
             >
-              <Mail size={20} />
+              <Mail size={isMobile ? 18 : 20} />
               <span>Email Resume</span>
             </motion.a>
             
             <motion.button
               onClick={() => {
-                // Simulate schedule meeting
                 window.open('https://calendly.com', '_blank');
               }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: '16px 32px',
+                padding: isMobile ? '14px 24px' : '16px 32px',
                 background: 'rgba(255, 255, 255, 0.1)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '50px',
                 color: 'white',
-                fontSize: '1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 fontWeight: '600',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '12px'
+                gap: isMobile ? '8px' : '12px',
+                width: isMobile ? '100%' : 'auto'
               }}
             >
-              <Calendar size={20} />
+              <Calendar size={isMobile ? 18 : 20} />
               <span>Schedule Meeting</span>
             </motion.button>
           </div>
@@ -847,9 +842,9 @@ export default function Contact() {
           viewport={{ once: true }}
           style={{ 
             textAlign: 'center', 
-            padding: '30px 20px',
+            padding: isMobile ? '20px 15px' : '30px 20px',
             color: 'rgba(255, 255, 255, 0.5)',
-            fontSize: '0.9rem',
+            fontSize: isMobile ? '0.8rem' : '0.9rem',
             borderTop: '1px solid rgba(255, 255, 255, 0.1)'
           }}
         >
@@ -857,11 +852,11 @@ export default function Contact() {
           <motion.p
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
-            style={{ marginTop: '8px', fontSize: '0.85rem' }}
+            style={{ marginTop: '6px', fontSize: isMobile ? '0.75rem' : '0.85rem' }}
           >
             Built with React, Node.js & MongoDB | Actively seeking Summer 2026 internships
           </motion.p>
-          <p style={{ marginTop: '8px', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.4)' }}>
+          <p style={{ marginTop: '6px', fontSize: isMobile ? '0.75rem' : '0.85rem', color: 'rgba(255, 255, 255, 0.4)' }}>
             CGC Jhanjeri, Mohali | CGPA: 9.15
           </p>
         </motion.div>

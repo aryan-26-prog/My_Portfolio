@@ -1,24 +1,34 @@
-// src/sections/Projects.jsx - UPDATED BASED ON RESUME WITH ADVANCED ANIMATIONS
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ExternalLink, Github, Eye, Star, 
   Zap, Users, ArrowRight, Code,
-  ChevronLeft, ChevronRight, Maximize2,
+  ChevronLeft, ChevronRight,
   Globe, Map, Leaf, ShoppingCart
 } from 'lucide-react';
-import { StaggerContainer, SlideInUp, ScaleIn } from '../components/Animations';
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], [15, -15]);
-  const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], isMobile ? [5, -5] : [15, -15]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [-50, 50] : [-100, 100]);
 
   const projects = [
     {
@@ -30,7 +40,7 @@ export default function Projects() {
       featured: true,
       stats: { users: '500+', performance: '95%', rating: '4.7' },
       color: '#00f6ff',
-      icon: <Leaf />
+      icon: <Leaf size={isMobile ? 32 : 48} />
     },
     {
       title: 'Smart Rasoi: AI-Powered Food Redistribution Platform',
@@ -41,7 +51,7 @@ export default function Projects() {
       featured: true,
       stats: { users: '1K+', performance: '92%', rating: '4.8' },
       color: '#7f5cff',
-      icon: <ShoppingCart />
+      icon: <ShoppingCart size={isMobile ? 32 : 48} />
     },
     {
       title: 'CivicTrack: Smart Civic Issue Reporting System',
@@ -52,7 +62,7 @@ export default function Projects() {
       featured: false,
       stats: { users: '800+', performance: '94%', rating: '4.6' },
       color: '#ff2e63',
-      icon: <Map />
+      icon: <Map size={isMobile ? 32 : 48} />
     },
     {
       title: 'KKV: Digital Farmer Marketplace',
@@ -63,7 +73,7 @@ export default function Projects() {
       featured: false,
       stats: { users: '2K+', performance: '90%', rating: '4.5' },
       color: '#00f6ff',
-      icon: <Globe />
+      icon: <Globe size={isMobile ? 32 : 48} />
     }
   ];
 
@@ -79,528 +89,423 @@ export default function Projects() {
     <section 
       ref={containerRef} 
       id="projects" 
-      className="section-wrapper"
       style={{ 
         minHeight: '100vh',
-        padding: '120px 10%',
+        padding: isMobile ? '60px 20px' : '120px 10%',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Parallax Background */}
       <motion.div 
         style={{ y }}
         className="parallax-layer layer-2"
       >
-        <div className="floating-element" style={{
-          width: '300px',
-          height: '300px',
+        <div style={{
+          position: 'absolute',
+          width: isMobile ? '150px' : '300px',
+          height: isMobile ? '150px' : '300px',
           background: 'linear-gradient(135deg, rgba(127, 92, 255, 0.1), rgba(255, 46, 99, 0.1))',
           bottom: '10%',
-          right: '10%'
+          right: '10%',
+          filter: 'blur(40px)',
+          borderRadius: '50%'
         }} />
       </motion.div>
 
-      <div className="container" style={{ 
+      <div style={{ 
         maxWidth: '1400px', 
         margin: '0 auto',
         position: 'relative',
         zIndex: 2
       }}>
-        <StaggerContainer delay={0.2}>
-          {/* Section Header */}
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <SlideInUp>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px 24px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '50px',
-                marginBottom: '30px'
-              }}>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #00f6ff, #7f5cff)'
-                  }}
-                />
-                <span style={{
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
-                  letterSpacing: '2px',
-                  color: '#00f6ff'
-                }}>
-                  REAL-WORLD PROJECTS
-                </span>
-              </div>
-            </SlideInUp>
-
-            <SlideInUp delay={0.2}>
-              <h2 style={{
-                fontSize: 'clamp(3rem, 5vw, 4.5rem)',
-                fontWeight: '800',
-                lineHeight: '1.1',
-                marginBottom: '20px'
-              }}>
-                Portfolio <span className="gradient-text">Projects</span>
-              </h2>
-            </SlideInUp>
-
-            <SlideInUp delay={0.4}>
-              <p style={{
-                fontSize: '1.2rem',
-                color: 'rgba(255, 255, 255, 0.7)',
-                maxWidth: '600px',
-                margin: '0 auto',
-                lineHeight: '1.6'
-              }}>
-                Full-stack web applications built with modern technologies and real-world impact
-              </p>
-            </SlideInUp>
-          </div>
-
-          {/* Project Carousel */}
-          <div style={{ position: 'relative', marginBottom: '80px' }}>
-            {/* Navigation Buttons */}
-            <motion.button
-              onClick={prevProject}
-              whileHover={{ scale: 1.1, x: -5 }}
-              whileTap={{ scale: 0.9 }}
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '50px' : '80px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: isMobile ? '8px' : '12px',
+              padding: isMobile ? '10px 16px' : '12px 24px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '50px',
+              marginBottom: isMobile ? '20px' : '30px',
+              backdropFilter: 'blur(10px)'
+            }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               style={{
-                position: 'absolute',
-                left: '-60px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '50px',
-                height: '50px',
+                width: isMobile ? '16px' : '20px',
+                height: isMobile ? '16px' : '20px',
                 borderRadius: '50%',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                cursor: 'pointer',
-                zIndex: 10
+                background: 'linear-gradient(135deg, #00f6ff, #7f5cff)'
               }}
-            >
-              <ChevronLeft />
-            </motion.button>
-
-            <motion.button
-              onClick={nextProject}
-              whileHover={{ scale: 1.1, x: 5 }}
-              whileTap={{ scale: 0.9 }}
-              style={{
-                position: 'absolute',
-                right: '-60px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                cursor: 'pointer',
-                zIndex: 10
-              }}
-            >
-              <ChevronRight />
-            </motion.button>
-
-            {/* Projects Grid */}
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-              gap: '40px'
+            />
+            <span style={{
+              fontSize: isMobile ? '0.75rem' : '0.9rem',
+              fontWeight: '600',
+              letterSpacing: isMobile ? '1px' : '2px',
+              color: '#00f6ff'
             }}>
-              {projects.map((project, i) => (
+              REAL-WORLD PROJECTS
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: isMobile ? '2rem' : 'clamp(3rem, 5vw, 4.5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: isMobile ? '15px' : '20px'
+            }}
+          >
+            Portfolio <span style={{
+              background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent'
+            }}>Projects</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: isMobile ? '1rem' : '1.2rem',
+              color: 'rgba(255, 255, 255, 0.7)',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}
+          >
+            Full-stack web applications built with modern technologies and real-world impact
+          </motion.p>
+        </div>
+
+        {/* Projects Grid */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
+          gap: isMobile ? '30px' : '40px',
+          marginBottom: isMobile ? '50px' : '80px'
+        }}>
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: i * 0.1,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                y: isMobile ? -10 : -20,
+                transition: { type: "spring", stiffness: 300 }
+              }}
+              viewport={{ once: true, amount: 0.3 }}
+              className="glass"
+              style={{ 
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                borderRadius: '16px',
+                backdropFilter: 'blur(10px)'
+              }}
+              onClick={() => setActiveProject(i)}
+            >
+              {/* Featured Badge */}
+              {project.featured && (
                 <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 50, rotateY: 180 }}
-                  whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                  transition={{ 
-                    duration: 0.8, 
-                    delay: i * 0.2,
-                    type: "spring",
-                    stiffness: 100
-                  }}
-                  whileHover={{ 
-                    y: -20,
-                    rotateY: activeProject === i ? 0 : 5,
-                    transition: { type: "spring", stiffness: 300 }
-                  }}
-                  animate={{ 
-                    scale: activeProject === i ? 1.05 : 1,
-                    zIndex: activeProject === i ? 10 : 1
-                  }}
-                  onClick={() => setActiveProject(i)}
-                  className="glass card-3d"
-                  style={{ 
-                    position: 'relative',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    transformStyle: 'preserve-3d'
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + i * 0.1 }}
+                  viewport={{ once: true }}
+                  style={{
+                    position: 'absolute',
+                    top: '15px',
+                    right: '15px',
+                    zIndex: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: isMobile ? '6px 12px' : '8px 16px',
+                    background: 'linear-gradient(90deg, #ff2e63, #ff6b9d)',
+                    borderRadius: '50px',
+                    fontSize: isMobile ? '0.7rem' : '0.8rem',
+                    fontWeight: '600'
                   }}
                 >
-                  {/* Featured Badge */}
-                  {project.featured && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 + i * 0.1 }}
+                  <Star size={isMobile ? 10 : 12} />
+                  Hackathon Winner
+                </motion.div>
+              )}
+
+              {/* Project Visual */}
+              <div
+                style={{
+                  height: isMobile ? '180px' : '250px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: `linear-gradient(45deg, ${project.color}22, ${project.color}44)`
+                }}
+              >
+                <motion.div
+                  animate={{ 
+                    rotate: 360,
+                    scale: activeProject === i ? (isMobile ? 1.1 : 1.2) : 1
+                  }}
+                  transition={{ 
+                    rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    color: `${project.color}33`,
+                    zIndex: 2
+                  }}
+                >
+                  {project.icon}
+                </motion.div>
+              </div>
+
+              {/* Project Content */}
+              <div style={{ padding: isMobile ? '25px' : '40px' }}>
+                <h3 style={{ 
+                  fontSize: isMobile ? '1.3rem' : '1.8rem', 
+                  marginBottom: isMobile ? '12px' : '15px',
+                  lineHeight: '1.3',
+                  color: '#fff'
+                }}>
+                  {project.title}
+                </h3>
+                
+                <p style={{ 
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.6',
+                  marginBottom: isMobile ? '20px' : '25px',
+                  fontSize: isMobile ? '0.9rem' : '1rem'
+                }}>
+                  {project.description}
+                </p>
+
+                {/* Tags */}
+                <div style={{ 
+                  display: 'flex', 
+                  flexWrap: 'wrap',
+                  gap: isMobile ? '8px' : '10px',
+                  marginBottom: isMobile ? '25px' : '30px'
+                }}>
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
                       style={{
-                        position: 'absolute',
-                        top: '20px',
-                        right: '20px',
-                        zIndex: 2,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        padding: '8px 16px',
-                        background: 'linear-gradient(90deg, #ff2e63, #ff6b9d)',
+                        padding: isMobile ? '6px 12px' : '8px 16px',
+                        background: `rgba(${parseInt(project.color.slice(1, 3), 16)}, ${parseInt(project.color.slice(3, 5), 16)}, ${parseInt(project.color.slice(5, 7), 16)}, 0.1)`,
+                        border: `1px solid ${project.color}33`,
                         borderRadius: '50px',
-                        fontSize: '0.8rem',
-                        fontWeight: '600'
+                        fontSize: isMobile ? '0.75rem' : '0.85rem',
+                        cursor: 'default'
                       }}
                     >
-                      <Star size={12} />
-                      Hackathon Winner
-                    </motion.div>
-                  )}
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-                  {/* Project Visual */}
-                  <motion.div
-                    animate={{ 
-                      background: `linear-gradient(45deg, ${project.color}22, ${project.color}44)`
-                    }}
-                    style={{
-                      height: '250px',
-                      position: 'relative',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <motion.div
-                      animate={{ 
-                        rotate: activeProject === i ? 360 : 0,
-                        scale: activeProject === i ? 1.2 : 1
-                      }}
-                      transition={{ 
-                        rotate: { duration: 20, repeat: Infinity, ease: "linear" }
-                      }}
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        fontSize: '4rem',
-                        color: `${project.color}33`,
-                        zIndex: 2
-                      }}
-                    >
-                      {project.icon}
-                    </motion.div>
-
-                    {/* Animated Grid Overlay */}
-                    <motion.div
-                      animate={{ 
-                        opacity: activeProject === i ? 0.3 : 0.1
-                      }}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        backgroundImage: `linear-gradient(${project.color}22 1px, transparent 1px),
-                                         linear-gradient(90deg, ${project.color}22 1px, transparent 1px)`,
-                        backgroundSize: '50px 50px',
-                        zIndex: 1
-                      }}
-                    />
-                  </motion.div>
-
-                  {/* Project Content */}
-                  <div style={{ padding: '40px' }}>
-                    <motion.h3
-                      animate={{ color: activeProject === i ? project.color : '#fff' }}
-                      style={{ 
-                        fontSize: '1.8rem', 
-                        marginBottom: '15px',
-                        lineHeight: '1.3'
-                      }}
-                    >
-                      {project.title}
-                    </motion.h3>
-                    
-                    <p style={{ 
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      lineHeight: '1.6',
-                      marginBottom: '25px'
-                    }}>
-                      {project.description}
-                    </p>
-
-                    {/* Tags */}
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.8 + i * 0.1 }}
-                      style={{ 
-                        display: 'flex', 
-                        flexWrap: 'wrap',
-                        gap: '10px',
-                        marginBottom: '30px'
-                      }}
-                    >
-                      {project.tags.map((tag, tagIndex) => (
-                        <motion.span
-                          key={tag}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.9 + i * 0.1 + tagIndex * 0.1 }}
-                          whileHover={{ scale: 1.1, y: -2 }}
-                          style={{
-                            padding: '8px 16px',
-                            background: `rgba(${parseInt(project.color.slice(1, 3), 16)}, ${parseInt(project.color.slice(3, 5), 16)}, ${parseInt(project.color.slice(5, 7), 16)}, 0.1)`,
-                            border: `1px solid ${project.color}33`,
-                            borderRadius: '50px',
-                            fontSize: '0.85rem',
-                            cursor: 'default'
-                          }}
-                        >
-                          {tag}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-
-                    {/* Stats & Actions */}
-                    <div style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}>
-                      {/* Stats */}
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1 + i * 0.1 }}
-                        style={{ display: 'flex', gap: '20px' }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <Users size={16} style={{ color: project.color }} />
-                          <span style={{ fontSize: '0.9rem' }}>{project.stats.users}</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <Zap size={16} style={{ color: project.color }} />
-                          <span style={{ fontSize: '0.9rem' }}>{project.stats.performance}</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <Star size={16} style={{ color: '#ffd700' }} />
-                          <span style={{ fontSize: '0.9rem' }}>{project.stats.rating}</span>
-                        </div>
-                      </motion.div>
-
-                      {/* Actions */}
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1.1 + i * 0.1 }}
-                        style={{ display: 'flex', gap: '10px' }}
-                      >
-                        <motion.a
-                          href={project.live}
-                          whileHover={{ scale: 1.2, rotate: 5 }}
-                          whileTap={{ scale: 0.9 }}
-                          style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            textDecoration: 'none',
-                            color: 'white'
-                          }}
-                        >
-                          <Eye size={18} />
-                        </motion.a>
-                        
-                        <motion.a
-                          href={project.github}
-                          whileHover={{ scale: 1.2, rotate: -5 }}
-                          whileTap={{ scale: 0.9 }}
-                          style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            textDecoration: 'none',
-                            color: 'white'
-                          }}
-                        >
-                          <Github size={18} />
-                        </motion.a>
-                      </motion.div>
+                {/* Stats & Actions */}
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: isMobile ? '15px' : '0'
+                }}>
+                  {/* Stats */}
+                  <div style={{ 
+                    display: 'flex', 
+                    gap: isMobile ? '15px' : '20px',
+                    width: isMobile ? '100%' : 'auto',
+                    justifyContent: isMobile ? 'space-between' : 'flex-start'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Users size={isMobile ? 14 : 16} style={{ color: project.color }} />
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.users}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Zap size={isMobile ? 14 : 16} style={{ color: project.color }} />
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.performance}%</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Star size={isMobile ? 14 : 16} style={{ color: '#ffd700' }} />
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.rating}</span>
                     </div>
                   </div>
 
-                  {/* Hover Effect Overlay */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: `linear-gradient(45deg, ${project.color}11, transparent)`,
-                      zIndex: 3,
-                      pointerEvents: 'none'
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Project Indicator */}
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              gap: '10px',
-              marginTop: '40px'
-            }}>
-              {projects.map((_, i) => (
-                <motion.button
-                  key={i}
-                  onClick={() => setActiveProject(i)}
-                  animate={{ 
-                    scale: activeProject === i ? 1.2 : 1,
-                    background: activeProject === i ? '#00f6ff' : 'rgba(255, 255, 255, 0.1)'
-                  }}
-                  whileHover={{ scale: 1.1 }}
-                  style={{
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: 0
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* CTA Section */}
-          <ScaleIn delay={1.2}>
-            <motion.div
-              whileHover={{ y: -10 }}
-              className="glass"
-              style={{ 
-                padding: '60px', 
-                textAlign: 'center',
-                background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.05), rgba(127, 92, 255, 0.05))',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-            >
-              {/* Animated Background Elements */}
-              <motion.div
-                animate={{ 
-                  rotate: 360,
-                  scale: [1, 1.2, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 3, repeat: Infinity }
-                }}
-                style={{
-                  position: 'absolute',
-                  top: '-100px',
-                  right: '-100px',
-                  width: '300px',
-                  height: '300px',
-                  background: 'radial-gradient(circle, rgba(0, 246, 255, 0.1), transparent 70%)',
-                  borderRadius: '50%',
-                  zIndex: 1
-                }}
-              />
-
-              <div style={{ position: 'relative', zIndex: 2 }}>
-                <motion.h3
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.4, duration: 0.8 }}
-                  style={{ 
-                    fontSize: '2.5rem', 
-                    marginBottom: '20px',
-                    lineHeight: '1.2'
-                  }}
-                >
-                  Looking for a{' '}
-                  <motion.span
-                    animate={{ 
-                      textShadow: [
-                        '0 0 10px rgba(0, 246, 255, 0.5)',
-                        '0 0 20px rgba(0, 246, 255, 0.8)',
-                        '0 0 10px rgba(0, 246, 255, 0.5)'
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="gradient-text"
-                  >
-                    Software Engineering Intern?
-                  </motion.span>
-                </motion.h3>
-                
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.6, duration: 0.8 }}
-                  style={{
-                    fontSize: '1.2rem',
-                    color: 'rgba(255, 255, 255, 0.7)',
-                    maxWidth: '600px',
-                    margin: '0 auto 40px',
-                    lineHeight: '1.6'
-                  }}
-                >
-                  Let's discuss how I can contribute to your team with my full-stack development skills
-                </motion.p>
-                
-                <motion.a
-                  href="#contact"
-                  className="btn btn-primary"
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: '0 0 40px rgba(0, 246, 255, 0.5)'
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{ padding: '20px 50px' }}
-                >
-                  <motion.span
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    Contact Me
-                  </motion.span>
-                  <ArrowRight />
-                </motion.a>
+                  {/* Actions */}
+                  <div style={{ 
+                    display: 'flex', 
+                    gap: isMobile ? '15px' : '10px',
+                    width: isMobile ? '100%' : 'auto',
+                    justifyContent: isMobile ? 'space-between' : 'flex-end'
+                  }}>
+                    <motion.a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: isMobile ? 1.1 : 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      style={{
+                        padding: isMobile ? '10px 20px' : '0',
+                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                        borderRadius: isMobile ? '50px' : '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textDecoration: 'none',
+                        color: 'white',
+                        width: isMobile ? 'auto' : '40px',
+                        height: isMobile ? 'auto' : '40px'
+                      }}
+                    >
+                      <Eye size={isMobile ? 16 : 18} />
+                      {isMobile && <span style={{ marginLeft: '8px' }}>Live Demo</span>}
+                    </motion.a>
+                    
+                    <motion.a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: isMobile ? 1.1 : 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      style={{
+                        padding: isMobile ? '10px 20px' : '0',
+                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                        borderRadius: isMobile ? '50px' : '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textDecoration: 'none',
+                        color: 'white',
+                        width: isMobile ? 'auto' : '40px',
+                        height: isMobile ? 'auto' : '40px'
+                      }}
+                    >
+                      <Github size={isMobile ? 16 : 18} />
+                      {isMobile && <span style={{ marginLeft: '8px' }}>GitHub</span>}
+                    </motion.a>
+                  </div>
+                </div>
               </div>
             </motion.div>
-          </ScaleIn>
-        </StaggerContainer>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="glass"
+          style={{ 
+            padding: isMobile ? '30px' : '60px',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.05), rgba(127, 92, 255, 0.05))',
+            borderRadius: '16px',
+            position: 'relative',
+            overflow: 'hidden',
+            backdropFilter: 'blur(10px)',
+            marginBottom: isMobile ? '40px' : '80px'
+          }}
+        >
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              viewport={{ once: true }}
+              style={{ 
+                fontSize: isMobile ? '1.5rem' : '2.5rem', 
+                marginBottom: isMobile ? '15px' : '20px',
+                lineHeight: '1.2'
+              }}
+            >
+              Looking for a{' '}
+              <span style={{
+                background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent'
+              }}>
+                Software Engineering Intern?
+              </span>
+            </motion.h3>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: isMobile ? '0.95rem' : '1.2rem',
+                color: 'rgba(255, 255, 255, 0.7)',
+                maxWidth: '600px',
+                margin: '0 auto',
+                lineHeight: '1.6',
+                marginBottom: isMobile ? '25px' : '40px'
+              }}
+            >
+              Let's discuss how I can contribute to your team with my full-stack development skills
+            </motion.p>
+            
+            <motion.a
+              href="#contact"
+              whileHover={{ 
+                scale: isMobile ? 1.02 : 1.05,
+                boxShadow: '0 0 30px rgba(0, 246, 255, 0.3)'
+              }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: isMobile ? '16px 32px' : '20px 50px',
+                background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
+                border: 'none',
+                borderRadius: '50px',
+                color: '#000',
+                fontSize: isMobile ? '0.95rem' : '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                textDecoration: 'none'
+              }}
+            >
+              <motion.span
+                animate={{ x: [0, 3, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                Contact Me
+              </motion.span>
+              <ArrowRight size={isMobile ? 18 : 20} />
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
