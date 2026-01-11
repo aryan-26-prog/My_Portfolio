@@ -208,12 +208,12 @@ export default function Projects() {
               padding: isMobile ? '0 10px' : '0'
             }}
           >
-            Portfolio <span style={{
+            Project <span style={{
               background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent'
-            }}>Projects</span>
+            }}>Showcase</span>
           </motion.h2>
 
           <motion.p
