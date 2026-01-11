@@ -346,6 +346,7 @@ export default function Projects() {
                     {project.images.length > 1 && (
                       <div style={{
                         position: 'absolute',
+                        visibility: 'hidden',
                         bottom: isMobile ? '12px' : '16px',
                         left: '50%',
                         transform: 'translateX(-50%)',
