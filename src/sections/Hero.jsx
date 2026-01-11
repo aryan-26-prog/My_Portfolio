@@ -97,7 +97,7 @@ export default function Hero() {
       if (!container) return;
       
       container.innerHTML = '';
-      const particleCount = isMobile ? 30 : 80; // Reduced for mobile
+      const particleCount = isMobile ? 30 : 80; 
       
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
