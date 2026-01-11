@@ -890,7 +890,7 @@ export default function About() {
       </div>
 
       {/* Mobile Responsive Styles */}
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           .glass {
             backdrop-filter: blur(5px);

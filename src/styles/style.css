@@ -803,3 +803,168 @@ body {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Hero Section Specific Fixes */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-section h1 span {
+  display: inline-block !important;
+}
+
+/* Fix for gradient text on mobile */
+.hero-section .gradient-text {
+  background: linear-gradient(90deg, #00f6ff, #7f5cff, #ff2e63);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Professional Links Fix */
+.professional-links {
+  width: 100%;
+  overflow: visible;
+}
+
+.professional-links a {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 15px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.professional-links a:hover {
+  transform: translateY(-5px);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .hero-section p {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .contact-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  
+  .professional-links {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  
+  .professional-links a {
+    padding: 15px 12px;
+    min-height: 110px;
+  }
+  
+  /* Fix particle performance on mobile */
+  .hero-particles {
+    display: none; /* Hide particles on mobile for better performance */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+  
+  .professional-links {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+  }
+  
+  .cta-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Fix for Safari gradient text */
+@supports (-webkit-touch-callout: none) {
+  .hero-section .gradient-text {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+}
+
+/* Prevent text selection on buttons */
+.hero-section a,
+.hero-section button {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Improve performance on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .hero-section *,
+  .hero-section *::before,
+  .hero-section *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Fix for iOS overflow issues */
+.hero-section {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure proper text rendering */
+.hero-section h1,
+.hero-section h2,
+.hero-section h3,
+.hero-section p {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Add loading state for particles */
+@media (prefers-reduced-data: reduce) {
+  .hero-particles {
+    display: none;
+  }
+}
+
+/* Fix for Firefox gradient issues */
+@-moz-document url-prefix() {
+  .hero-section .gradient-text {
+    background: linear-gradient(90deg, #00f6ff, #7f5cff);
+    background-clip: text;
+  }
+}
