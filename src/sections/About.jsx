@@ -1,9 +1,11 @@
 // src/sections/About.jsx
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { 
   User, Target, Award, Globe, 
   Code, Palette, Cpu, Zap,
-  Rocket, Layers, Brain, Sparkles
+  Rocket, Layers, Brain, Sparkles,
+  Book, GraduationCap, Briefcase
 } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInRight, FlipCard } from '../components/Animations';
 
@@ -18,17 +20,10 @@ export default function About() {
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   const stats = [
-    { value: '50+', label: 'Projects', icon: <Rocket />, color: '#00f6ff' },
-    { value: '3+', label: 'Years Experience', icon: <Award />, color: '#7f5cff' },
-    { value: '100%', label: 'Client Satisfaction', icon: <Target />, color: '#ff2e63' },
-    { value: 'Global', label: 'Remote Work', icon: <Globe />, color: '#00f6ff' }
-  ];
-
-  const timeline = [
-    { year: '2024', title: 'Lead 3D Developer', company: 'MetaLab', desc: 'Enterprise WebGL solutions' },
-    { year: '2023', title: 'Frontend Architect', company: 'Google', desc: 'Next-gen web experiences' },
-    { year: '2022', title: 'Creative Developer', company: 'Apple', desc: '3D interactive interfaces' },
-    { year: '2021', title: 'WebGL Specialist', company: 'Netflix', desc: 'Cinematic web animations' }
+    { value: '4+', label: 'Major Projects', icon: <Rocket />, color: '#00f6ff' },
+    { value: '9.15', label: 'Current CGPA', icon: <Award />, color: '#7f5cff' },
+    { value: '100%', label: 'Class X Percentage', icon: <Target />, color: '#ff2e63' },
+    { value: '2+', label: 'Leadership Roles', icon: <GraduationCap />, color: '#00f6ff' }
   ];
 
   return (
@@ -43,7 +38,6 @@ export default function About() {
         overflow: 'hidden'
       }}
     >
-      {/* Animated Background Elements */}
       <motion.div 
         style={{ rotateX, y }}
         className="parallax-layer layer-1"
@@ -104,7 +98,7 @@ export default function About() {
                 lineHeight: '1.1',
                 marginBottom: '20px'
               }}>
-                Building The <span className="gradient-text">Future</span> of Web
+                Building <span className="gradient-text">Scalable</span> Web Solutions
               </h2>
             </SlideInLeft>
 
@@ -115,8 +109,9 @@ export default function About() {
                 maxWidth: '600px',
                 lineHeight: '1.6'
               }}>
-                Transforming ideas into immersive digital experiences through 
-                cutting-edge technology and creative innovation.
+                CSE undergraduate passionate about designing, developing, and testing 
+                scalable web applications. Actively strengthening DSA, OOP, and 
+                full-stack development while building real-world projects.
               </p>
             </SlideInLeft>
           </div>
@@ -158,9 +153,9 @@ export default function About() {
                       <User />
                     </motion.div>
                     <div>
-                      <h3 style={{ fontSize: '2rem', marginBottom: '5px' }}>Aryan Sharma</h3>
+                      <h3 style={{ fontSize: '2rem', marginBottom: '5px' }}>Aryan Dhiman</h3>
                       <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                        Senior 3D Web Developer
+                        Full-Stack Developer | CSE Undergrad
                       </p>
                     </div>
                   </div>
@@ -176,13 +171,14 @@ export default function About() {
                       marginBottom: '30px'
                     }}
                   >
-                    With over <strong style={{ color: '#00f6ff' }}>3 years</strong> of expertise in 
-                    creating immersive web experiences, I blend cutting-edge 3D technology 
-                    with elegant UI design to build digital products that captivate and convert.
+                    Currently pursuing <strong style={{ color: '#00f6ff' }}>B.Tech in CSE</strong> 
+                    with a strong focus on full-stack web development. Experienced in building 
+                    scalable applications using modern technologies and collaborating in 
+                    team-based environments.
                   </motion.p>
 
                   <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                    {['React', 'Three.js', 'WebGL', 'TypeScript', 'GSAP', 'Framer'].map((tech, i) => (
+                    {['React.js', 'Node.js', 'MongoDB', 'Python', 'JavaScript', 'Django'].map((tech, i) => (
                       <motion.span
                         key={tech}
                         initial={{ opacity: 0, scale: 0 }}
@@ -303,15 +299,16 @@ export default function About() {
                     gap: '10px'
                   }}>
                     <Brain style={{ color: '#00f6ff' }} />
-                    Development Philosophy
+                    Development Approach
                   </h3>
                   <p style={{ 
                     lineHeight: '1.8', 
                     color: 'rgba(255, 255, 255, 0.7)',
                     marginBottom: '25px'
                   }}>
-                    I believe in creating web experiences that are not just visually 
-                    impressive but also performant, accessible, and user-focused.
+                    Focus on building scalable, maintainable applications with clean code 
+                    and user-centric design. Passionate about solving real-world problems 
+                    through technology.
                   </p>
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
@@ -323,7 +320,7 @@ export default function About() {
                       flexWrap: 'wrap'
                     }}
                   >
-                    {['Innovation', 'Performance', 'Design', 'Accessibility'].map((tag, i) => (
+                    {['Scalability', 'Clean Code', 'Problem Solving', 'Teamwork'].map((tag, i) => (
                       <motion.span
                         key={tag}
                         initial={{ opacity: 0, y: 20 }}
@@ -344,127 +341,6 @@ export default function About() {
                   </motion.div>
                 </div>
               </SlideInRight>
-            </div>
-          </div>
-
-          {/* Timeline Section */}
-          <div>
-            <SlideInLeft delay={1.2}>
-              <h3 style={{ 
-                fontSize: '2rem', 
-                marginBottom: '50px',
-                textAlign: 'center'
-              }}>
-                Professional <span className="gradient-text">Journey</span>
-              </h3>
-            </SlideInLeft>
-
-            <div style={{ 
-              position: 'relative',
-              maxWidth: '800px',
-              margin: '0 auto'
-            }}>
-              {/* Timeline Line */}
-              <motion.div
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                transition={{ duration: 1.5, delay: 1.4 }}
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: 0,
-                  bottom: 0,
-                  width: '2px',
-                  background: 'linear-gradient(to bottom, transparent, #00f6ff, #7f5cff, transparent)',
-                  transform: 'translateX(-50%)',
-                  zIndex: 1
-                }}
-              />
-
-              {/* Timeline Items */}
-              {timeline.map((item, i) => (
-                <motion.div
-                  key={item.year}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -100 : 100 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 1.6 + i * 0.2 }}
-                  viewport={{ once: true }}
-                  style={{
-                    position: 'relative',
-                    marginBottom: '60px',
-                    width: i % 2 === 0 ? '45%' : '55%',
-                    marginLeft: i % 2 === 0 ? '0' : '45%',
-                    zIndex: 2
-                  }}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="glass"
-                    style={{ padding: '30px' }}
-                  >
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '20px',
-                      marginBottom: '15px'
-                    }}>
-                      <motion.div
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6 }}
-                        style={{
-                          width: '60px',
-                          height: '60px',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #00f6ff, #7f5cff)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontWeight: '700',
-                          fontSize: '1.2rem',
-                          color: 'black'
-                        }}
-                      >
-                        {item.year}
-                      </motion.div>
-                      <div>
-                        <h4 style={{ fontSize: '1.3rem', marginBottom: '5px' }}>
-                          {item.title}
-                        </h4>
-                        <div style={{ 
-                          color: '#00f6ff',
-                          fontWeight: '600',
-                          marginBottom: '5px'
-                        }}>
-                          {item.company}
-                        </div>
-                      </div>
-                    </div>
-                    <p style={{ 
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      lineHeight: '1.6'
-                    }}>
-                      {item.desc}
-                    </p>
-                  </motion.div>
-
-                  {/* Timeline Dot */}
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
-                    style={{
-                      position: 'absolute',
-                      top: '30px',
-                      [i % 2 === 0 ? 'right' : 'left']: '-25px',
-                      width: '20px',
-                      height: '20px',
-                      background: 'linear-gradient(135deg, #00f6ff, #7f5cff)',
-                      borderRadius: '50%',
-                      border: '4px solid #050507',
-                      zIndex: 3
-                    }}
-                  />
-                </motion.div>
-              ))}
             </div>
           </div>
         </StaggerContainer>

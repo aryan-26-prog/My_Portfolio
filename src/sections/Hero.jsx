@@ -1,8 +1,7 @@
 // src/sections/Hero.jsx
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, Sparkles, Code, Zap, Mouse } from 'lucide-react';
-import { useParallax } from '../hooks/useScrollAnimation';
+import { ChevronDown, Sparkles, Code, Zap, Mouse, Briefcase, Target } from 'lucide-react';
 import { StaggerContainer, SlideInLeft, SlideInUp, ScaleIn } from '../components/Animations';
 
 export default function Hero() {
@@ -124,12 +123,12 @@ export default function Hero() {
                   backgroundClip: 'text',
                   color: 'transparent'
                 }}>
-                  SENIOR 3D DEVELOPER
+                  CSE UNDERGRAD | FULL-STACK DEVELOPER
                 </span>
               </motion.div>
             </SlideInLeft>
 
-            {/* Main Heading with Typewriter Effect */}
+            {/* Main Heading */}
             <SlideInLeft delay={0.4}>
               <h1 style={{
                 fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
@@ -138,7 +137,7 @@ export default function Hero() {
                 marginBottom: '30px'
               }}>
                 <span className="gradient-text" style={{ display: 'block' }}>
-                  Creating Digital
+                  Aryan Dhiman
                 </span>
                 <motion.span
                   initial={{ opacity: 0, y: 20 }}
@@ -150,7 +149,7 @@ export default function Hero() {
                     position: 'relative'
                   }}
                 >
-                  Experiences
+                  Software Engineering
                   <motion.div
                     animate={{ width: ['0%', '100%', '0%'] }}
                     transition={{ 
@@ -180,13 +179,13 @@ export default function Hero() {
                 lineHeight: '1.7',
                 marginBottom: '50px'
               }}>
-                I specialize in building <strong style={{ color: '#00f6ff' }}>immersive 3D web experiences</strong> 
-                that combine cutting-edge technology with cinematic storytelling 
-                to create unforgettable digital interactions.
+                Passionate about <strong style={{ color: '#00f6ff' }}>designing, developing, and testing 
+                scalable web applications</strong>. Actively seeking a Software Engineering 
+                Internship to learn, grow, and contribute to impactful engineering solutions.
               </p>
             </SlideInLeft>
 
-            {/* Buttons with Hover Effects */}
+            {/* Buttons */}
             <SlideInUp delay={0.8}>
               <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                 <motion.a
@@ -201,7 +200,7 @@ export default function Hero() {
                     animation: 'pulse 2s infinite'
                   }}
                 >
-                  <span>Explore Projects</span>
+                  <span>View Projects</span>
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -216,12 +215,12 @@ export default function Hero() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span>Let's Connect</span>
+                  <span>Contact Me</span>
                 </motion.a>
               </div>
             </SlideInUp>
 
-            {/* Tech Stack with Floating Animation */}
+            {/* Tech Stack */}
             <SlideInUp delay={1}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -235,9 +234,9 @@ export default function Hero() {
                 }}
               >
                 {[
-                  { icon: <Code />, label: 'React', color: '#00f6ff' },
-                  { icon: <Sparkles />, label: 'Three.js', color: '#7f5cff' },
-                  { icon: <Zap />, label: 'WebGL', color: '#ff2e63' }
+                  { icon: <Code />, label: 'React.js', color: '#00f6ff' },
+                  { icon: <Briefcase />, label: 'Node.js', color: '#7f5cff' },
+                  { icon: <Target />, label: 'MongoDB', color: '#ff2e63' }
                 ].map((tech, i) => (
                   <motion.div
                     key={tech.label}
@@ -303,56 +302,6 @@ export default function Hero() {
           </div>
         </StaggerContainer>
       </div>
-
-      {/* Animated Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        style={{
-          position: 'absolute',
-          bottom: '40px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '15px'
-        }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '5px'
-          }}
-        >
-          <Mouse style={{ 
-            color: 'rgba(255, 255, 255, 0.7)',
-            animation: 'pulse 2s infinite'
-          }} />
-          <ChevronDown style={{ 
-            color: 'rgba(255, 255, 255, 0.5)',
-            animation: 'pulse 1.5s infinite 0.5s'
-          }} />
-        </motion.div>
-        
-        <motion.span
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ 
-            fontSize: '0.9rem', 
-            color: 'rgba(255, 255, 255, 0.7)',
-            letterSpacing: '2px',
-            fontWeight: '300'
-          }}
-        >
-          SCROLL TO EXPLORE
-        </motion.span>
-      </motion.div>
     </section>
   );
 }

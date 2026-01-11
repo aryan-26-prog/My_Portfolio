@@ -1,259 +1,473 @@
-import { motion } from 'framer-motion';
+// src/sections/Skills.jsx - WITH 3D EFFECTS
+import { useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Code, Palette, Cpu, Zap, 
   Server, Database, Cloud, Smartphone,
-  GitBranch, Layers, Globe, Terminal
+  GitBranch, Layers, Globe, Terminal,
+  Sparkles, TrendingUp
 } from 'lucide-react';
+import { StaggerContainer, SlideInLeft, SlideInRight } from '../components/Animations';
 
 export default function Skills() {
-  const categories = [
-    {
+  const [activeCategory, setActiveCategory] = useState('frontend');
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const x = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  const categories = {
+    frontend: {
       title: 'Frontend & 3D',
       color: '#00f6ff',
       icon: <Code />,
       skills: [
-        { name: 'React & Next.js', level: 95 },
-        { name: 'Three.js / WebGL', level: 90 },
-        { name: 'TypeScript', level: 88 },
-        { name: 'GSAP / Framer Motion', level: 85 },
-        { name: 'Tailwind CSS', level: 87 }
+        { name: 'React / Next.js', level: 95, icon: <Code /> },
+        { name: 'Three.js / WebGL', level: 90, icon: <Palette /> },
+        { name: 'TypeScript', level: 88, icon: <Cpu /> },
+        { name: 'GSAP / Framer Motion', level: 85, icon: <Zap /> },
+        { name: 'Tailwind CSS', level: 87, icon: <Smartphone /> }
       ]
     },
-    {
+    backend: {
       title: 'Backend & DevOps',
       color: '#7f5cff',
       icon: <Server />,
       skills: [
-        { name: 'Node.js / Express', level: 85 },
-        { name: 'MongoDB / PostgreSQL', level: 80 },
-        { name: 'AWS / Vercel', level: 82 },
-        { name: 'Docker / CI/CD', level: 78 },
-        { name: 'REST / GraphQL APIs', level: 88 }
+        { name: 'Node.js / Express', level: 85, icon: <Server /> },
+        { name: 'MongoDB / PostgreSQL', level: 80, icon: <Database /> },
+        { name: 'AWS / Vercel', level: 82, icon: <Cloud /> },
+        { name: 'Docker / CI/CD', level: 78, icon: <Terminal /> },
+        { name: 'REST / GraphQL APIs', level: 88, icon: <Globe /> }
       ]
     },
-    {
+    design: {
       title: 'Design & Tools',
       color: '#ff2e63',
       icon: <Palette />,
       skills: [
-        { name: 'Figma / Adobe Suite', level: 90 },
-        { name: 'Blender / Spline', level: 75 },
-        { name: 'Git & GitHub', level: 92 },
-        { name: 'Webpack / Vite', level: 85 },
-        { name: 'UI/UX Principles', level: 88 }
+        { name: 'Figma / Adobe Suite', level: 90, icon: <Palette /> },
+        { name: 'Blender / Spline', level: 75, icon: <Layers /> },
+        { name: 'Git & GitHub', level: 92, icon: <GitBranch /> },
+        { name: 'Webpack / Vite', level: 85, icon: <Terminal /> },
+        { name: 'UI/UX Principles', level: 88, icon: <Sparkles /> }
       ]
     }
-  ];
-
-  const techStack = [
-    'React', 'Three.js', 'TypeScript', 'Next.js', 'Node.js',
-    'WebGL', 'GSAP', 'Framer Motion', 'Tailwind', 'MongoDB',
-    'AWS', 'Docker', 'GraphQL', 'Redis', 'WebSockets'
-  ];
+  };
 
   return (
-    <section id="skills" className="skills-section">
-      <div className="container" style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}
-        >
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            padding: '8px 20px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            borderRadius: '50px',
-            marginBottom: '20px',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-          }}>
-            <div style={{
-              width: '30px',
-              height: '2px',
-              background: 'linear-gradient(90deg, #00f6ff, transparent)'
-            }} />
-            <span style={{
-              fontSize: '0.9rem',
-              fontWeight: '600',
-              letterSpacing: '2px',
-              color: '#00f6ff'
-            }}>
-              TECHNICAL EXPERTISE
-            </span>
-          </div>
-          
-          <h2 className="section-title">
-            Skills & <span className="gradient-text">Technologies</span>
-          </h2>
-          
-          <p style={{
-            fontSize: '1.2rem',
-            color: 'rgba(255, 255, 255, 0.7)',
-            maxWidth: '600px',
-            margin: '0 auto',
-            lineHeight: '1.6'
-          }}>
-            Mastery across the full spectrum of modern web development
-          </p>
-        </motion.div>
+    <section 
+      ref={containerRef} 
+      id="skills" 
+      className="section-wrapper"
+      style={{ 
+        minHeight: '100vh',
+        padding: '120px 10%',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      {/* Animated Background */}
+      <motion.div 
+        style={{ rotate, x }}
+        className="parallax-layer layer-3"
+      >
+        <div className="floating-element" style={{
+          width: '400px',
+          height: '400px',
+          background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(255, 46, 99, 0.1))',
+          top: '50%',
+          left: '10%'
+        }} />
+      </motion.div>
 
-        {/* Skills Categories */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-          gap: '40px',
-          marginBottom: '80px'
-        }}>
-          {categories.map((category, catIndex) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: catIndex * 0.2 }}
-              viewport={{ once: true }}
-              className="glass"
-              style={{ 
-                padding: '40px',
-                borderRadius: '24px'
-              }}
-              whileHover={{ y: -10 }}
-            >
-              {/* Category Header */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '15px',
+      <div className="container" style={{ 
+        maxWidth: '1400px', 
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 2
+      }}>
+        <StaggerContainer delay={0.2}>
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <SlideInLeft>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '12px 24px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '50px',
                 marginBottom: '30px'
               }}>
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '12px',
-                  background: `linear-gradient(135deg, ${category.color}, ${category.color}33)`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                  color: category.color
-                }}>
-                  {category.icon}
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-                    {category.title}
-                  </h3>
-                  <div style={{ 
-                    width: '40px', 
-                    height: '3px', 
-                    background: `linear-gradient(90deg, ${category.color}, transparent)` 
-                  }} />
-                </div>
-              </div>
-
-              {/* Skills List */}
-              <div>
-                {category.skills.map((skill, skillIndex) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: catIndex * 0.2 + skillIndex * 0.1 }}
-                    viewport={{ once: true }}
-                    style={{ marginBottom: '25px' }}
-                  >
-                    <div style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      marginBottom: '10px'
-                    }}>
-                      <span>{skill.name}</span>
-                      <span style={{ fontWeight: '600', color: category.color }}>
-                        {skill.level}%
-                      </span>
-                    </div>
-                    <div style={{
-                      height: '8px',
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.5 + skillIndex * 0.1 }}
-                        viewport={{ once: true }}
-                        style={{
-                          height: '100%',
-                          background: `linear-gradient(90deg, ${category.color}, ${category.color}88)`,
-                          borderRadius: '4px'
-                        }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Tech Stack Cloud */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="glass"
-          style={{ padding: '60px', borderRadius: '24px' }}
-        >
-          <h3 style={{ 
-            textAlign: 'center', 
-            fontSize: '2rem',
-            marginBottom: '50px'
-          }}>
-            <span className="gradient-text">Tech Stack</span> I Work With
-          </h3>
-          
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '15px',
-            justifyContent: 'center',
-            maxWidth: '900px',
-            margin: '0 auto'
-          }}>
-            {techStack.map((tech, i) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 * i }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  scale: 1.1, 
-                  y: -5,
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #00f6ff, #7f5cff)'
+                  }}
+                />
+                <span style={{
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  letterSpacing: '2px',
                   color: '#00f6ff'
+                }}>
+                  TECHNICAL MASTERY
+                </span>
+              </div>
+            </SlideInLeft>
+
+            <SlideInLeft delay={0.2}>
+              <h2 style={{
+                fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+                fontWeight: '800',
+                lineHeight: '1.1',
+                marginBottom: '20px'
+              }}>
+                Skills & <span className="gradient-text">Expertise</span>
+              </h2>
+            </SlideInLeft>
+
+            <SlideInLeft delay={0.4}>
+              <p style={{
+                fontSize: '1.2rem',
+                color: 'rgba(255, 255, 255, 0.7)',
+                maxWidth: '600px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>
+                Mastery across the full spectrum of modern web development
+              </p>
+            </SlideInLeft>
+          </div>
+
+          {/* 3D Skill Sphere */}
+          <div style={{ 
+            position: 'relative', 
+            height: '300px',
+            marginBottom: '80px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <motion.div
+              animate={{ 
+                rotateY: 360,
+                rotateX: [0, 30, 0]
+              }}
+              transition={{
+                rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
+                rotateX: { duration: 10, repeat: Infinity }
+              }}
+              style={{
+                position: 'relative',
+                width: '200px',
+                height: '200px',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              {Object.values(categories).map((category, i) => (
+                <motion.div
+                  key={category.title}
+                  animate={{ 
+                    rotateY: i * 120,
+                    rotateX: 60
+                  }}
+                  style={{
+                    position: 'absolute',
+                    width: '100px',
+                    height: '100px',
+                    background: `linear-gradient(135deg, ${category.color}22, ${category.color}44)`,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2rem',
+                    color: category.color,
+                    border: `2px solid ${category.color}55`,
+                    cursor: 'pointer'
+                  }}
+                  whileHover={{ scale: 1.2, z: 50 }}
+                  onClick={() => setActiveCategory(Object.keys(categories)[i])}
+                >
+                  {category.icon}
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Category Selector */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center',
+            gap: '20px',
+            marginBottom: '60px',
+            flexWrap: 'wrap'
+          }}>
+            {Object.entries(categories).map(([key, category]) => (
+              <motion.button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  background: activeCategory === key ? 
+                    `linear-gradient(135deg, ${category.color}, ${category.color}dd)` : 
+                    'rgba(255, 255, 255, 0.05)',
+                  borderColor: activeCategory === key ? category.color : 'rgba(255, 255, 255, 0.2)'
                 }}
                 style={{
-                  padding: '12px 24px',
+                  padding: '15px 30px',
                   background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   borderRadius: '50px',
-                  fontSize: '0.95rem',
-                  fontWeight: '500',
-                  cursor: 'default',
+                  color: 'white',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
                   transition: 'all 0.3s ease'
                 }}
               >
-                {tech}
-              </motion.span>
+                <span style={{ color: category.color }}>{category.icon}</span>
+                {category.title}
+              </motion.button>
             ))}
           </div>
-        </motion.div>
+
+          {/* Skills Visualization */}
+          <div style={{ marginBottom: '80px' }}>
+            <SlideInRight delay={0.6}>
+              <div className="glass" style={{ padding: '50px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '20px',
+                  marginBottom: '40px'
+                }}>
+                  <motion.div
+                    animate={{ 
+                      rotate: 360,
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 10, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity }
+                    }}
+                    style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '50%',
+                      background: `linear-gradient(135deg, ${categories[activeCategory].color}22, ${categories[activeCategory].color}44)`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.8rem',
+                      color: categories[activeCategory].color
+                    }}
+                  >
+                    {categories[activeCategory].icon}
+                  </motion.div>
+                  <div>
+                    <h3 style={{ 
+                      fontSize: '1.8rem', 
+                      marginBottom: '5px',
+                      color: categories[activeCategory].color
+                    }}>
+                      {categories[activeCategory].title}
+                    </h3>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                      Expertise in modern web technologies
+                    </p>
+                  </div>
+                </div>
+
+                {/* Skills Progress Bars */}
+                <div>
+                  {categories[activeCategory].skills.map((skill, i) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, x: -50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + i * 0.1 }}
+                      viewport={{ once: true }}
+                      style={{ marginBottom: '30px' }}
+                    >
+                      <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '12px'
+                      }}>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '15px'
+                        }}>
+                          <motion.div
+                            whileHover={{ rotate: 360 }}
+                            transition={{ duration: 0.6 }}
+                            style={{ 
+                              color: categories[activeCategory].color,
+                              display: 'flex',
+                              alignItems: 'center'
+                            }}
+                          >
+                            {skill.icon}
+                          </motion.div>
+                          <span style={{ 
+                            fontSize: '1.1rem',
+                            fontWeight: '500'
+                          }}>
+                            {skill.name}
+                          </span>
+                        </div>
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 1 + i * 0.1 }}
+                          style={{ 
+                            fontWeight: '700',
+                            fontSize: '1.1rem',
+                            background: `linear-gradient(90deg, ${categories[activeCategory].color}, ${categories[activeCategory].color}dd)`,
+                            WebkitBackgroundClip: 'text',
+                            backgroundClip: 'text',
+                            color: 'transparent'
+                          }}
+                        >
+                          {skill.level}%
+                        </motion.span>
+                      </div>
+                      
+                      <div style={{
+                        height: '10px',
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        borderRadius: '5px',
+                        overflow: 'hidden',
+                        position: 'relative'
+                      }}>
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1.5, delay: 1.2 + i * 0.1, ease: "easeOut" }}
+                          viewport={{ once: true }}
+                          style={{
+                            height: '100%',
+                            background: `linear-gradient(90deg, ${categories[activeCategory].color}, ${categories[activeCategory].color}bb)`,
+                            borderRadius: '5px',
+                            position: 'relative'
+                          }}
+                        >
+                          <motion.div
+                            animate={{ 
+                              left: ['0%', '100%', '0%']
+                            }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "linear",
+                              delay: i * 0.2
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              width: '30%',
+                              height: '100%',
+                              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                              borderRadius: '5px'
+                            }}
+                          />
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </SlideInRight>
+          </div>
+
+          {/* Tech Stack Cloud */}
+          <SlideInLeft delay={1}>
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="glass"
+              style={{ 
+                padding: '60px',
+                textAlign: 'center'
+              }}
+            >
+              <h3 style={{ 
+                fontSize: '2rem', 
+                marginBottom: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '15px'
+              }}>
+                <TrendingUp style={{ color: '#00f6ff' }} />
+                <span className="gradient-text">Tech Stack</span> I Work With
+              </h3>
+              
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '15px',
+                justifyContent: 'center',
+                maxWidth: '900px',
+                margin: '0 auto'
+              }}>
+                {[
+                  'React', 'Three.js', 'TypeScript', 'Next.js', 'Node.js',
+                  'WebGL', 'GSAP', 'Framer Motion', 'Tailwind', 'MongoDB',
+                  'AWS', 'Docker', 'GraphQL', 'Redis', 'WebSockets'
+                ].map((tech, i) => (
+                  <motion.span
+                    key={tech}
+                    initial={{ opacity: 0, scale: 0, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ 
+                      delay: 1.2 + i * 0.05,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    whileHover={{ 
+                      scale: 1.15, 
+                      y: -8,
+                      color: '#00f6ff',
+                      boxShadow: '0 10px 20px rgba(0, 246, 255, 0.2)'
+                    }}
+                    style={{
+                      padding: '12px 25px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '50px',
+                      fontSize: '0.95rem',
+                      fontWeight: '500',
+                      cursor: 'default',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          </SlideInLeft>
+        </StaggerContainer>
       </div>
     </section>
   );
