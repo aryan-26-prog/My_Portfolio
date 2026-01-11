@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 
 export default function Projects() {
-  const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
   
@@ -27,8 +26,7 @@ export default function Projects() {
     offset: ["start end", "end start"]
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], isMobile ? [5, -5] : [15, -15]);
-  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [-50, 50] : [-100, 100]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [-30, 30] : [-100, 100]);
 
   const projects = [
     {
@@ -40,7 +38,12 @@ export default function Projects() {
       featured: true,
       stats: { performance: '95%', rating: '4.7' },
       color: '#00f6ff',
-      icon: <Leaf size={isMobile ? 32 : 48} />
+      icon: <Leaf size={isMobile ? 20 : 24} />,
+      images: [
+        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       title: 'Smart Rasoi: AI-Powered Food Redistribution Platform',
@@ -48,10 +51,15 @@ export default function Projects() {
       tags: ['React.js', 'Django REST', 'Google Maps API', 'Python', 'JavaScript'],
       live: '#',
       github: 'https://github.com/aryan-26-prog/RasoiAI',
-      featured: true,
+      featured: false,
       stats: { performance: '92%', rating: '4.8' },
       color: '#7f5cff',
-      icon: <ShoppingCart size={isMobile ? 32 : 48} />
+      icon: <ShoppingCart size={isMobile ? 20 : 24} />,
+      images: [
+        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       title: 'CivicTrack: Smart Civic Issue Reporting System',
@@ -62,7 +70,12 @@ export default function Projects() {
       featured: false,
       stats: { performance: '94%', rating: '4.6' },
       color: '#ff2e63',
-      icon: <Map size={isMobile ? 32 : 48} />
+      icon: <Map size={isMobile ? 20 : 24} />,
+      images: [
+        'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://assets.telegraphindia.com/telegraph/2023/Feb/1676930739_ab51ee8c2d6b6ac70ba8bc4678028977.gif',
+        'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       title: 'KKV: Digital Farmer Marketplace',
@@ -73,17 +86,42 @@ export default function Projects() {
       featured: false,
       stats: { performance: '90%', rating: '4.5' },
       color: '#00f6ff',
-      icon: <Globe size={isMobile ? 32 : 48} />
+      icon: <Globe size={isMobile ? 20 : 24} />,
+      images: [
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+      ]
     }
   ];
 
-  const nextProject = () => {
-    setActiveProject((prev) => (prev + 1) % projects.length);
-  };
+  const [activeImageIndices, setActiveImageIndices] = useState(
+    projects.reduce((acc, _, i) => ({ ...acc, [i]: 0 }), {})
+  );
 
-  const prevProject = () => {
-    setActiveProject((prev) => (prev - 1 + projects.length) % projects.length);
-  };
+  // Auto-change images for each project
+  useEffect(() => {
+    const timers = [];
+    
+    projects.forEach((project, index) => {
+      if (project.images.length > 1) {
+        const timer = setInterval(() => {
+          setActiveImageIndices(prev => {
+            const currentIndex = prev[index];
+            const nextIndex = (currentIndex + 1) % project.images.length;
+            return { ...prev, [index]: nextIndex };
+          });
+        }, 3000); // Change image every 3 seconds
+        
+        timers.push(timer);
+      }
+    });
+
+    // Cleanup timers on unmount
+    return () => {
+      timers.forEach(timer => clearInterval(timer));
+    };
+  }, []);
 
   return (
     <section 
@@ -91,7 +129,7 @@ export default function Projects() {
       id="projects" 
       style={{ 
         minHeight: '100vh',
-        padding: isMobile ? '60px 20px' : '120px 10%',
+        padding: isMobile ? '40px 16px' : '100px 10%',
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -102,8 +140,8 @@ export default function Projects() {
       >
         <div style={{
           position: 'absolute',
-          width: isMobile ? '150px' : '300px',
-          height: isMobile ? '150px' : '300px',
+          width: isMobile ? '120px' : '300px',
+          height: isMobile ? '120px' : '300px',
           background: 'linear-gradient(135deg, rgba(127, 92, 255, 0.1), rgba(255, 46, 99, 0.1))',
           bottom: '10%',
           right: '10%',
@@ -119,21 +157,21 @@ export default function Projects() {
         zIndex: 2
       }}>
         {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: isMobile ? '50px' : '80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '40px' : '70px' }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: isMobile ? '8px' : '12px',
-              padding: isMobile ? '10px 16px' : '12px 24px',
+              gap: isMobile ? '6px' : '10px',
+              padding: isMobile ? '8px 14px' : '10px 20px',
               background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '50px',
-              marginBottom: isMobile ? '20px' : '30px',
+              marginBottom: isMobile ? '16px' : '24px',
               backdropFilter: 'blur(10px)'
             }}
           >
@@ -141,16 +179,16 @@ export default function Projects() {
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               style={{
-                width: isMobile ? '16px' : '20px',
-                height: isMobile ? '16px' : '20px',
+                width: isMobile ? '12px' : '16px',
+                height: isMobile ? '12px' : '16px',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, #00f6ff, #7f5cff)'
               }}
             />
             <span style={{
-              fontSize: isMobile ? '0.75rem' : '0.9rem',
+              fontSize: isMobile ? '0.7rem' : '0.85rem',
               fontWeight: '600',
-              letterSpacing: isMobile ? '1px' : '2px',
+              letterSpacing: isMobile ? '0.5px' : '1px',
               color: '#00f6ff'
             }}>
               REAL-WORLD PROJECTS
@@ -160,13 +198,14 @@ export default function Projects() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
             style={{
-              fontSize: isMobile ? '2rem' : 'clamp(3rem, 5vw, 4.5rem)',
+              fontSize: isMobile ? '1.8rem' : 'clamp(2.5rem, 4vw, 4rem)',
               fontWeight: '800',
               lineHeight: '1.1',
-              marginBottom: isMobile ? '15px' : '20px'
+              marginBottom: isMobile ? '12px' : '18px',
+              padding: isMobile ? '0 10px' : '0'
             }}
           >
             Portfolio <span style={{
@@ -180,14 +219,15 @@ export default function Projects() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true, margin: "-50px" }}
             style={{
-              fontSize: isMobile ? '1rem' : '1.2rem',
+              fontSize: isMobile ? '0.9rem' : '1.1rem',
               color: 'rgba(255, 255, 255, 0.7)',
-              maxWidth: '600px',
+              maxWidth: isMobile ? '100%' : '600px',
               margin: '0 auto',
-              lineHeight: '1.6'
+              lineHeight: '1.5',
+              padding: isMobile ? '0 10px' : '0'
             }}
           >
             Full-stack web applications built with modern technologies and real-world impact
@@ -198,108 +238,191 @@ export default function Projects() {
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
-          gap: isMobile ? '30px' : '40px',
-          marginBottom: isMobile ? '50px' : '80px'
+          gap: isMobile ? '24px' : '35px',
+          marginBottom: isMobile ? '40px' : '70px'
         }}>
           {projects.map((project, i) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ 
-                duration: 0.8, 
+                duration: 0.6, 
                 delay: i * 0.1,
                 type: "spring",
-                stiffness: 100
+                stiffness: 80,
+                damping: 10
               }}
-              whileHover={{ 
-                y: isMobile ? -10 : -20,
+              whileHover={!isMobile ? { 
+                y: -15,
                 transition: { type: "spring", stiffness: 300 }
-              }}
-              viewport={{ once: true, amount: 0.3 }}
-              className="glass"
+              } : {}}
+              viewport={{ once: true, amount: 0.2, margin: isMobile ? "-50px" : "0px" }}
               style={{ 
                 position: 'relative',
                 overflow: 'hidden',
-                cursor: 'pointer',
                 borderRadius: '16px',
-                backdropFilter: 'blur(10px)'
+                backdropFilter: 'blur(10px)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                WebkitTapHighlightColor: 'transparent'
               }}
-              onClick={() => setActiveProject(i)}
             >
-              {/* Featured Badge */}
+              {/* Featured Badge - ONLY for GamEd */}
               {project.featured && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
+                  transition={{ delay: 0.3 + i * 0.1 }}
                   viewport={{ once: true }}
                   style={{
                     position: 'absolute',
-                    top: '15px',
-                    right: '15px',
-                    zIndex: 2,
+                    top: isMobile ? '10px' : '12px',
+                    right: isMobile ? '10px' : '12px',
+                    zIndex: 4,
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
-                    padding: isMobile ? '6px 12px' : '8px 16px',
+                    padding: isMobile ? '5px 10px' : '6px 12px',
                     background: 'linear-gradient(90deg, #ff2e63, #ff6b9d)',
                     borderRadius: '50px',
-                    fontSize: isMobile ? '0.7rem' : '0.8rem',
-                    fontWeight: '600'
+                    fontSize: isMobile ? '0.65rem' : '0.75rem',
+                    fontWeight: '600',
+                    color: 'white',
+                    boxShadow: '0 4px 15px rgba(255, 46, 99, 0.3)'
                   }}
                 >
-                  <Star size={isMobile ? 10 : 12} />
+                  <Star size={isMobile ? 10 : 12} fill="white" />
                   Hackathon Winner
                 </motion.div>
               )}
 
-              {/* Project Visual */}
+              {/* Project Image Gallery */}
               <div
                 style={{
-                  height: isMobile ? '180px' : '250px',
+                  height: isMobile ? '200px' : '280px',
                   position: 'relative',
                   overflow: 'hidden',
-                  background: `linear-gradient(45deg, ${project.color}22, ${project.color}44)`
+                  background: `linear-gradient(45deg, ${project.color}22, ${project.color}44)`,
+                  userSelect: 'none'
                 }}
               >
-                <motion.div
-                  animate={{ 
-                    rotate: 360,
-                    scale: activeProject === i ? (isMobile ? 1.1 : 1.2) : 1
-                  }}
-                  transition={{ 
-                    rotate: { duration: 20, repeat: Infinity, ease: "linear" }
-                  }}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    color: `${project.color}33`,
-                    zIndex: 2
-                  }}
-                >
-                  {project.icon}
-                </motion.div>
+                {/* Main Project Image */}
+                {project.images && project.images.length > 0 && (
+                  <>
+                    <motion.img
+                      key={activeImageIndices[i]}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5 }}
+                      src={project.images[activeImageIndices[i]]}
+                      alt={project.title}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        filter: 'brightness(0.85)',
+                        pointerEvents: 'none'
+                      }}
+                      loading="lazy"
+                    />
+                    
+                    {/* Image Overlay Gradient */}
+                    <div style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%)`,
+                      pointerEvents: 'none'
+                    }} />
+                    
+                    {/* Image Navigation Dots */}
+                    {project.images.length > 1 && (
+                      <div style={{
+                        position: 'absolute',
+                        bottom: isMobile ? '12px' : '16px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        display: 'flex',
+                        gap: isMobile ? '6px' : '8px',
+                        zIndex: 3
+                      }}>
+                        {project.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndices(prev => ({ ...prev, [i]: idx }));
+                            }}
+                            style={{
+                              width: isMobile ? '8px' : '10px',
+                              height: isMobile ? '8px' : '10px',
+                              borderRadius: '50%',
+                              background: idx === activeImageIndices[i] ? project.color : 'rgba(255, 255, 255, 0.4)',
+                              border: 'none',
+                              cursor: 'pointer',
+                              padding: 0,
+                              transition: 'all 0.3s ease'
+                            }}
+                            aria-label={`Go to image ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Project Icon Overlay */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'rgba(255, 255, 255, 0.9)',
+                        zIndex: 2,
+                        filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5))',
+                        background: 'rgba(0, 0, 0, 0.25)',
+                        borderRadius: '50%',
+                        padding: isMobile ? '12px' : '16px',
+                        backdropFilter: 'blur(4px)',
+                        pointerEvents: 'none'
+                      }}
+                    >
+                      {project.icon}
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Project Content */}
-              <div style={{ padding: isMobile ? '25px' : '40px' }}>
+              <div style={{ 
+                padding: isMobile ? '20px' : '30px',
+                paddingBottom: isMobile ? '16px' : '24px'
+              }}>
                 <h3 style={{ 
-                  fontSize: isMobile ? '1.3rem' : '1.8rem', 
-                  marginBottom: isMobile ? '12px' : '15px',
+                  fontSize: isMobile ? '1.2rem' : '1.5rem', 
+                  marginBottom: isMobile ? '10px' : '12px',
                   lineHeight: '1.3',
-                  color: '#fff'
+                  color: '#fff',
+                  fontWeight: '600'
                 }}>
                   {project.title}
                 </h3>
                 
                 <p style={{ 
                   color: 'rgba(255, 255, 255, 0.7)',
-                  lineHeight: '1.6',
-                  marginBottom: isMobile ? '20px' : '25px',
-                  fontSize: isMobile ? '0.9rem' : '1rem'
+                  lineHeight: '1.5',
+                  marginBottom: isMobile ? '14px' : '18px',
+                  fontSize: isMobile ? '0.85rem' : '0.9rem',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden'
                 }}>
                   {project.description}
                 </p>
@@ -308,19 +431,21 @@ export default function Projects() {
                 <div style={{ 
                   display: 'flex', 
                   flexWrap: 'wrap',
-                  gap: isMobile ? '8px' : '10px',
-                  marginBottom: isMobile ? '25px' : '30px'
+                  gap: isMobile ? '5px' : '6px',
+                  marginBottom: isMobile ? '14px' : '18px'
                 }}>
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
                       style={{
-                        padding: isMobile ? '6px 12px' : '8px 16px',
+                        padding: isMobile ? '4px 8px' : '5px 10px',
                         background: `rgba(${parseInt(project.color.slice(1, 3), 16)}, ${parseInt(project.color.slice(3, 5), 16)}, ${parseInt(project.color.slice(5, 7), 16)}, 0.1)`,
                         border: `1px solid ${project.color}33`,
                         borderRadius: '50px',
-                        fontSize: isMobile ? '0.75rem' : '0.85rem',
-                        cursor: 'default'
+                        fontSize: isMobile ? '0.65rem' : '0.75rem',
+                        color: 'white',
+                        whiteSpace: 'nowrap',
+                        lineHeight: '1'
                       }}
                     >
                       {tag}
@@ -328,86 +453,114 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {/* Stats & Actions */}
+                {/* Stats & Actions - Compact Layout */}
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  flexDirection: isMobile ? 'column' : 'row',
-                  gap: isMobile ? '15px' : '0'
+                  gap: isMobile ? '8px' : '12px'
                 }}>
-                  {/* Stats */}
+                  {/* Stats - Compact */}
                   <div style={{ 
                     display: 'flex', 
-                    gap: isMobile ? '15px' : '20px',
-                    width: isMobile ? '100%' : 'auto',
-                    justifyContent: isMobile ? 'space-between' : 'flex-start'
+                    gap: isMobile ? '8px' : '12px',
+                    flexWrap: 'wrap'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Users size={isMobile ? 14 : 16} style={{ color: project.color }} />
-                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.users}</span>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '4px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      padding: isMobile ? '6px 10px' : '7px 12px',
+                      borderRadius: '6px',
+                      minWidth: isMobile ? '70px' : '80px',
+                      justifyContent: 'center'
+                    }}>
+                      <Zap size={isMobile ? 12 : 14} style={{ color: project.color }} />
+                      <span style={{ 
+                        fontSize: isMobile ? '0.75rem' : '0.85rem', 
+                        color: 'white',
+                        fontWeight: '500'
+                      }}>
+                        {project.stats.performance}%
+                      </span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Zap size={isMobile ? 14 : 16} style={{ color: project.color }} />
-                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.performance}%</span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Star size={isMobile ? 14 : 16} style={{ color: '#ffd700' }} />
-                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.rating}</span>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '4px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      padding: isMobile ? '6px 10px' : '7px 12px',
+                      borderRadius: '6px',
+                      minWidth: isMobile ? '70px' : '80px',
+                      justifyContent: 'center'
+                    }}>
+                      <Star size={isMobile ? 12 : 14} style={{ color: '#ffd700' }} />
+                      <span style={{ 
+                        fontSize: isMobile ? '0.75rem' : '0.85rem', 
+                        color: 'white',
+                        fontWeight: '500'
+                      }}>
+                        {project.stats.rating}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Actions */}
+                  {/* Actions - Compact Circular Buttons */}
                   <div style={{ 
                     display: 'flex', 
-                    gap: isMobile ? '15px' : '10px',
-                    width: isMobile ? '100%' : 'auto',
-                    justifyContent: isMobile ? 'space-between' : 'flex-end'
+                    gap: isMobile ? '6px' : '8px'
                   }}>
                     <motion.a
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: isMobile ? 1.1 : 1.2 }}
-                      whileTap={{ scale: 0.9 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => e.stopPropagation()}
                       style={{
-                        padding: isMobile ? '10px 20px' : '0',
-                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                        borderRadius: isMobile ? '50px' : '50%',
+                        width: isMobile ? '36px' : '40px',
+                        height: isMobile ? '36px' : '40px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.08)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         textDecoration: 'none',
                         color: 'white',
-                        width: isMobile ? 'auto' : '40px',
-                        height: isMobile ? 'auto' : '40px'
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        position: 'relative',
+                        zIndex: 5,
+                        WebkitTapHighlightColor: 'transparent'
                       }}
                     >
                       <Eye size={isMobile ? 16 : 18} />
-                      {isMobile && <span style={{ marginLeft: '8px' }}>Live Demo</span>}
                     </motion.a>
                     
                     <motion.a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: isMobile ? 1.1 : 1.2 }}
-                      whileTap={{ scale: 0.9 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => e.stopPropagation()}
                       style={{
-                        padding: isMobile ? '10px 20px' : '0',
-                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                        borderRadius: isMobile ? '50px' : '50%',
+                        width: isMobile ? '36px' : '40px',
+                        height: isMobile ? '36px' : '40px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.08)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         textDecoration: 'none',
                         color: 'white',
-                        width: isMobile ? 'auto' : '40px',
-                        height: isMobile ? 'auto' : '40px'
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        position: 'relative',
+                        zIndex: 5,
+                        WebkitTapHighlightColor: 'transparent'
                       }}
                     >
                       <Github size={isMobile ? 16 : 18} />
-                      {isMobile && <span style={{ marginLeft: '8px' }}>GitHub</span>}
                     </motion.a>
                   </div>
                 </div>
@@ -418,32 +571,34 @@ export default function Projects() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="glass"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true, margin: "-50px" }}
           style={{ 
-            padding: isMobile ? '30px' : '60px',
+            padding: isMobile ? '24px' : '50px',
             textAlign: 'center',
             background: 'linear-gradient(135deg, rgba(0, 246, 255, 0.05), rgba(127, 92, 255, 0.05))',
             borderRadius: '16px',
             position: 'relative',
             overflow: 'hidden',
             backdropFilter: 'blur(10px)',
-            marginBottom: isMobile ? '40px' : '80px'
+            marginBottom: isMobile ? '40px' : '80px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
           }}
         >
           <div style={{ position: 'relative', zIndex: 2 }}>
             <motion.h3
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
               viewport={{ once: true }}
               style={{ 
-                fontSize: isMobile ? '1.5rem' : '2.5rem', 
-                marginBottom: isMobile ? '15px' : '20px',
-                lineHeight: '1.2'
+                fontSize: isMobile ? '1.4rem' : '2.2rem', 
+                marginBottom: isMobile ? '12px' : '18px',
+                lineHeight: '1.2',
+                padding: isMobile ? '0 10px' : '0'
               }}
             >
               Looking for a{' '}
@@ -451,7 +606,8 @@ export default function Projects() {
                 background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
-                color: 'transparent'
+                color: 'transparent',
+                display: 'inline-block'
               }}>
                 Software Engineering Intern?
               </span>
@@ -460,15 +616,16 @@ export default function Projects() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
               viewport={{ once: true }}
               style={{
-                fontSize: isMobile ? '0.95rem' : '1.2rem',
+                fontSize: isMobile ? '0.9rem' : '1.1rem',
                 color: 'rgba(255, 255, 255, 0.7)',
-                maxWidth: '600px',
+                maxWidth: isMobile ? '100%' : '600px',
                 margin: '0 auto',
-                lineHeight: '1.6',
-                marginBottom: isMobile ? '25px' : '40px'
+                lineHeight: '1.5',
+                marginBottom: isMobile ? '20px' : '35px',
+                padding: isMobile ? '0 10px' : '0'
               }}
             >
               Let's discuss how I can contribute to your team with my full-stack development skills
@@ -482,18 +639,20 @@ export default function Projects() {
               }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: isMobile ? '16px 32px' : '20px 50px',
+                padding: isMobile ? '14px 28px' : '18px 45px',
                 background: 'linear-gradient(90deg, #00f6ff, #7f5cff)',
                 border: 'none',
                 borderRadius: '50px',
                 color: '#000',
-                fontSize: isMobile ? '0.95rem' : '1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 fontWeight: '600',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '12px',
-                textDecoration: 'none'
+                gap: '10px',
+                textDecoration: 'none',
+                minHeight: '50px',
+                WebkitTapHighlightColor: 'transparent'
               }}
             >
               <motion.span
@@ -502,7 +661,7 @@ export default function Projects() {
               >
                 Contact Me
               </motion.span>
-              <ArrowRight size={isMobile ? 18 : 20} />
+              <ArrowRight size={isMobile ? 16 : 20} />
             </motion.a>
           </div>
         </motion.div>
