@@ -1,5 +1,5 @@
 // src/App.jsx
-import { lazy, Suspense, useEffect, useState } from 'react'; // useState add kiya
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars, Float } from '@react-three/drei';
 import './styles/style.css';
@@ -120,195 +120,261 @@ function ScrollProgress() {
   );
 }
 
-// Navigation Indicator - FIXED FOR MOBILE
+// Optimized Navigation Indicator for Mobile
 function NavigationIndicator() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
-  
   const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
+  const [isMobile, setIsMobile] = useState(false);
+  const [showLabels, setShowLabels] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
+  // Check if device is mobile
   useEffect(() => {
-    // Check if mobile
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth <= 768);
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    // Detect active section on scroll
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Track active section for mobile
+  useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 100;
       
-      for (const section of sections) {
+      sections.forEach(section => {
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
+          const offsetTop = element.offsetTop;
+          const offsetBottom = offsetTop + element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
             setActiveSection(section);
-            break;
           }
         }
-      }
+      });
     };
     
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // MOBILE VERSION - Bottom bar with small dots
+  // Mobile Navigation - Horizontal at bottom
   if (isMobile) {
     return (
-      <div 
-        className="mobile-nav-indicator"
-        style={{
-          position: 'fixed',
-          bottom: '25px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '18px',
-          padding: '10px 25px',
-          background: 'rgba(5, 5, 7, 0.85)',
-          borderRadius: '50px',
-          backdropFilter: 'blur(15px)',
-          WebkitBackdropFilter: 'blur(15px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)'
-        }}
-      >
-        {sections.map((section) => (
+      <div style={{
+        position: 'fixed',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+        display: 'flex',
+        gap: '8px',
+        background: 'rgba(5, 5, 7, 0.85)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '50px',
+        padding: '10px 15px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+      }}>
+        {sections.map((section, i) => (
           <a
             key={section}
             href={`#${section}`}
-            onClick={() => setActiveSection(section)}
             style={{
-              width: '8px',
-              height: '8px',
-              minWidth: '8px',
-              minHeight: '8px',
+              width: '10px',
+              height: '10px',
               borderRadius: '50%',
-              background: activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.25)',
-              border: activeSection === section ? '1px solid #00f6ff' : '1px solid rgba(255, 255, 255, 0.15)',
+              background: activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.15)',
+              border: activeSection === section ? 'none' : '1px solid rgba(255, 255, 255, 0.2)',
               transition: 'all 0.3s ease',
-              display: 'block',
-              transform: activeSection === section ? 'scale(1.4)' : 'scale(1)',
-              cursor: 'pointer',
-              position: 'relative'
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
-            onMouseEnter={(e) => {
-              if (!isMobile) {
-                e.target.style.transform = 'scale(1.6)';
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById(section);
+              if (element) {
+                window.scrollTo({
+                  top: element.offsetTop,
+                  behavior: 'smooth'
+                });
               }
             }}
-            onMouseLeave={(e) => {
-              if (!isMobile) {
-                e.target.style.transform = activeSection === section ? 'scale(1.4)' : 'scale(1)';
-              }
+            onTouchStart={(e) => {
+              e.currentTarget.style.transform = 'scale(1.5)';
+              e.currentTarget.style.background = '#7f5cff';
+            }}
+            onTouchEnd={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.background = activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.15)';
             }}
           >
-            {/* Tooltip for mobile (hidden by default) */}
+            {/* Tooltip for mobile - appears on long press */}
             <span style={{
               position: 'absolute',
-              top: '-30px',
+              bottom: '20px',
               left: '50%',
               transform: 'translateX(-50%)',
+              color: 'white',
               fontSize: '0.7rem',
-              color: '#fff',
-              background: 'rgba(0, 0, 0, 0.8)',
-              padding: '3px 8px',
+              background: 'rgba(5, 5, 7, 0.9)',
+              padding: '4px 8px',
               borderRadius: '4px',
               opacity: 0,
-              transition: 'opacity 0.3s',
-              whiteSpace: 'nowrap',
+              transition: 'opacity 0.3s ease',
               pointerEvents: 'none',
-              fontWeight: '500'
+              whiteSpace: 'nowrap',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
               {section.charAt(0).toUpperCase() + section.slice(1)}
             </span>
           </a>
         ))}
+        
+        {/* Mobile menu toggle for labels */}
+        <button
+          onClick={() => setShowLabels(!showLabels)}
+          style={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: '10px',
+            fontSize: '0.8rem',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+          onTouchStart={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)';
+            e.currentTarget.style.background = 'rgba(0, 246, 255, 0.2)';
+          }}
+          onTouchEnd={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          {showLabels ? '−' : '+'}
+        </button>
+        
+        {/* Labels for mobile when toggled */}
+        {showLabels && (
+          <div style={{
+            position: 'absolute',
+            bottom: '70px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(5, 5, 7, 0.95)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '12px',
+            padding: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            minWidth: '120px'
+          }}>
+            {sections.map((section) => (
+              <a
+                key={section}
+                href={`#${section}`}
+                style={{
+                  color: activeSection === section ? '#00f6ff' : 'white',
+                  fontSize: '0.85rem',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  transition: 'all 0.3s ease',
+                  background: activeSection === section ? 'rgba(0, 246, 255, 0.1)' : 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowLabels(false);
+                  const element = document.getElementById(section);
+                  if (element) {
+                    window.scrollTo({
+                      top: element.offsetTop,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+              >
+                <div style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.3)'
+                }} />
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
 
-  // DESKTOP VERSION - Side dots
+  // Desktop Navigation - Original vertical on right side
   return (
-    <div 
-      className="desktop-nav-indicator"
-      style={{
-        position: 'fixed',
-        right: '25px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        zIndex: 1000,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '18px',
-        padding: '15px 10px',
-        background: 'rgba(5, 5, 7, 0.5)',
-        borderRadius: '25px',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
-      }}
-    >
+    <div style={{
+      position: 'fixed',
+      right: '30px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      zIndex: 1000,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '15px'
+    }}>
       {sections.map((section) => (
         <a
           key={section}
           href={`#${section}`}
-          className="nav-dot"
           style={{
             width: '12px',
             height: '12px',
             borderRadius: '50%',
-            background: activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.2)',
-            border: activeSection === section ? '1px solid #00f6ff' : '1px solid rgba(255, 255, 255, 0.3)',
+            background: activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             transition: 'all 0.3s ease',
-            display: 'block',
-            position: 'relative',
-            cursor: 'pointer'
+            position: 'relative'
           }}
           onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.6)';
-            e.target.style.background = '#00f6ff';
-            // Show tooltip
-            const tooltip = e.target.querySelector('span');
-            if (tooltip) tooltip.style.opacity = '1';
+            e.target.style.transform = 'scale(1.5)';
+            e.target.style.background = activeSection === section ? '#00f6ff' : '#7f5cff';
           }}
           onMouseLeave={(e) => {
-            e.target.style.transform = activeSection === section ? 'scale(1.3)' : 'scale(1)';
-            e.target.style.background = activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.2)';
-            // Hide tooltip
-            const tooltip = e.target.querySelector('span');
-            if (tooltip) tooltip.style.opacity = '0';
+            e.target.style.transform = 'scale(1)';
+            e.target.style.background = activeSection === section ? '#00f6ff' : 'rgba(255, 255, 255, 0.1)';
           }}
-          onClick={() => setActiveSection(section)}
         >
-          {/* Tooltip for desktop */}
           <span style={{
             position: 'absolute',
-            right: '25px',
+            right: '20px',
             top: '50%',
             transform: 'translateY(-50%)',
+            color: 'white',
             fontSize: '0.8rem',
-            color: '#fff',
-            background: 'rgba(0, 0, 0, 0.9)',
-            padding: '4px 10px',
-            borderRadius: '6px',
             opacity: 0,
-            transition: 'opacity 0.3s',
-            whiteSpace: 'nowrap',
+            transition: 'opacity 0.3s ease',
             pointerEvents: 'none',
-            fontWeight: '500',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+            whiteSpace: 'nowrap',
+            background: 'rgba(5, 5, 7, 0.9)',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
           }}>
             {section.charAt(0).toUpperCase() + section.slice(1)}
           </span>
@@ -325,7 +391,7 @@ function App() {
       <ScrollProgress />
       <NavigationIndicator />
       
-      {/* Floating Background Elements */}
+      {/* Floating Background Elements - Adjusted for mobile */}
       <div className="floating-element floating-1" />
       <div className="floating-element floating-2" />
       <div className="floating-element floating-3" />

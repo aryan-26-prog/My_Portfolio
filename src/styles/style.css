@@ -969,3 +969,49 @@ body {
   }
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Adjust floating elements for mobile */
+  .floating-element {
+    display: none; /* Hide on mobile for cleaner UI */
+  }
+  
+  /* Navigation indicator hover effects for mobile */
+  .nav-indicator:hover span {
+    opacity: 1 !important;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+}
+
+/* Touch-friendly button styles */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent text selection on navigation */
+.nav-indicator a {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Animation for rotate */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Ensure 3D canvas doesn't block touch events on mobile */
+canvas {
+  pointer-events: none;
+}
