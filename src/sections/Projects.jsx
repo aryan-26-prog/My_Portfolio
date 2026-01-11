@@ -483,7 +483,7 @@ export default function Projects() {
                         color: 'white',
                         fontWeight: '500'
                       }}>
-                        {project.stats.performance}%
+                        {project.stats.performance}
                       </span>
                     </div>
                     <div style={{ 
