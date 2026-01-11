@@ -7,10 +7,6 @@ import {
   Globe, Map, Leaf, ShoppingCart
 } from 'lucide-react';
 
-// Import your project images
-// Make sure to add these images to your project in the appropriate location
-// For example: src/assets/project1.png, src/assets/project2.png, etc.
-
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -41,17 +37,10 @@ export default function Projects() {
       tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'JavaScript'],
       live: '#',
       github: 'https://github.com/aryan-26-prog/GamEd',
-      featured: true, // Only this should have featured badge
+      featured: true,
       stats: { performance: '95%', rating: '4.7' },
       color: '#00f6ff',
-      icon: <Leaf size={isMobile ? 32 : 48} />,
-      // Replace these with actual image imports or paths
-      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Education/learning platform
-      images: [
-        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-      ]
+      icon: <Leaf size={isMobile ? 32 : 48} />
     },
     {
       title: 'Smart Rasoi: AI-Powered Food Redistribution Platform',
@@ -59,16 +48,10 @@ export default function Projects() {
       tags: ['React.js', 'Django REST', 'Google Maps API', 'Python', 'JavaScript'],
       live: '#',
       github: 'https://github.com/aryan-26-prog/RasoiAI',
-      featured: false, // No featured badge
+      featured: true,
       stats: { performance: '92%', rating: '4.8' },
       color: '#7f5cff',
-      icon: <ShoppingCart size={isMobile ? 32 : 48} />,
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Food/restaurant platform
-      images: [
-        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-      ]
+      icon: <ShoppingCart size={isMobile ? 32 : 48} />
     },
     {
       title: 'CivicTrack: Smart Civic Issue Reporting System',
@@ -76,16 +59,10 @@ export default function Projects() {
       tags: ['React.js', 'Node.js', 'MongoDB', 'Socket.IO', 'JWT'],
       live: '#',
       github: 'https://github.com/aryan-26-prog/Civictrack',
-      featured: false, // No featured badge
+      featured: false,
       stats: { performance: '94%', rating: '4.6' },
       color: '#ff2e63',
-      icon: <Map size={isMobile ? 32 : 48} />,
-      image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Civic/map system
-      images: [
-        'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://assets.telegraphindia.com/telegraph/2023/Feb/1676930739_ab51ee8c2d6b6ac70ba8bc4678028977.gif',
-        'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-      ]
+      icon: <Map size={isMobile ? 32 : 48} />
     },
     {
       title: 'KKV: Digital Farmer Marketplace',
@@ -93,61 +70,19 @@ export default function Projects() {
       tags: ['HTML', 'CSS', 'JavaScript', 'Python', 'PHP'],
       live: '#',
       github: 'https://github.com/aryan-26-prog/Kisaan-Krishi-Aur-Vayapaar',
-      featured: false, // No featured badge
+      featured: false,
       stats: { performance: '90%', rating: '4.5' },
       color: '#00f6ff',
-      icon: <Globe size={isMobile ? 32 : 48} />,
-      image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Agriculture/farming
-      images: [
-        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-      ]
+      icon: <Globe size={isMobile ? 32 : 48} />
     }
   ];
 
-  // Image slider functionality for each project
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [imageTimer, setImageTimer] = useState(null);
-
-  useEffect(() => {
-    // Auto slide images for the active project
-    if (imageTimer) clearInterval(imageTimer);
-    
-    const timer = setInterval(() => {
-      const project = projects[activeProject];
-      if (project && project.images && project.images.length > 1) {
-        setActiveImageIndex((prev) => (prev + 1) % project.images.length);
-      }
-    }, 4000);
-
-    setImageTimer(timer);
-    
-    return () => clearInterval(timer);
-  }, [activeProject]);
-
   const nextProject = () => {
     setActiveProject((prev) => (prev + 1) % projects.length);
-    setActiveImageIndex(0);
   };
 
   const prevProject = () => {
     setActiveProject((prev) => (prev - 1 + projects.length) % projects.length);
-    setActiveImageIndex(0);
-  };
-
-  const nextImage = () => {
-    const project = projects[activeProject];
-    if (project && project.images) {
-      setActiveImageIndex((prev) => (prev + 1) % project.images.length);
-    }
-  };
-
-  const prevImage = () => {
-    const project = projects[activeProject];
-    if (project && project.images) {
-      setActiveImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
-    }
   };
 
   return (
@@ -259,11 +194,11 @@ export default function Projects() {
           </motion.p>
         </div>
 
-        {/* Projects Grid with Images */}
+        {/* Projects Grid */}
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
-          gap: isMobile ? '30px' : '50px',
+          gap: isMobile ? '30px' : '40px',
           marginBottom: isMobile ? '50px' : '80px'
         }}>
           {projects.map((project, i) => (
@@ -288,13 +223,11 @@ export default function Projects() {
                 overflow: 'hidden',
                 cursor: 'pointer',
                 borderRadius: '16px',
-                backdropFilter: 'blur(10px)',
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)'
+                backdropFilter: 'blur(10px)'
               }}
               onClick={() => setActiveProject(i)}
             >
-              {/* Featured Badge - ONLY for GamEd */}
+              {/* Featured Badge */}
               {project.featured && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
@@ -305,7 +238,7 @@ export default function Projects() {
                     position: 'absolute',
                     top: '15px',
                     right: '15px',
-                    zIndex: 4,
+                    zIndex: 2,
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -313,16 +246,15 @@ export default function Projects() {
                     background: 'linear-gradient(90deg, #ff2e63, #ff6b9d)',
                     borderRadius: '50px',
                     fontSize: isMobile ? '0.7rem' : '0.8rem',
-                    fontWeight: '600',
-                    color: 'white'
+                    fontWeight: '600'
                   }}
                 >
-                  <Star size={isMobile ? 10 : 12} fill="white" />
+                  <Star size={isMobile ? 10 : 12} />
                   Hackathon Winner
                 </motion.div>
               )}
 
-              {/* Project Image Gallery */}
+              {/* Project Visual */}
               <div
                 style={{
                   height: isMobile ? '180px' : '250px',
@@ -331,148 +263,25 @@ export default function Projects() {
                   background: `linear-gradient(45deg, ${project.color}22, ${project.color}44)`
                 }}
               >
-                {/* Main Project Image */}
-                {project.images && project.images.length > 0 && (
-                  <>
-                    <motion.img
-                      key={activeImageIndex}
-                      initial={{ opacity: 0, scale: 1.1 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6 }}
-                      src={project.images[activeImageIndex]}
-                      alt={project.title}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        filter: 'brightness(0.9)'
-                      }}
-                    />
-                    
-                    {/* Image Overlay Gradient */}
-                    <div style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%)`
-                    }} />
-                    
-                    {/* Image Navigation Dots */}
-                    {project.images.length > 1 && (
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '15px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        display: 'flex',
-                        gap: '8px',
-                        zIndex: 3
-                      }}>
-                        {project.images.map((_, idx) => (
-                          <button
-                            key={idx}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveImageIndex(idx);
-                            }}
-                            style={{
-                              width: '8px',
-                              height: '8px',
-                              borderRadius: '50%',
-                              background: idx === activeImageIndex ? project.color : 'rgba(255, 255, 255, 0.3)',
-                              border: 'none',
-                              cursor: 'pointer',
-                              padding: 0,
-                              transition: 'all 0.3s ease'
-                            }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                    
-                    {/* Image Navigation Buttons */}
-                    {project.images.length > 1 && !isMobile && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            prevImage();
-                          }}
-                          style={{
-                            position: 'absolute',
-                            left: '10px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            background: 'rgba(0, 0, 0, 0.5)',
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
-                            color: 'white',
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            zIndex: 3,
-                            transition: 'all 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.5)'}
-                        >
-                          <ChevronLeft size={20} />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            nextImage();
-                          }}
-                          style={{
-                            position: 'absolute',
-                            right: '10px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            background: 'rgba(0, 0, 0, 0.5)',
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
-                            color: 'white',
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            zIndex: 3,
-                            transition: 'all 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.5)'}
-                        >
-                          <ChevronRight size={20} />
-                        </button>
-                      </>
-                    )}
-                    
-                    {/* Project Icon Overlay */}
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        color: 'rgba(255, 255, 255, 0.9)',
-                        zIndex: 2,
-                        filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5))'
-                      }}
-                    >
-                      {project.icon}
-                    </div>
-                  </>
-                )}
+                <motion.div
+                  animate={{ 
+                    rotate: 360,
+                    scale: activeProject === i ? (isMobile ? 1.1 : 1.2) : 1
+                  }}
+                  transition={{ 
+                    rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    color: `${project.color}33`,
+                    zIndex: 2
+                  }}
+                >
+                  {project.icon}
+                </motion.div>
               </div>
 
               {/* Project Content */}
@@ -511,8 +320,7 @@ export default function Projects() {
                         border: `1px solid ${project.color}33`,
                         borderRadius: '50px',
                         fontSize: isMobile ? '0.75rem' : '0.85rem',
-                        cursor: 'default',
-                        color: 'white'
+                        cursor: 'default'
                       }}
                     >
                       {tag}
@@ -535,33 +343,17 @@ export default function Projects() {
                     width: isMobile ? '100%' : 'auto',
                     justifyContent: isMobile ? 'space-between' : 'flex-start'
                   }}>
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '4px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      minWidth: isMobile ? 'auto' : '100px'
-                    }}>
-                      <Zap size={isMobile ? 14 : 16} style={{ color: project.color }} />
-                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: 'white' }}>
-                        {project.stats.performance}%
-                      </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Users size={isMobile ? 14 : 16} style={{ color: project.color }} />
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.users}</span>
                     </div>
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '4px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      minWidth: isMobile ? 'auto' : '100px'
-                    }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Zap size={isMobile ? 14 : 16} style={{ color: project.color }} />
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.performance}%</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Star size={isMobile ? 14 : 16} style={{ color: '#ffd700' }} />
-                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: 'white' }}>
-                        {project.stats.rating}
-                      </span>
+                      <span style={{ fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{project.stats.rating}</span>
                     </div>
                   </div>
 
@@ -580,25 +372,15 @@ export default function Projects() {
                       whileTap={{ scale: 0.9 }}
                       style={{
                         padding: isMobile ? '10px 20px' : '0',
-                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
                         borderRadius: isMobile ? '50px' : '50%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         textDecoration: 'none',
                         color: 'white',
-                        width: isMobile ? 'auto' : '44px',
-                        height: isMobile ? 'auto' : '44px',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        transition: 'all 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                        e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.3)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = isMobile ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)';
-                        e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                        width: isMobile ? 'auto' : '40px',
+                        height: isMobile ? 'auto' : '40px'
                       }}
                     >
                       <Eye size={isMobile ? 16 : 18} />
@@ -613,25 +395,15 @@ export default function Projects() {
                       whileTap={{ scale: 0.9 }}
                       style={{
                         padding: isMobile ? '10px 20px' : '0',
-                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                        background: isMobile ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
                         borderRadius: isMobile ? '50px' : '50%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         textDecoration: 'none',
                         color: 'white',
-                        width: isMobile ? 'auto' : '44px',
-                        height: isMobile ? 'auto' : '44px',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        transition: 'all 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                        e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.3)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = isMobile ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)';
-                        e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                        width: isMobile ? 'auto' : '40px',
+                        height: isMobile ? 'auto' : '40px'
                       }}
                     >
                       <Github size={isMobile ? 16 : 18} />
@@ -659,8 +431,7 @@ export default function Projects() {
             position: 'relative',
             overflow: 'hidden',
             backdropFilter: 'blur(10px)',
-            marginBottom: isMobile ? '40px' : '80px',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
+            marginBottom: isMobile ? '40px' : '80px'
           }}
         >
           <div style={{ position: 'relative', zIndex: 2 }}>
